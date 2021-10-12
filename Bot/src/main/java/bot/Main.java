@@ -8,6 +8,7 @@ public class Main {
         Bot bot = new Bot(args[0],args[1]);
         System.out.println(bot.getBotToken());
         System.out.println(bot.getBotUsername());
+        System.out.println("test");
 
     }
 }
