@@ -2,11 +2,17 @@ package bot;
 
 
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+
+
+
 
 public class Bot extends TelegramLongPollingBot {
-    private String token;
-    private String botName;
+    final private String token;
+    final private String botName;
+
 
     public Bot (String token, String botName){
         this.token = token;
@@ -28,16 +34,18 @@ public class Bot extends TelegramLongPollingBot {
      * @param s Строка, которую необходимот отправить в качестве сообщения.
      */
     public synchronized void sendMsg(String chatId, String s) {
-//        SendMessage sendMessage = new SendMessage();
-//        sendMessage.enableMarkdown(true);
-//        sendMessage.setChatId(chatId);
-//        sendMessage.setText(s);
+        SendMessage sendMessage = new SendMessage();
+        sendMessage.enableMarkdown(true);
+        sendMessage.setChatId(chatId);
+        sendMessage.setText(s);
 //        try {
-//            sendMessage(sendMessage);
+//            //sendMessage(sendMessage);
 //        } catch (TelegramApiException e) {
-//            log.log(Level.SEVERE, "Exception: ", e.toString());
+//            //log.log(Level.SEVERE, "Exception: ", e.toString());
 //        }
     }
+
+
 
     /**
      * Метод возвращает имя бота, указанное при регистрации.
