@@ -1,10 +1,12 @@
 package bot;
 
 
+import org.apache.log4j.Logger;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import org.telegram.telegrambots.meta.TelegramBotsApi;
 
 
 
@@ -12,9 +14,13 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 public class Bot extends TelegramLongPollingBot {
     final private String token;
     final private String botName;
+    final private Logger log = Logger.getLogger(Bot.class);
+    final int RECONNECT_PAUSE =10000;
 
 
     public Bot (String token, String botName){
+
+        log.info("Bot init");
         this.token = token;
         this.botName = botName;
     }
@@ -38,11 +44,11 @@ public class Bot extends TelegramLongPollingBot {
         sendMessage.enableMarkdown(true);
         sendMessage.setChatId(chatId);
         sendMessage.setText(s);
-//        try {
-//            //sendMessage(sendMessage);
-//        } catch (TelegramApiException e) {
-//            //log.log(Level.SEVERE, "Exception: ", e.toString());
-//        }
+        try {
+            execute(sendMessage);
+        } catch (TelegramApiException e) {
+            log.error("Exception: " +  e.toString());
+        }
     }
 
 
@@ -65,6 +71,23 @@ public class Bot extends TelegramLongPollingBot {
     public String getBotToken() {
 
         return token;
+    }
+
+    public void botConnect() {
+        TelegramBotsApi telegramBotsApi = new TelegramBotsApi();
+        try {
+            telegramBotsApi.registerBot(this);
+            log.info("TelegramAPI started. Look for messages");
+        } catch (TelegramApiRequestException e) {
+            log.error("Cant Connect. Pause " + RECONNECT_PAUSE / 1000 + "sec and try again. Error: " + e.getMessage());
+            try {
+                Thread.sleep(RECONNECT_PAUSE);
+            } catch (InterruptedException e1) {
+                e1.printStackTrace();
+                return;
+            }
+            botConnect();
+        }
     }
 
 }
