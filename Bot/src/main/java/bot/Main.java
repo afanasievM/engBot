@@ -1,17 +1,22 @@
 package bot;
-
+//
 import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
+import org.apache.log4j.config.*;
+
+
 
 
 public class Main {
 
-    private static Logger logger = Logger.getLogger(Main.class);
+    final static Logger logger = Logger.getLogger(Main.class);
 
     public static void main(String[] args) {
+        System.out.println(System.getProperty("user.dir"));
+        PropertyConfigurator.configure(System.getProperty("user.dir") +"/Bot/src/main/resources/log4j.propeties");
 
         logger.error("ERROR");
         logger.warn("WARNING");
-        logger.fatal("FATAL");
         logger.debug("DEBUG");
         logger.info("INFO");
         System.out.println("Final Output");
