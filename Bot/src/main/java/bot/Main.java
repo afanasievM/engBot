@@ -14,16 +14,10 @@ public class Main {
         System.out.println(System.getProperty("user.dir"));
         PropertyConfigurator.configure(System.getProperty("user.dir") +"/Bot/src/main/resources/log4j.propeties");
 
-        log.error("ERROR");
-        log.warn("WARNING");
-        log.debug("DEBUG");
-        log.info("INFO");
-        System.out.println("Final Output");
-
-
 //        ApiContextInitializer.init();
-        Bot bot = new Bot(args[0],args[1]);
-
+        Bot bot = new Bot("2017292911:AAHDCCSInfwRSwFuA48-Bsu8JWoXy1kkEmg","engBot");
+        bot.botConnect();
+        log.info("final");
 
     }
 }
