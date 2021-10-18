@@ -62,12 +62,17 @@ public class Bot extends TelegramLongPollingBot {
     public void commandProcess(Update update){
         Long chatId = update.getMessage().getChat().getId();
         String message = update.getMessage().getText();
-
+        System.out.println(message);
         switch (message){
-            case ("/start"):
+            case "/start":
+
+
+//                user = update.getMessage().getChat();
+//                System.out.println(user);
                 if (!users.keySet().contains(chatId)) {
                     log.info("NEW USER");
-                    users.put(update.getMessage().getChat().getId(), update.getMessage().getChat());
+                    Chat user = update.getMessage().getChat();
+                    users.put(update.getMessage().getChat().getId(), user);
                     log.info(users);
                     ObjectMapper mapper = new ObjectMapper();
                     // Java object to JSON file
@@ -79,6 +84,8 @@ public class Bot extends TelegramLongPollingBot {
                     }
                 } else log.info("OLD USER");
                 break;
+            default:
+                log.info("smth wrong" + message);
         }
     }
     /**
