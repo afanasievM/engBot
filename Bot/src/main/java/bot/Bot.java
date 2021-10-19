@@ -1,6 +1,7 @@
 package bot;
 
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.log4j.Logger;
@@ -13,6 +14,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 
+import java.io.StringWriter;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -26,7 +28,7 @@ public class Bot extends TelegramLongPollingBot {
     final private Logger log = Logger.getLogger(Bot.class);
     final int RECONNECT_PAUSE =10000;
     final private String COMMAND_PREFIX = "/";
-    private HashMap<Long,Chat> users = new HashMap<>();
+    private HashMap<Long,User> users = new HashMap<Long,User>();
     final private String USERS_PATH = System.getProperty("user.dir") + "/users.json";
 
     public Bot (String token, String botName){
@@ -66,34 +68,37 @@ public class Bot extends TelegramLongPollingBot {
 
         switch (message){
             case "/start":
-                String s = update.getMessage().getChat().toString();
-                System.out.println(s);
-                User user1 = new User(update.getMessage().getChat());
-                HashMap<String,String> word = new HashMap<String,String>();
-                word.put("ssss","ssss");
-                System.out.println(word);
-                user1.addWord(word);
-                System.out.println(user1);
-//                user = update.getMessage().getChat();
-//                System.out.println(user);
-                if (!users.keySet().contains(chatId)) {
+                if (!users.containsKey(chatId)) {
                     log.info("NEW USER");
-                    Chat user = update.getMessage().getChat();
+                    User user = new User(update.getMessage().getChat());
                     System.out.println(user);
+                    user.addWord("start","start");
                     users.put(update.getMessage().getChat().getId(), user);
                     log.info(users);
+                    log.info(users.get(chatId));
+
                     ObjectMapper mapper = new ObjectMapper();
                     // Java object to JSON file
                     try {
+                        mapper.setSerializationInclusion(JsonInclude.Include.ALWAYS);
                         mapper.writeValue(new File(USERS_PATH), users);
+                        String usersString = users.toString();
+
+                        System.out.println(usersString);
                         log.info("user's file is dumped in " + USERS_PATH);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
                 } else log.info("OLD USER");
                 break;
+            case "/del":
+                log.info(chatId);
+                log.info(this.users.get(chatId));
+                log.info(this.users);
+                log.info(this.users.get(256885839));
+                break;
             default:
-                log.info("smth wrong" + message);
+                log.info("smth wrong    /" + message);
         }
     }
     /**
