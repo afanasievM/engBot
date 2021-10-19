@@ -68,7 +68,11 @@ public class Bot extends TelegramLongPollingBot {
             case "/start":
                 String s = update.getMessage().getChat().toString();
                 System.out.println(s);
-                Users user1 = new Users(update.getMessage().getChat());
+                User user1 = new User(update.getMessage().getChat());
+                HashMap<String,String> word = new HashMap<String,String>();
+                word.put("ssss","ssss");
+                System.out.println(word);
+                user1.addWord(word);
                 System.out.println(user1);
 //                user = update.getMessage().getChat();
 //                System.out.println(user);
