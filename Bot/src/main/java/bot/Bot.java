@@ -63,15 +63,19 @@ public class Bot extends TelegramLongPollingBot {
         Long chatId = update.getMessage().getChat().getId();
         String message = update.getMessage().getText();
         System.out.println(message);
+
         switch (message){
             case "/start":
-
-
+                String s = update.getMessage().getChat().toString();
+                System.out.println(s);
+                Users user1 = new Users(update.getMessage().getChat());
+                System.out.println(user1);
 //                user = update.getMessage().getChat();
 //                System.out.println(user);
                 if (!users.keySet().contains(chatId)) {
                     log.info("NEW USER");
                     Chat user = update.getMessage().getChat();
+                    System.out.println(user);
                     users.put(update.getMessage().getChat().getId(), user);
                     log.info(users);
                     ObjectMapper mapper = new ObjectMapper();
