@@ -43,7 +43,7 @@ public class Bot extends TelegramLongPollingBot {
     public void usersInitialize(){
         ObjectMapper mapper = new ObjectMapper();
         try {
-            this.users = mapper.readValue(new File(USERS_PATH),HashMap.class);
+            this.users.putAll(mapper.readValue(new File(USERS_PATH),HashMap.class));
             log.info(this.users);
         } catch (IOException e) {
             e.printStackTrace();
@@ -69,10 +69,12 @@ public class Bot extends TelegramLongPollingBot {
         switch (message){
             case "/start":
                 if (!users.containsKey(chatId)) {
+
                     log.info("NEW USER");
+
+                    log.info(users.keySet().contains(chatId));
                     User user = new User(update.getMessage().getChat());
                     System.out.println(user);
-                    user.addWord("start","start");
                     users.put(update.getMessage().getChat().getId(), user);
                     log.info(users);
                     log.info(users.get(chatId));
@@ -80,11 +82,14 @@ public class Bot extends TelegramLongPollingBot {
                     ObjectMapper mapper = new ObjectMapper();
                     // Java object to JSON file
                     try {
-                        mapper.setSerializationInclusion(JsonInclude.Include.ALWAYS);
+                        String s = users.toString();
+                        s = mapper.writeValueAsString(users);
+                        log.info(s);
                         mapper.writeValue(new File(USERS_PATH), users);
-                        String usersString = users.toString();
+//                        String usersString = users.toString();
 
-                        System.out.println(usersString);
+//                        System.out.println(usersString);
+
                         log.info("user's file is dumped in " + USERS_PATH);
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -165,3 +170,7 @@ public class Bot extends TelegramLongPollingBot {
     }
 
 }
+//
+//{256885839=bot.User(role=user,
+//        Chat(id=256885839, type=private, title=null, firstName=Mykhailo, lastName=null, userName=My_afo, allMembersAreAdministrators=null, photo=null, description=null, inviteLink=null, pinnedMessage=null, stickerSetName=null, canSetStickerSet=null, permissions=null, slowModeDelay=null, bio=null, linkedChatId=null, location=null, messageAutoDeleteTime=null),
+//        volabulary={{start=start}=10})}
