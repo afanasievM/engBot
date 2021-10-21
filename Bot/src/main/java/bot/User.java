@@ -1,5 +1,9 @@
 package bot;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.checkerframework.checker.units.qual.K;
 import org.telegram.telegrambots.meta.api.objects.Chat;
 
@@ -8,6 +12,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+@NoArgsConstructor
+@ToString
+@Getter
+@Setter
 public class User {
 //    private Chat chat;
     private Long id;
@@ -24,33 +32,33 @@ public class User {
         this.role = "user";
     }
 
-    public String getFirst_name() {
-        return first_name;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    @Override
-    public String toString(){
-        return this.getClass().getName() + "(id=" +this.id.toString() +
-                ", type=" + this.type +
-                ", first_name=" + this.first_name +
-                ", username=" + this.username +
-                ", role=" + this.role;
-    }
+//    public String getFirst_name() {
+//        return first_name;
+//    }
+//
+//    public String getType() {
+//        return type;
+//    }
+//
+//    public String getUsername() {
+//        return username;
+//    }
+//
+//    public String getRole() {
+//        return role;
+//    }
+//
+//    public Long getId() {
+//        return id;
+//    }
+//
+//    @Override
+//    public String toString(){
+//        return this.getClass().getName() + "(id=" +this.id.toString() +
+//                ", type=" + this.type +
+//                ", first_name=" + this.first_name +
+//                ", username=" + this.username +
+//                ", role=" + this.role;
+//    }
 
 }
