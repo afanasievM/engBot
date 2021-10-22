@@ -31,9 +31,10 @@ public class Bot extends TelegramLongPollingBot {
     final private Logger log = Logger.getLogger(Bot.class);
     final int RECONNECT_PAUSE =10000;
     final private String COMMAND_PREFIX = "/";
-
+    final private Integer repeats = 10;
     final private String USERS_PATH = System.getProperty("user.dir") + "/users.json";
-
+    final private String WORDS_PATH = System.getProperty("user.dir") + "/words.json";
+    final private String VOCABULARY_PATH = System.getProperty("user.dir") + "/vocabulary.json";
     private HashMap<Long,User> users = new HashMap<Long,User>();
     private ArrayList<Word> words = new ArrayList<>();
     private HashMap<Long,HashMap<Word,Integer>> vocabulary = new HashMap<Long,HashMap<Word,Integer>>();
@@ -45,6 +46,8 @@ public class Bot extends TelegramLongPollingBot {
         this.token = token;
         this.botName = botName;
         usersInitialize();
+        vocabularyInitialize();
+        wordsInitialize();
 
     }
 
@@ -54,10 +57,35 @@ public class Bot extends TelegramLongPollingBot {
         try {
             this.users.putAll(mapper.readValue(new File(USERS_PATH),typeRef));
             log.info(this.users);
+            log.info("Users initialized");
         } catch (IOException e) {
             e.printStackTrace();
         }
-        log.info("Users initialized");
+
+    }
+    public void wordsInitialize(){
+        ObjectMapper mapper = new ObjectMapper();
+        TypeReference<ArrayList<Word>> typeRef = new TypeReference<ArrayList<Word>>() {};
+        try {
+            this.words.addAll(mapper.readValue(new File(WORDS_PATH),typeRef));
+            log.info(this.words);
+            log.info("Words initialized");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+    public void vocabularyInitialize(){
+        ObjectMapper mapper = new ObjectMapper();
+        TypeReference<HashMap<Long,HashMap<Word,Integer>>> typeRef = new TypeReference<HashMap<Long,HashMap<Word,Integer>>>() {};
+        try {
+            this.vocabulary.putAll(mapper.readValue(new File(VOCABULARY_PATH),typeRef));
+            log.info(this.vocabulary);
+            log.info("Vocabulary initialized");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override
@@ -89,14 +117,10 @@ public class Bot extends TelegramLongPollingBot {
                 case "/start":
                     if (!users.containsKey(chatId)) {
                         log.info("NEW USER");
-                        ObjectMapper mapper = new ObjectMapper();
+                        User user = new User(update.getMessage().getChat());
+                        users.put(chatId,user);
+                        jsonDump(USERS_PATH, users);
                         // Java object to JSON file
-                        try {
-                            mapper.writeValue(new File(USERS_PATH), users);
-                            log.info("user's file is dumped in " + USERS_PATH);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
                     } else log.info("OLD USER");
                     break;
                 case "/del":
@@ -105,17 +129,31 @@ public class Bot extends TelegramLongPollingBot {
                     log.info(this.users);
                     break;
                 case "/add":
-                    String word = cmd[2].split(";")[0];
+                    String wordToLearn = cmd[2].split(";")[0];
                     String translate = cmd[2].split(";")[1];
-                    Word wordClass = new Word(word,translate);
-                    this.words.add(wordClass);
-
-//                    for (Map.Entry entry:users.entrySet()) {
-//
-//                    }
-//                    HashMap<Word,Integer>  = new HashMap<Word,Integer>();
-                    sendMsg(chatId.toString(), words.toString());
-//                    this.vocabulary.
+                    Word word = new Word(wordToLearn,translate);
+                    if (!words.contains(word)) {
+                        this.words.add(word);
+                        log.info("NEW WORD");
+                        jsonDump(WORDS_PATH, words);
+                    } else log.info("OLD WORD");
+                    if (!vocabulary.isEmpty()) {
+                        vocabulary.forEach((k, v) -> {
+                            if (!v.containsKey(word)) {
+                                log.info("NEW USER WORD");
+                                v.put(word, this.repeats);
+                                jsonDump(VOCABULARY_PATH, vocabulary);
+                            } else log.info("OLD USER WORD");
+                        });
+                    } else {
+                        log.info("Vocabulary is empty");
+                        HashMap<Word,Integer> userVocabulary = new HashMap<>();
+                        userVocabulary.put(word,this.repeats);
+                        vocabulary.put(chatId,userVocabulary);
+                        jsonDump(VOCABULARY_PATH, vocabulary);
+                    }
+                    log.info(vocabulary);
+                    sendMsg(chatId.toString(), "word -> " + wordToLearn + " translate -> " + translate + "\nrepeats to learn -> " + this.repeats);
                     break;
                 default:
                     log.info("smth wrong    /" + message);
@@ -123,6 +161,17 @@ public class Bot extends TelegramLongPollingBot {
         }catch (Exception e){
             log.info(e.toString());
         }
+    }
+    public void jsonDump(String path, Object obj){
+        ObjectMapper mapper = new ObjectMapper();
+        // Java object to JSON file
+        try {
+            mapper.writeValue(new File(path), obj);
+            log.info(obj.getClass().getName() + "'s file is dumped in " + path);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
     /**
      * Метод для настройки сообщения и его отправки.

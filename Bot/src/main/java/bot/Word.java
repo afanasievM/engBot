@@ -1,14 +1,12 @@
 package bot;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 @NoArgsConstructor
 @ToString
 @Getter
 @Setter
+@EqualsAndHashCode
 public class Word {
     private String word;
     private String translate;
