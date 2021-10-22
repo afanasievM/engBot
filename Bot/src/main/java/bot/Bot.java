@@ -4,6 +4,7 @@ package bot;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.log4j.Logger;
 import org.json.JSONArray;
@@ -37,7 +38,7 @@ public class Bot extends TelegramLongPollingBot {
     final private String VOCABULARY_PATH = System.getProperty("user.dir") + "/vocabulary.json";
     private HashMap<Long,User> users = new HashMap<Long,User>();
     private ArrayList<Word> words = new ArrayList<>();
-    private HashMap<Long,HashMap<Word,Integer>> vocabulary = new HashMap<Long,HashMap<Word,Integer>>();
+    private HashMap<Long,HashMap<Word,Integer>> vocabulary = new HashMap<>();
 
 
     public Bot (String token, String botName){
@@ -77,6 +78,7 @@ public class Bot extends TelegramLongPollingBot {
     }
     public void vocabularyInitialize(){
         ObjectMapper mapper = new ObjectMapper();
+
         TypeReference<HashMap<Long,HashMap<Word,Integer>>> typeRef = new TypeReference<HashMap<Long,HashMap<Word,Integer>>>() {};
         try {
             this.vocabulary.putAll(mapper.readValue(new File(VOCABULARY_PATH),typeRef));

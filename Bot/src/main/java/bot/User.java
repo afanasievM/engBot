@@ -1,9 +1,6 @@
 package bot;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.checkerframework.checker.units.qual.K;
 import org.telegram.telegrambots.meta.api.objects.Chat;
 
@@ -16,6 +13,7 @@ import java.util.Set;
 @ToString
 @Getter
 @Setter
+@EqualsAndHashCode
 public class User {
 //    private Chat chat;
     private Long id;
