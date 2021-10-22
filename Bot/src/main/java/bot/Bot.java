@@ -19,13 +19,11 @@ import java.io.StringWriter;
 import java.io.File;
 import java.io.IOException;
 import java.security.Key;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
+import java.util.regex.MatchResult;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
+import java.util.stream.Collectors;
 
 public class Bot extends TelegramLongPollingBot {
     final private String token;
@@ -75,12 +73,19 @@ public class Bot extends TelegramLongPollingBot {
     public void commandProcess(Update update){
         Long chatId = update.getMessage().getChat().getId();
         String message = update.getMessage().getText();
-        Pattern pattern = Pattern.compile("(/\\w*) \\(*\\)");
-        String[] cmd = pattern.split(message);
-        System.out.println(cmd.length);
+        Pattern pattern = Pattern.compile("(/\\w*)\\s*(.*)");
+        Matcher m = pattern.matcher(message);
+        List<String> result = new ArrayList<>();
+        if (m.find()){
+            log.info("find");
+            for (int i = 0; i <= m.groupCount(); i++) {
+                log.info(m.group(i));
+                result.add(m.group(i));
+            }
+        }
+        String[] cmd = result.stream().toArray(String[]::new);
         try {
-
-            switch (cmd[0]) {
+            switch (cmd[1]) {
                 case "/start":
                     if (!users.containsKey(chatId)) {
                         log.info("NEW USER");
@@ -100,8 +105,8 @@ public class Bot extends TelegramLongPollingBot {
                     log.info(this.users);
                     break;
                 case "/add":
-                    String word = cmd[1].split(";")[0];
-                    String translate = cmd[1].split(";")[1];
+                    String word = cmd[2].split(";")[0];
+                    String translate = cmd[2].split(";")[1];
                     Word wordClass = new Word(word,translate);
                     this.words.add(wordClass);
 
