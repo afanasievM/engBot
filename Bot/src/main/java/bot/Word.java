@@ -13,18 +13,12 @@ import java.beans.ConstructorProperties;
 @Getter
 @Setter
 @EqualsAndHashCode
-@Builder
-@Jacksonized
+
 public class Word {
     private String word;
     private String translate;
-//    @ConstructorProperties({"word", "translate"})
-//    public Word(String word, String translate){
-//        this.word = word;
-//        this.translate = translate;
-//    }
-    @JsonCreator
-    public Word(@JsonProperty("word") String word, @JsonProperty("translate") String translate) {
+
+    public Word(String word, String translate) {
         this.word = word;
         this.translate = translate;
     }

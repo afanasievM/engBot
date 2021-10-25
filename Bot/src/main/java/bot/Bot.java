@@ -10,8 +10,11 @@ import org.apache.log4j.Logger;
 import org.json.JSONArray;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.Chat;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
@@ -19,6 +22,7 @@ import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 import java.io.StringWriter;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.security.Key;
 import java.util.*;
 import java.util.regex.MatchResult;
@@ -38,7 +42,7 @@ public class Bot extends TelegramLongPollingBot {
     final private String VOCABULARY_PATH = System.getProperty("user.dir") + "/vocabulary.json";
     private HashMap<Long,User> users = new HashMap<Long,User>();
     private ArrayList<Word> words = new ArrayList<>();
-    private HashMap<Long,HashMap<Word,Integer>> vocabulary = new HashMap<>();
+    private HashMap<Long,HashMap<Integer,Integer>> vocabulary = new HashMap<>();
 
 
     public Bot (String token, String botName){
@@ -79,7 +83,7 @@ public class Bot extends TelegramLongPollingBot {
     public void vocabularyInitialize(){
         ObjectMapper mapper = new ObjectMapper();
 
-        TypeReference<HashMap<Long,HashMap<Word,Integer>>> typeRef = new TypeReference<HashMap<Long,HashMap<Word,Integer>>>() {};
+        TypeReference<HashMap<Long,HashMap<Integer,Integer>>> typeRef = new TypeReference<HashMap<Long,HashMap<Integer,Integer>>>() {};
         try {
             this.vocabulary.putAll(mapper.readValue(new File(VOCABULARY_PATH),typeRef));
             log.info(this.vocabulary);
@@ -96,7 +100,9 @@ public class Bot extends TelegramLongPollingBot {
             String message = update.getMessage().getText();
             log.info(update.toString());
             if (message.startsWith(COMMAND_PREFIX)) commandProcess(update);
-            else sendMsg(update.getMessage().getChatId().toString(), message);
+//            else sendMsg(update.getMessage().getChatId().toString(), message);
+        } else if(update.hasCallbackQuery()) {
+            callBackProcess(update.getCallbackQuery());
         }
     }
 
@@ -141,21 +147,35 @@ public class Bot extends TelegramLongPollingBot {
                     } else log.info("OLD WORD");
                     if (!vocabulary.isEmpty()) {
                         vocabulary.forEach((k, v) -> {
-                            if (!v.containsKey(word)) {
+                            if (!v.containsKey(words.indexOf(word))) {
                                 log.info("NEW USER WORD");
-                                v.put(word, this.repeats);
+                                v.put(words.indexOf(word), this.repeats);
                                 jsonDump(VOCABULARY_PATH, vocabulary);
                             } else log.info("OLD USER WORD");
                         });
                     } else {
                         log.info("Vocabulary is empty");
-                        HashMap<Word,Integer> userVocabulary = new HashMap<>();
-                        userVocabulary.put(word,this.repeats);
+                        HashMap<Integer,Integer> userVocabulary = new HashMap<>();
+                        userVocabulary.put(words.indexOf(word),this.repeats);
                         vocabulary.put(chatId,userVocabulary);
                         jsonDump(VOCABULARY_PATH, vocabulary);
                     }
                     log.info(vocabulary);
                     sendMsg(chatId.toString(), "word -> " + wordToLearn + " translate -> " + translate + "\nrepeats to learn -> " + this.repeats);
+                    break;
+                case "/show_my_words":
+                    String wordList = "";
+                    for (Integer wordId:vocabulary.get(chatId).keySet()) {
+                        wordList += words.get(wordId).getWord() + "\n";
+                    }
+                    sendMsg(chatId.toString(),wordList);
+                    break;
+                case "/show_all_words":
+                    String allWords = "";
+                    for (Word w:words) {
+                        allWords += w.getWord() + "\n";
+                    }
+                    sendMsg(chatId.toString(),allWords);
                     break;
                 default:
                     log.info("smth wrong    /" + message);
@@ -163,6 +183,11 @@ public class Bot extends TelegramLongPollingBot {
         }catch (Exception e){
             log.info(e.toString());
         }
+    }
+    public void callBackProcess(CallbackQuery callBack){
+        log.info(callBack.getMessage().getText());
+        log.info(callBack.getData());
+
     }
     public void jsonDump(String path, Object obj){
         ObjectMapper mapper = new ObjectMapper();
@@ -175,11 +200,7 @@ public class Bot extends TelegramLongPollingBot {
         }
 
     }
-    /**
-     * Метод для настройки сообщения и его отправки.
-     * @param chatId id чата
-     * @param s Строка, которую необходимот отправить в качестве сообщения.
-     */
+
     public synchronized void sendMsg(String chatId, String s) {
         SendMessage sendMessage = new SendMessage();
         sendMessage.enableMarkdown(true);
@@ -192,22 +213,68 @@ public class Bot extends TelegramLongPollingBot {
         }
     }
 
+    public HashMap<Long,Integer> chooseWord(){
+        HashMap<Long,Integer> listToSend = new HashMap<>();
+        for (Map.Entry entry:vocabulary.entrySet()) {
+            HashMap<Integer,Integer> userVocabulary = (HashMap<Integer, Integer>) entry.getValue();
+            Random random = new Random();
+            Integer truthWord = random.nextInt(userVocabulary.size());
+            listToSend.put((Long) entry.getKey(),truthWord);
+        }
+        return listToSend;
+    }
 
+    public void sendWords(HashMap<Long,Integer> choosenWords){
+        for (Map.Entry entry:choosenWords.entrySet()) {
+            Long chatId = (Long) entry.getKey();
+            Integer wordId = (Integer) entry.getValue();
+            Word word = words.get(wordId);
+            List<List<InlineKeyboardButton>> buttons = new ArrayList<>();
+            ArrayList<Integer> wordsForButtons = new ArrayList<>();
+            wordsForButtons.add(wordId);
+            for (int i = 1; i < 4; i++) {
+                Random random = new Random();
+                int id = random.nextInt(words.size());
+                if (!wordsForButtons.contains(id)){
+                    wordsForButtons.add(id);
+                } else {
+                    i--;
+                }
+            }
+            Collections.shuffle(wordsForButtons);
+            for (int i = 0; i < wordsForButtons.size(); i++) {
+                int buttonWordId = wordsForButtons.get(i);
+                List<InlineKeyboardButton> button1 = new ArrayList<>();
+                InlineKeyboardButton button = new InlineKeyboardButton();
+                button.setText(words.get(buttonWordId).getTranslate());
+                button.setCallbackData(words.get(buttonWordId).getWord());
+                button1.add(button);
+                buttons.add(button1);
+            }
+            InlineKeyboardMarkup markup = new InlineKeyboardMarkup();
+            markup.setKeyboard(buttons);
 
-    /**
-     * Метод возвращает имя бота, указанное при регистрации.
-     * @return имя бота
-     */
+            SendMessage sendMessage = new SendMessage();
+            sendMessage.enableMarkdown(true);
+            sendMessage.setChatId(chatId.toString());
+            sendMessage.setText(words.get(wordId).getWord());
+            sendMessage.setReplyMarkup(markup);
+
+            try {
+                execute(sendMessage);
+            } catch (TelegramApiException e) {
+                log.error("Exception: " +  e.toString());
+            }
+//            sendMsg(chatId.toString(),word.getWord() + "->" + word.getTranslate());
+        }
+    }
     @Override
     public String getBotUsername() {
 
         return botName;
     }
 
-    /**
-     * Метод возвращает token бота для связи с сервером Telegram
-     * @return token для бота
-     */
+
     @Override
     public String getBotToken() {
 
