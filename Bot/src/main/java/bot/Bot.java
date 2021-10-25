@@ -36,7 +36,7 @@ public class Bot extends TelegramLongPollingBot {
     final private Logger log = Logger.getLogger(Bot.class);
     final int RECONNECT_PAUSE =10000;
     final private String COMMAND_PREFIX = "/";
-    final private Integer repeats = 10;
+    final private Integer repeats = 5;
     final private String USERS_PATH = System.getProperty("user.dir") + "/users.json";
     final private String WORDS_PATH = System.getProperty("user.dir") + "/words.json";
     final private String VOCABULARY_PATH = System.getProperty("user.dir") + "/vocabulary.json";
@@ -185,9 +185,42 @@ public class Bot extends TelegramLongPollingBot {
         }
     }
     public void callBackProcess(CallbackQuery callBack){
-        log.info(callBack.getMessage().getText());
-        log.info(callBack.getData());
+        Long chatId = callBack.getMessage().getChat().getId();
+        String wordFromMessage = callBack.getMessage().getText();
+        String wordFromMessageId = callBack.getData();
+        if (wordFromMessage.equals(words.get(Integer.valueOf(wordFromMessageId)).getWord())){
+            String messageToSend = wordFromMessage + " -> " + words.get(Integer.valueOf(wordFromMessageId)).getTranslate() + ".\nTRUE";
+            sendMsg(chatId.toString(), messageToSend);
+            wordsRepeatsDecrease(chatId, Integer.valueOf(wordFromMessageId));
+        } else {
+            sendMsg(chatId.toString(), "FALSE");
+            sendMsg(chatId.toString(), wordFromMessage + "repeats reset to " + this.repeats.toString());
+            wordsReset(chatId, wordFromMessage);
+        }
 
+    }
+    public void wordsRepeatsDecrease(Long chatID, Integer wordId){
+        HashMap<Integer,Integer> userWords= vocabulary.get(chatID);
+        userWords.put(wordId, userWords.get(wordId) - 1);
+        if (userWords.get(wordId) == 0) {
+            userWords.remove(wordId);
+            sendMsg(chatID.toString(), "You learned this word!!!!");
+        }
+        log.info(vocabulary);
+        jsonDump(VOCABULARY_PATH,vocabulary);
+    }
+    public void wordsReset(Long chatID, String word){
+        Integer wordId = null;
+        for (int i = 0; i < words.size(); i++) {
+            if (word.equals(words.get(i).getWord())){
+                wordId = i;
+                break;
+            }
+        }
+        HashMap<Integer,Integer> userWords= vocabulary.get(chatID);
+        userWords.put(wordId, this.repeats);
+        log.info(vocabulary);
+        jsonDump(VOCABULARY_PATH,vocabulary);
     }
     public void jsonDump(String path, Object obj){
         ObjectMapper mapper = new ObjectMapper();
@@ -247,7 +280,7 @@ public class Bot extends TelegramLongPollingBot {
                 List<InlineKeyboardButton> button1 = new ArrayList<>();
                 InlineKeyboardButton button = new InlineKeyboardButton();
                 button.setText(words.get(buttonWordId).getTranslate());
-                button.setCallbackData(words.get(buttonWordId).getWord());
+                button.setCallbackData(String.valueOf(buttonWordId));
                 button1.add(button);
                 buttons.add(button1);
             }

@@ -27,7 +27,6 @@ public class Main {
             log.info(choosenWords);
             bot.sendWords(choosenWords);
             break;
-
         }
 
     }
