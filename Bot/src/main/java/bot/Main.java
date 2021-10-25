@@ -5,6 +5,7 @@ import org.apache.log4j.PropertyConfigurator;
 import org.apache.log4j.config.*;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 
+import java.time.LocalTime;
 import java.util.HashMap;
 
 
@@ -21,13 +22,17 @@ public class Main {
         bot.botConnect();
         log.info("final");
         while (true){
-            Thread.sleep(5000);
-            log.info("30sec");
             HashMap<Long,Integer> choosenWords = bot.chooseWord();
             log.info(choosenWords);
-            bot.sendWords(choosenWords);
-            break;
+            Thread.sleep(1000*30);
+            LocalTime timeStart = LocalTime.of(7,59);
+            LocalTime timeFinish = LocalTime.of(22,1);
+            LocalTime time = LocalTime.now();
+            if (time.getMinute() == 0){
+                if (time.isAfter(timeStart) && time.isBefore(timeFinish)){
+                    bot.sendWords(choosenWords);
+                }
+            }
         }
-
     }
 }
