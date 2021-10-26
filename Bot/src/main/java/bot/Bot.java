@@ -203,12 +203,17 @@ public class Bot extends TelegramLongPollingBot {
         Long chatId = callBack.getMessage().getChat().getId();
         String wordFromMessage = callBack.getMessage().getText();
         String wordFromMessageId = callBack.getData();
-//        EditMessageReplyMarkup edit = new EditMessageReplyMarkup();
+        EditMessageReplyMarkup edit = new EditMessageReplyMarkup(chatId.toString(), callBack.getMessage().getMessageId(),callBack.getInlineMessageId(),null);
 //        edit.setMessageId(callBack.getMessage().getMessageId());
 //        edit.setChatId(chatId.toString());
-////        edit.setInlineMessageId(callBack.getInlineMessageId());
+//        edit.setInlineMessageId(callBack.getInlineMessageId());
 //        edit.setReplyMarkup(null);
-//        log.info(callBack);
+        try {
+            execute(edit);
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
+        log.info(callBack);
 
         if (wordFromMessage.equals(words.get(Integer.valueOf(wordFromMessageId)).getWord())){
             String messageToSend = wordFromMessage + " -> " + words.get(Integer.valueOf(wordFromMessageId)).getTranslate() + ".\nTRUE";
