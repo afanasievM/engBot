@@ -24,15 +24,20 @@ public class Main {
         while (true){
             HashMap<Long,Integer> choosenWords = bot.chooseWord();
             log.info(choosenWords);
-            Thread.sleep(1000*30);
+            Thread.sleep(1000*60);
             LocalTime timeStart = LocalTime.of(7,59);
             LocalTime timeFinish = LocalTime.of(22,1);
             LocalTime time = LocalTime.now();
+            log.info(time);
+//            bot.sendWords(choosenWords);
             if (time.getMinute() == 0){
+                log.info(time);
                 if (time.isAfter(timeStart) && time.isBefore(timeFinish)){
+                    log.info("Time to test");
                     bot.sendWords(choosenWords);
                 }
             }
+//            break;
         }
     }
 }

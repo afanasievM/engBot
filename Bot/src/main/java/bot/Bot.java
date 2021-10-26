@@ -10,10 +10,13 @@ import org.apache.log4j.Logger;
 import org.json.JSONArray;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageReplyMarkup;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.Chat;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardRemove;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
@@ -137,6 +140,10 @@ public class Bot extends TelegramLongPollingBot {
                     log.info(this.users);
                     break;
                 case "/add":
+                    if (cmd.length < 2 ){
+                        sendMsg(chatId.toString(), "Please user correct form: \n/add word:translate");
+                        break;
+                    }
                     String wordToLearn = cmd[2].split(";")[0];
                     String translate = cmd[2].split(";")[1];
                     Word word = new Word(wordToLearn,translate);
@@ -155,10 +162,17 @@ public class Bot extends TelegramLongPollingBot {
                         });
                     } else {
                         log.info("Vocabulary is empty");
-                        HashMap<Integer,Integer> userVocabulary = new HashMap<>();
-                        userVocabulary.put(words.indexOf(word),this.repeats);
-                        vocabulary.put(chatId,userVocabulary);
-                        jsonDump(VOCABULARY_PATH, vocabulary);
+
+                        for (Map.Entry<Long,User> entry:users.entrySet()) {
+                            Long userID = entry.getKey();
+                            HashMap<Integer,Integer> userVocabulary = new HashMap<>();
+                            userVocabulary.put(words.indexOf(word),this.repeats);
+                            vocabulary.put(userID,userVocabulary);
+                            jsonDump(VOCABULARY_PATH, vocabulary);
+                        }
+
+
+
                     }
                     log.info(vocabulary);
                     sendMsg(chatId.toString(), "word -> " + wordToLearn + " translate -> " + translate + "\nrepeats to learn -> " + this.repeats);
@@ -185,18 +199,27 @@ public class Bot extends TelegramLongPollingBot {
         }
     }
     public void callBackProcess(CallbackQuery callBack){
+
         Long chatId = callBack.getMessage().getChat().getId();
         String wordFromMessage = callBack.getMessage().getText();
         String wordFromMessageId = callBack.getData();
+//        EditMessageReplyMarkup edit = new EditMessageReplyMarkup();
+//        edit.setMessageId(callBack.getMessage().getMessageId());
+//        edit.setChatId(chatId.toString());
+////        edit.setInlineMessageId(callBack.getInlineMessageId());
+//        edit.setReplyMarkup(null);
+//        log.info(callBack);
+
         if (wordFromMessage.equals(words.get(Integer.valueOf(wordFromMessageId)).getWord())){
             String messageToSend = wordFromMessage + " -> " + words.get(Integer.valueOf(wordFromMessageId)).getTranslate() + ".\nTRUE";
             sendMsg(chatId.toString(), messageToSend);
             wordsRepeatsDecrease(chatId, Integer.valueOf(wordFromMessageId));
         } else {
             sendMsg(chatId.toString(), "FALSE");
-            sendMsg(chatId.toString(), wordFromMessage + "repeats reset to " + this.repeats.toString());
+            sendMsg(chatId.toString(), wordFromMessage + " repeats reset to " + this.repeats.toString());
             wordsReset(chatId, wordFromMessage);
         }
+
 
     }
     public void wordsRepeatsDecrease(Long chatID, Integer wordId){
@@ -292,6 +315,7 @@ public class Bot extends TelegramLongPollingBot {
             sendMessage.setChatId(chatId.toString());
             sendMessage.setText(words.get(wordId).getWord());
             sendMessage.setReplyMarkup(markup);
+            log.info(sendMessage);
 
             try {
                 execute(sendMessage);
