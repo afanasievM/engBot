@@ -1,11 +1,16 @@
 package bot;
 //
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 import org.apache.log4j.config.*;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 
+import java.io.File;
+import java.io.IOException;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 
@@ -16,19 +21,25 @@ public class Main {
     public static void main(String[] args) throws InterruptedException {
         System.out.println(System.getProperty("user.dir"));
         PropertyConfigurator.configure(System.getProperty("user.dir") +"/Bot/src/main/resources/log4j.propeties");
+        ObjectMapper mapper = new ObjectMapper();
+        HashMap<String,String> bot_credentials = new HashMap<>();
+        try {
+            bot_credentials.putAll(mapper.readValue(new File(System.getProperty("user.dir") + "/bot_settings.json"),HashMap.class));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-//        ApiContextInitializer.init();
-        Bot bot = new Bot("2017292911:AAHDCCSInfwRSwFuA48-Bsu8JWoXy1kkEmg","engBot");
+        Bot bot = new Bot(bot_credentials.get("token"),bot_credentials.get("name"));
         bot.botConnect();
         log.info("final");
         while (true){
-            HashMap<Long,Integer> choosenWords = bot.chooseWord();
+            HashMap<Long, ArrayList<Integer>> choosenWords = bot.chooseWord();
             log.info(choosenWords);
             Thread.sleep(1000*60);
             LocalTime timeStart = LocalTime.of(7,59);
             LocalTime timeFinish = LocalTime.of(22,1);
             LocalTime time = LocalTime.now();
-            log.info(time);
+//            log.info(time);
 //            bot.sendWords(choosenWords);
             if (time.getMinute() == 0){
                 log.info(time);
