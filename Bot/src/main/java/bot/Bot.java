@@ -3,6 +3,7 @@ package bot;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationConfig;
 import org.apache.log4j.Logger;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -50,6 +51,8 @@ public class Bot extends TelegramLongPollingBot {
 
     public void usersInitialize(){
         ObjectMapper mapper = new ObjectMapper();
+//        mapper.configure(SerializationConfig.Feature.INDENT_OUTPUT, true);
+
         TypeReference<HashMap<Long,User>> typeRef = new TypeReference<HashMap<Long,User>>() {};
         try {
             this.users.putAll(mapper.readValue(new File(USERS_PATH),typeRef));
@@ -229,7 +232,7 @@ public class Bot extends TelegramLongPollingBot {
     }
     public void wordsRepeatsDecrease(Long chatID, Integer wordId){
         HashMap<Integer,Integer> userWords= vocabulary.get(chatID);
-        if (vocabulary.keySet().contains(wordId)) {
+        if (userWords.keySet().contains(wordId)) {
             userWords.put(wordId, userWords.get(wordId) - 1);
             if (userWords.get(wordId) == 0) {
                 userWords.remove(wordId);
@@ -237,6 +240,9 @@ public class Bot extends TelegramLongPollingBot {
             }
             log.info(vocabulary);
             jsonDump(VOCABULARY_PATH, vocabulary);
+        } else {
+            log.info("No word: " +  words.get(wordId) + " wordID: " + wordId.toString() + " in user vocabulary: " + chatID.toString());
+            log.info(vocabulary.get(chatID));
         }
     }
     public void wordsReset(Long chatID, String word){
@@ -248,7 +254,7 @@ public class Bot extends TelegramLongPollingBot {
             }
         }
         HashMap<Integer,Integer> userWords= vocabulary.get(chatID);
-        if (vocabulary.keySet().contains(wordId)) {
+        if (userWords.keySet().contains(wordId)) {
             userWords.put(wordId, this.repeats);
             log.info(vocabulary);
             jsonDump(VOCABULARY_PATH, vocabulary);
@@ -258,10 +264,12 @@ public class Bot extends TelegramLongPollingBot {
         ObjectMapper mapper = new ObjectMapper();
         // Java object to JSON file
         try {
-            mapper.writeValue(new File(path), obj);
+            mapper.writer().withDefaultPrettyPrinter().writeValue(new File(path), obj);
+//                    defaultPrettyPrintingWriter().writeValue(new File(path), obj);
             log.info(obj.getClass().getName() + "'s file is dumped in " + path);
         } catch (IOException e) {
-            e.printStackTrace();
+//            e.printStackTrace();
+            log.info(e.toString());
         }
 
     }
