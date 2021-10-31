@@ -199,6 +199,15 @@ public class Bot extends TelegramLongPollingBot {
                     }
                     sendMsg(chatId.toString(),allWords + "\nTotal: " + words.size());
                     break;
+                case "/rebuild_vocabulary":
+                    for (Map.Entry<Long,HashMap<Integer,Integer>> entry:vocabulary.entrySet()) {
+                        entry.getValue().clear();
+                        for (int i = 0; i < words.size(); i++) {
+                            entry.getValue().put(i,this.repeats);
+                        }
+                    }
+                    log.info(vocabulary);
+                    break;
                 default:
                     log.info("smth wrong    /" + message);
             }

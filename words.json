@@ -86,12 +86,6 @@
   "word" : "blend",
   "translate" : "мешать"
 }, {
-  "word" : "fritters",
-  "translate" : "оладьи"
-}, {
-  "word" : "remains",
-  "translate" : "оставить"
-}, {
   "word" : "meat broth",
   "translate" : "мясной бульен"
 }, {
@@ -100,9 +94,6 @@
 }, {
   "word" : "foodies",
   "translate" : "гурманы/фанат еды"
-}, {
-  "word" : "batch",
-  "translate" : "партия"
 }, {
   "word" : "diversify",
   "translate" : "разнообразить"
@@ -113,23 +104,14 @@
   "word" : "well-established",
   "translate" : "хорошо зарекомендованный"
 }, {
-  "word" : "wealth",
-  "translate" : "богатство"
-}, {
   "word" : "fledged",
   "translate" : "самостоятельный"
 }, {
   "word" : "reportedly",
   "translate" : "по отчетам"
 }, {
-  "word" : "foster",
-  "translate" : "стимулировать"
-}, {
   "word" : "digestion",
   "translate" : "пищеварение"
-}, {
-  "word" : "dumpling",
-  "translate" : "пельмени"
 }, {
   "word" : "cottage cheese",
   "translate" : "творог"
@@ -143,20 +125,11 @@
   "word" : "stuffed",
   "translate" : "фаршированный"
 }, {
-  "word" : "stew",
-  "translate" : "тушить"
-}, {
   "word" : "minced meat",
   "translate" : "мясной фарш(порезанное мясо)"
 }, {
   "word" : "otherwise",
   "translate" : "иначе"
-}, {
-  "word" : "accompanying",
-  "translate" : "сопутствуюший"
-}, {
-  "word" : "sultry",
-  "translate" : "душной"
 }, {
   "word" : "poverty",
   "translate" : "бедность"
@@ -216,16 +189,13 @@
   "translate" : "поддержка"
 }, {
   "word" : "cane",
-  "translate" : "трость"
+  "translate" : "трость/очерет"
 }, {
   "word" : "bin",
   "translate" : "мусорное ведро"
 }, {
   "word" : "stare",
   "translate" : "глазеть"
-}, {
-  "word" : "retire",
-  "translate" : "выъодить на пенсию"
 }, {
   "word" : "welfare",
   "translate" : "благосостояние"
@@ -244,18 +214,12 @@
 }, {
   "word" : "plenty",
   "translate" : "багато"
-}, {
-  "word" : "coincidentally",
-  "translate" : "випадково"
-}, {
+},{
   "word" : "flat-lined",
   "translate" : "плаский"
 }, {
   "word" : "suggest",
   "translate" : "запропонувати"
-}, {
-  "word" : "footprint",
-  "translate" : "слід"
 }, {
   "word" : "further",
   "translate" : "подальший"
@@ -266,17 +230,8 @@
   "word" : "utilities",
   "translate" : "комунальні платежі"
 }, {
-  "word" : "possessions",
-  "translate" : "речі"
-}, {
   "word" : "to approache smb",
   "translate" : "підходити"
-}, {
-  "word" : "ruthlessly",
-  "translate" : "безжально"
-}, {
-  "word" : "extraneous",
-  "translate" : "зайве"
 }, {
   "word" : "stem",
   "translate" : "стримувати"
@@ -287,14 +242,8 @@
   "word" : "efficiency",
   "translate" : "ефективність"
 }, {
-  "word" : "vast",
-  "translate" : "велиний"
-}, {
   "word" : "burner stove",
   "translate" : "горілка (газова)"
-}, {
-  "word" : "nest",
-  "translate" : "гніздо"
 }, {
   "word" : "stack",
   "translate" : "стопка/складати"
@@ -335,29 +284,14 @@
   "word" : "appear",
   "translate" : "з'являтися"
 }, {
-  "word" : "disappear",
-  "translate" : "зникати"
-}, {
   "word" : "obstacles",
   "translate" : "перешкода на дорозі"
 }, {
   "word" : "route",
-  "translate" : "route"
-}, {
-  "word" : "kerbs",
-  "translate" : "бордюри"
+  "translate" : "маршрут"
 }, {
   "word" : "bump",
   "translate" : "шишка"
-}, {
-  "word" : "encouragement",
-  "translate" : "заохочення"
-}, {
-  "word" : "cane",
-  "translate" : "очерет"
-}, {
-  "word" : "stare",
-  "translate" : "пильний погляд"
 }, {
   "word" : "retire",
   "translate" : "пенсія"
@@ -365,17 +299,8 @@
   "word" : "determine",
   "translate" : "визначити"
 }, {
-  "word" : "welfare",
-  "translate" : "добробут"
-}, {
-  "word" : "commences",
-  "translate" : "починається"
-}, {
   "word" : "rehoming",
   "translate" : "переміщення"
-}, {
-  "word" : "dignity",
-  "translate" : "гідність"
 }, {
   "word" : "hardly ever",
   "translate" : "майже завжди"
@@ -437,14 +362,8 @@
   "word" : "first off",
   "translate" : "по-перше"
 }, {
-  "word" : "diversify",
-  "translate" : "урізноманітнити"
-}, {
   "word" : "source",
   "translate" : "джерело"
-}, {
-  "word" : "well-established",
-  "translate" : "усталений"
 }, {
   "word" : "hospatality",
   "translate" : "гостинність"
@@ -455,23 +374,14 @@
   "word" : "full-fledged",
   "translate" : "повноцінний"
 }, {
-  "word" : "reportedly",
-  "translate" : "як стверджують"
-}, {
   "word" : "foster",
   "translate" : "підтримувати, зміцнювати, активувати"
-}, {
-  "word" : "digestion",
-  "translate" : "травлення"
 }, {
   "word" : "greens",
   "translate" : "зелень"
 }, {
   "word" : "surprisingly",
   "translate" : "на подив"
-}, {
-  "word" : "dough",
-  "translate" : "тісто"
 }, {
   "word" : "filling",
   "translate" : "начинка"
@@ -481,12 +391,6 @@
 }, {
   "word" : "dumplings",
   "translate" : "пельмені/кльоцки/вареники"
-}, {
-  "word" : "treatment",
-  "translate" : "підхід/обробка"
-}, {
-  "word" : "stuffed",
-  "translate" : "фарширований"
 }, {
   "word" : "prepare",
   "translate" : "підготувати, приготувати"
@@ -502,9 +406,6 @@
 }, {
   "word" : "requires",
   "translate" : "вимагає"
-}, {
-  "word" : "passion",
-  "translate" : "пристрасть"
 }, {
   "word" : "gusto",
   "translate" : "смак"
@@ -527,23 +428,11 @@
   "word" : "sultry",
   "translate" : "душний"
 }, {
-  "word" : "poverty",
-  "translate" : "бідних"
-}, {
   "word" : "grits",
   "translate" : "крупа"
 }, {
-  "word" : "aspic",
-  "translate" : "заливне"
-}, {
   "word" : "lowest",
   "translate" : "найменший"
-}, {
-  "word" : "hoofs",
-  "translate" : "копита"
-}, {
-  "word" : "nourishing",
-  "translate" : "поживний"
 }, {
   "word" : "airy",
   "translate" : "повітряний"
@@ -554,12 +443,6 @@
   "word" : "simplicity",
   "translate" : "простота"
 }, {
-  "word" : "stick",
-  "translate" : "дотримуватися"
-}, {
-  "word" : "exceeds",
-  "translate" : "перервершувати"
-}, {
   "word" : "thinner",
   "translate" : "тоньше"
 }, {
@@ -569,6 +452,6 @@
   "word" : "stationery",
   "translate" : "канцелярія"
 }, {
-  "word" : "switch",
-  "translate" : "менять"
+  "word" : "pay",
+  "translate" : "платить"
 } ]
