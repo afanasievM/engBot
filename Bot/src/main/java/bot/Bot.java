@@ -132,7 +132,7 @@ public class Bot extends TelegramLongPollingBot {
                     log.info(this.users);
                     break;
                 case "/add":
-
+                    boolean wordContains = false;
                     String wordToLearn = null;
                     String translate = null;
                     try {
@@ -144,7 +144,15 @@ public class Bot extends TelegramLongPollingBot {
                         break;
                     }
                     Word word = new Word(wordToLearn,translate);
-                    if (!words.contains(word)) {
+                    for (Word w:words) {
+//                        log.info(w.getWord() + " comapare " + wordToLearn);
+                        if (w.getWord().equals(wordToLearn)){
+                            wordContains = true;
+                            break;
+                        }
+                    }
+                    log.info("contain word " + wordContains);
+                    if (!wordContains) {
                         this.words.add(word);
                         log.info("NEW WORD");
                         jsonDump(WORDS_PATH, words);
