@@ -284,7 +284,7 @@ public class Bot extends TelegramLongPollingBot {
             userWords.put(wordId, userWords.get(wordId) - 1);
             if (userWords.get(wordId) == 0) {
                 userWords.remove(wordId);
-                sendMsg(chatID.toString(), "You learned this word!!!!");
+                sendMsg(chatID.toString(), "You learned *" + words.get(wordId).getWord() + "* -> *" + words.get(wordId).getTranslate() + "*!!!!");
             }
             log.info(vocabulary);
             jsonDump(VOCABULARY_PATH, vocabulary);
