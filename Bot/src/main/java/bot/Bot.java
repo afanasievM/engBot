@@ -6,6 +6,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationConfig;
 import org.apache.log4j.Logger;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+import org.telegram.telegrambots.meta.api.methods.AnswerCallbackQuery;
+import org.telegram.telegrambots.meta.api.methods.ParseMode;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageReplyMarkup;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
@@ -18,6 +20,7 @@ import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Parameter;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -68,7 +71,7 @@ public class Bot extends TelegramLongPollingBot {
         TypeReference<ArrayList<Word>> typeRef = new TypeReference<ArrayList<Word>>() {};
         try {
             this.words.addAll(mapper.readValue(new File(WORDS_PATH),typeRef));
-            log.info(this.words);
+            log.info(this.words + "\nSize: " + this.words.size());
             log.info("Words initialized");
         } catch (IOException e) {
             e.printStackTrace();
@@ -94,6 +97,8 @@ public class Bot extends TelegramLongPollingBot {
         if (update.hasMessage() && update.getMessage().hasText()) {
             String message = update.getMessage().getText();
             log.info(update.toString());
+            log.info(update.getMessage().getText());
+            System.out.println(update.getMessage().getText());
             if (message.startsWith(COMMAND_PREFIX)) commandProcess(update);
 //            else sendMsg(update.getMessage().getChatId().toString(), message);
         } else if(update.hasCallbackQuery()) {
@@ -136,7 +141,7 @@ public class Bot extends TelegramLongPollingBot {
                     String wordToLearn = null;
                     String translate = null;
                     try {
-                        wordToLearn = cmd[2].split(";")[0];
+                        wordToLearn = cmd[2].split(";")[0].replace("@vocabengbot ", "").trim();
                         translate = cmd[2].split(";")[1];
                     } catch (Exception e){
                         log.info(e);
@@ -222,26 +227,52 @@ public class Bot extends TelegramLongPollingBot {
         String wordFromMessageId = callBack.getData();
         log.info(wordFromMessage);
         log.info(wordFromMessageId);
+
         EditMessageReplyMarkup edit = new EditMessageReplyMarkup(chatId.toString(), callBack.getMessage().getMessageId(),callBack.getInlineMessageId(),null);
-//        edit.setMessageId(callBack.getMessage().getMessageId());
-//        edit.setChatId(chatId.toString());
-//        edit.setInlineMessageId(callBack.getInlineMessageId());
-//        edit.setReplyMarkup(null);
+
         try {
             execute(edit);
         } catch (TelegramApiException e) {
             log.info(e);
         }
-
-
+//        public synchronized void answerCallbackQuery(String callbackId, String message) {
+//            AnswerCallbackQuery answer = new AnswerCallbackQuery();
+//            answer.setCallbackQueryId(callbackId);
+//            answer.setText(message);
+//            answer.setShowAlert(true);
+//            try {
+//                answerCallbackQuery(answer);
+//            } catch (TelegramApiException e) {
+//                e.printStackTrace();
+//            }
+//        }
+        AnswerCallbackQuery answerCallBack = new AnswerCallbackQuery();
+        answerCallBack.setCallbackQueryId(callBack.getId());
+        answerCallBack.setShowAlert(true);
+//        answerCallBack.set
+//        answerCallBack
+        String messageToSend;
         if (wordFromMessage.equals(words.get(Integer.valueOf(wordFromMessageId)).getWord())){
-
-            String messageToSend = wordFromMessage + " -> " + words.get(Integer.valueOf(wordFromMessageId)).getTranslate() + ".\nTRUE";
-            sendMsg(chatId.toString(), messageToSend);
+            messageToSend = wordFromMessage + " -> " + words.get(Integer.valueOf(wordFromMessageId)).getTranslate() + ".\nTRUE";
+            answerCallBack.setText(messageToSend);
+//            answerCallBack.getText().
+//            sendMsg(chatId.toString(), messageToSend);
+            try {
+                execute(answerCallBack);
+            } catch (Exception e){
+                log.info(e);
+            }
             wordsRepeatsDecrease(chatId, Integer.valueOf(wordFromMessageId));
         } else {
-            sendMsg(chatId.toString(), "FALSE");
-            sendMsg(chatId.toString(), wordFromMessage + " repeats reset to " + this.repeats.toString());
+            messageToSend = "FALSE\n" + wordFromMessage + " repeats reset to " + this.repeats.toString();
+
+            answerCallBack.setText(messageToSend);
+
+            try {
+                execute(answerCallBack);
+            } catch (Exception e){
+                log.info(e);
+            }
             wordsReset(chatId, wordFromMessage);
         }
 
@@ -296,6 +327,8 @@ public class Bot extends TelegramLongPollingBot {
         sendMessage.enableMarkdown(true);
         sendMessage.setChatId(chatId);
         sendMessage.setText(s);
+
+        sendMessage.setParseMode(ParseMode.MARKDOWN);
         try {
             execute(sendMessage);
         } catch (TelegramApiException e) {
@@ -308,14 +341,16 @@ public class Bot extends TelegramLongPollingBot {
         for (Map.Entry entry:vocabulary.entrySet()) {
             HashMap<Integer,Integer> userVocabulary = (HashMap<Integer, Integer>) entry.getValue();
             ArrayList<Integer> wordsForUser = new ArrayList<>();
-            for (int i = 0; i < wordsCount; i++) {
-                Integer[] keySet = userVocabulary.keySet().toArray(Integer[]::new);
-                Random random = new Random();
-                Integer truthWord = random.nextInt(userVocabulary.size());
-                truthWord = keySet[truthWord];
-                wordsForUser.add(truthWord);
+            if (userVocabulary.size() > 0) {
+                for (int i = 0; i < wordsCount; i++) {
+                    Integer[] keySet = userVocabulary.keySet().toArray(Integer[]::new);
+                    Random random = new Random();
+                    Integer truthWord = random.nextInt(userVocabulary.size());
+                    truthWord = keySet[truthWord];
+                    wordsForUser.add(truthWord);
+                }
+                listToSend.put((Long) entry.getKey(), wordsForUser);
             }
-            listToSend.put((Long) entry.getKey(), wordsForUser);
         }
         return listToSend;
     }
@@ -324,9 +359,8 @@ public class Bot extends TelegramLongPollingBot {
         for (Map.Entry entry:choosenWords.entrySet()) {
             Long chatId = (Long) entry.getKey();
             ArrayList<Integer> wordsId = (ArrayList<Integer>) entry.getValue();
+            if (wordsId.size() == 0) continue;
             for (Integer wordId:wordsId) {
-
-
                 Word word = words.get(wordId);
                 List<List<InlineKeyboardButton>> buttons = new ArrayList<>();
                 ArrayList<Integer> wordsForButtons = new ArrayList<>();
@@ -356,7 +390,9 @@ public class Bot extends TelegramLongPollingBot {
                 SendMessage sendMessage = new SendMessage();
                 sendMessage.enableMarkdown(true);
                 sendMessage.setChatId(chatId.toString());
-                sendMessage.setText(words.get(wordId).getWord());
+                sendMessage.setParseMode(ParseMode.MARKDOWN);
+                sendMessage.setText("*" + words.get(wordId).getWord() + "*");
+
                 sendMessage.setReplyMarkup(markup);
                 log.info(sendMessage);
 
