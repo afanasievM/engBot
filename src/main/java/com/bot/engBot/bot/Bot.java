@@ -1,9 +1,12 @@
-package com.bot.engBot;
+package com.bot.engBot.bot;
 
 
+import com.bot.engBot.User;
+import com.bot.engBot.Word;
+import com.bot.engBot.commands.CommandContainer;
+import com.bot.engBot.service.SendBotMessageServiceImpl;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationConfig;
 import org.apache.log4j.Logger;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.AnswerCallbackQuery;
@@ -20,7 +23,6 @@ import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Parameter;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -35,11 +37,11 @@ public class Bot extends TelegramLongPollingBot {
     final private String USERS_PATH = System.getProperty("user.dir") + "/users.json";
     final private String WORDS_PATH = System.getProperty("user.dir") + "/words.json";
     final private String VOCABULARY_PATH = System.getProperty("user.dir") + "/vocabulary.json";
-    private HashMap<Long,User> users = new HashMap<Long,User>();
+    private HashMap<Long, User> users = new HashMap<Long,User>();
     private ArrayList<Word> words = new ArrayList<>();
     private HashMap<Long,HashMap<Integer,Integer>> vocabulary = new HashMap<>();
     final private Integer wordsCount = 5;
-
+    private final CommandContainer commandContainer;
 
     public Bot (String token, String botName){
 
@@ -49,6 +51,7 @@ public class Bot extends TelegramLongPollingBot {
         usersInitialize();
         vocabularyInitialize();
         wordsInitialize();
+        this.commandContainer = new CommandContainer(new SendBotMessageServiceImpl(this));
 
     }
 
@@ -95,12 +98,19 @@ public class Bot extends TelegramLongPollingBot {
     @Override
     public void onUpdateReceived(Update update) {
         if (update.hasMessage() && update.getMessage().hasText()) {
-            String message = update.getMessage().getText();
-            log.info(update.toString());
-            log.info(update.getMessage().getText());
-            System.out.println(update.getMessage().getText());
-            if (message.startsWith(COMMAND_PREFIX)) commandProcess(update);
-//            else sendMsg(update.getMessage().getChatId().toString(), message);
+            String message = update.getMessage().getText().trim();
+            if (message.startsWith(COMMAND_PREFIX)) {
+                String commandIdentifier = message.split(" ")[0].toLowerCase();
+                log.info(update.toString());
+                commandContainer.retrieveCommand(commandIdentifier).execute(update);
+            }
+//        if (update.hasMessage() && update.getMessage().hasText()) {
+//            String message = update.getMessage().getText();
+//            log.info(update.toString());
+//            log.info(update.getMessage().getText());
+//            System.out.println(update.getMessage().getText());
+//            if (message.startsWith(COMMAND_PREFIX)) commandProcess(update);
+////            else sendMsg(update.getMessage().getChatId().toString(), message);
         } else if(update.hasCallbackQuery()) {
             callBackProcess(update.getCallbackQuery());
         }

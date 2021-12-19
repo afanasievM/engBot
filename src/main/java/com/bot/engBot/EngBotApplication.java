@@ -1,8 +1,11 @@
 package com.bot.engBot;
 
+import com.bot.engBot.bot.Bot;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.env.ConfigurableEnvironment;
 
 import java.io.File;
@@ -10,16 +13,14 @@ import java.io.IOException;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
-import com.fasterxml.jackson.core.type.TypeReference;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
-import org.apache.log4j.config.*;
-import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 
 
 @SpringBootApplication
-
+@ComponentScan({"com.bot.engBot.bot"})
 public class EngBotApplication {
 
 	final static Logger log = Logger.getLogger(EngBotApplication.class);
