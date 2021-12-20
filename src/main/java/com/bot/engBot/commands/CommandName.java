@@ -19,7 +19,7 @@ public enum CommandName {
 
     REMOVE_GROUP_USER("/remove_group_user"),
     REMOVE_GROUP_ADMIN("/remove_group_admin"),
-    REMOVE_GROUP_TEACHER("/remove_group_reacher"),
+    REMOVE_GROUP_TEACHER("/remove_group_teacher"),
     REMOVE_GROUP("/remove_group"),
 
     SET_GROUP_TEACHER("/set_group_teacher"),
