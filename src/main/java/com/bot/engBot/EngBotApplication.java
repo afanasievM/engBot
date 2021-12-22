@@ -1,7 +1,8 @@
 package com.bot.engBot;
 
 import com.bot.engBot.bot.Bot;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+//import org.springframework.boot.SpringApplication;
+//import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
