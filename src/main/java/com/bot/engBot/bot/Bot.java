@@ -4,10 +4,14 @@ package com.bot.engBot.bot;
 import com.bot.engBot.User;
 import com.bot.engBot.Word;
 import com.bot.engBot.commands.CommandContainer;
+import com.bot.engBot.service.BotUserService;
 import com.bot.engBot.service.SendBotMessageServiceImpl;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.AnswerCallbackQuery;
 import org.telegram.telegrambots.meta.api.methods.ParseMode;
@@ -27,9 +31,12 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@Component
 public class Bot extends TelegramLongPollingBot {
-    final private String token;
-    final private String botName;
+
+//    final private String token;
+//    final private String botName;
+
     final private Logger log = Logger.getLogger(Bot.class);
     final int RECONNECT_PAUSE =10000;
     final private String COMMAND_PREFIX = "/";
@@ -42,16 +49,23 @@ public class Bot extends TelegramLongPollingBot {
     private HashMap<Long,HashMap<Integer,Integer>> vocabulary = new HashMap<>();
     final private Integer wordsCount = 5;
     private final CommandContainer commandContainer;
+    @Value("${bot.botName}")
+    private String botName;
 
-    public Bot (String token, String botName){
+    @Value("${bot.token}")
+    private String token;
 
+
+    @Autowired
+//    public Bot (String token, String botName, BotUserService botUserService){
+    public Bot (BotUserService botUserService){
         log.info("Bot init");
-        this.token = token;
-        this.botName = botName;
-        usersInitialize();
-        vocabularyInitialize();
-        wordsInitialize();
-        this.commandContainer = new CommandContainer(new SendBotMessageServiceImpl(this));
+//        this.token = token;
+//        this.botName = botName;
+//        usersInitialize();
+//        vocabularyInitialize();
+//        wordsInitialize();
+        this.commandContainer = new CommandContainer(new SendBotMessageServiceImpl(this), botUserService);
 
     }
 

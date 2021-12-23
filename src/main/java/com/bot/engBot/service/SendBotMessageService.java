@@ -1,5 +1,5 @@
 package com.bot.engBot.service;
 
 public interface SendBotMessageService {
-    void sendMessage(String chatId, String message);
+    void sendMessage(Long chatId, String message);
 }

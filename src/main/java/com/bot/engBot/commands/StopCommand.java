@@ -1,5 +1,6 @@
 package com.bot.engBot.commands;
 
+import com.bot.engBot.service.BotUserService;
 import com.bot.engBot.service.SendBotMessageService;
 import com.bot.engBot.service.SendBotMessageServiceImpl;
 import org.apache.log4j.Logger;
@@ -7,16 +8,24 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 
 public class StopCommand implements Command{
     private final SendBotMessageService sendBotMessageService;
+    private final BotUserService botUserService;
     final static Logger log = Logger.getLogger(StopCommand.class);
-    public final static String START_MESSAGE = "Деактивировал все ваши подписки \\uD83D\\uDE1F.";
-
-    public StopCommand(SendBotMessageService sendBotMessageService) {
+    public final static String STOP_MESSAGE = "Деактивировал";
+    public StopCommand(SendBotMessageService sendBotMessageService, BotUserService botUserService) {
         this.sendBotMessageService = sendBotMessageService;
+        this.botUserService = botUserService;
+
     }
 
     @Override
     public void execute(Update update) {
-
-        sendBotMessageService.sendMessage(update.getMessage().getChatId().toString(), START_MESSAGE);
+        sendBotMessageService.sendMessage(update.getMessage().getChatId(), STOP_MESSAGE);
+        botUserService.findByChatId(update.getMessage().getChatId())
+                .ifPresent(it -> {
+                    it.setActive(false);
+                    botUserService.save(it);
+                    log.info("User " + update.getMessage().getChat().getUserName() + " id:" + update.getMessage().getChatId() + "stopped bot" );
+                });
+        sendBotMessageService.sendMessage(update.getMessage().getChatId(), STOP_MESSAGE);
     }
 }
