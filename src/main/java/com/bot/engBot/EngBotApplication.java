@@ -28,7 +28,7 @@ public class EngBotApplication {
 	final static Logger log = Logger.getLogger(EngBotApplication.class);
 
 	public static void main(String[] args) throws InterruptedException {
-
+		PropertyConfigurator.configure(System.getProperty("user.dir") +"/log4j.propeties");
 //		SpringApplication.run(EngBotApplication.class, args);
 		ConfigurableApplicationContext applicationContext = new SpringApplicationBuilder(EngBotApplication.class)
 				.properties("spring.config.name:application-dev")
@@ -38,7 +38,7 @@ public class EngBotApplication {
 
 
 		System.out.println(System.getProperty("user.dir"));
-		PropertyConfigurator.configure(System.getProperty("user.dir") +"/log4j.propeties");
+//		PropertyConfigurator.configure(System.getProperty("user.dir") +"/log4j.propeties");
 		ObjectMapper mapper = new ObjectMapper();
 		HashMap<String,String> bot_credentials = new HashMap<>();
 		try {

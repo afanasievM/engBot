@@ -22,10 +22,10 @@ public class StopCommand implements Command{
         sendBotMessageService.sendMessage(update.getMessage().getChatId(), STOP_MESSAGE);
         botUserService.findByChatId(update.getMessage().getChatId())
                 .ifPresent(it -> {
+                    log.info(it);
                     it.setActive(false);
                     botUserService.save(it);
-                    log.info("User " + update.getMessage().getChat().getUserName() + " id:" + update.getMessage().getChatId() + "stopped bot" );
+                    log.info("User " + update.getMessage().getChat().getUserName() + " id:" + update.getMessage().getChatId() + " stopped bot" );
                 });
-        sendBotMessageService.sendMessage(update.getMessage().getChatId(), STOP_MESSAGE);
     }
 }

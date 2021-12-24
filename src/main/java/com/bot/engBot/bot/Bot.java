@@ -57,9 +57,8 @@ public class Bot extends TelegramLongPollingBot {
 
 
     @Autowired
-//    public Bot (String token, String botName, BotUserService botUserService){
     public Bot (BotUserService botUserService){
-        log.info("Bot init");
+
 //        this.token = token;
 //        this.botName = botName;
 //        usersInitialize();
