@@ -6,6 +6,7 @@ import com.bot.engBot.Word;
 import com.bot.engBot.commands.CommandContainer;
 import com.bot.engBot.service.BotUserService;
 import com.bot.engBot.service.SendBotMessageServiceImpl;
+import com.bot.engBot.service.VocabularyService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.log4j.Logger;
@@ -57,14 +58,14 @@ public class Bot extends TelegramLongPollingBot {
 
 
     @Autowired
-    public Bot (BotUserService botUserService){
+    public Bot (BotUserService botUserService, VocabularyService vocabularyService){
 
 //        this.token = token;
 //        this.botName = botName;
 //        usersInitialize();
 //        vocabularyInitialize();
 //        wordsInitialize();
-        this.commandContainer = new CommandContainer(new SendBotMessageServiceImpl(this), botUserService);
+        this.commandContainer = new CommandContainer(new SendBotMessageServiceImpl(this), botUserService, vocabularyService);
 
     }
 
@@ -159,67 +160,7 @@ public class Bot extends TelegramLongPollingBot {
                     log.info(this.users.get(chatId));
                     log.info(this.users);
                     break;
-                case "/add":
-                    boolean wordContains = false;
-                    String wordToLearn = null;
-                    String translate = null;
-                    try {
-                        wordToLearn = cmd[2].split(";")[0].replace("@vocabengbot ", "").trim();
-                        translate = cmd[2].split(";")[1];
-                    } catch (Exception e){
-                        log.info(e);
-                        sendMsg(chatId.toString(), "Please user correct form: \n/add word:translate");
-                        break;
-                    }
-                    Word word = new Word(wordToLearn,translate);
-                    for (Word w:words) {
-//                        log.info(w.getWord() + " comapare " + wordToLearn);
-                        if (w.getWord().equals(wordToLearn)){
-                            wordContains = true;
-                            break;
-                        }
-                    }
-                    log.info("contain word " + wordContains);
-                    if (!wordContains) {
-                        this.words.add(word);
-                        log.info("NEW WORD");
-                        jsonDump(WORDS_PATH, words);
-                    } else log.info("OLD WORD");
-                    if (!vocabulary.isEmpty()) {
-                        vocabulary.forEach((k, v) -> {
-                            if (!v.containsKey(words.indexOf(word))) {
-                                log.info("NEW USER WORD");
-                                v.put(words.indexOf(word), this.repeats);
-                                jsonDump(VOCABULARY_PATH, vocabulary);
-                            } else {
-                                log.info("OLD USER WORD");
 
-                            }
-                        });
-                    } else {
-                        log.info("Vocabulary is empty");
-
-                        for (Map.Entry<Long,User> entry:users.entrySet()) {
-                            Long userID = entry.getKey();
-                            HashMap<Integer,Integer> userVocabulary = new HashMap<>();
-                            userVocabulary.put(words.indexOf(word),this.repeats);
-                            vocabulary.put(userID,userVocabulary);
-                            jsonDump(VOCABULARY_PATH, vocabulary);
-                        }
-
-
-
-                    }
-                    log.info(vocabulary);
-                    sendMsg(chatId.toString(), "word -> " + wordToLearn + " translate -> " + translate + "\nrepeats to learn -> " + this.repeats);
-                    break;
-                case "/show_my_words":
-                    String wordList = "";
-                    for (Integer wordId:vocabulary.get(chatId).keySet()) {
-                        wordList += words.get(wordId).getWord() + "\n";
-                    }
-                    sendMsg(chatId.toString(),wordList + "\nTotal: " + vocabulary.get(chatId).keySet().size());
-                    break;
                 case "/show_all_words":
                     String allWords = "";
                     for (Word w:words) {
