@@ -9,7 +9,7 @@ import static com.bot.engBot.commands.CommandName.*;
 public class HelpCommand implements Command{
     private final SendBotMessageService sendBotMessageService;
     private final BotUserService botUserService;
-    final static Logger log = Logger.getLogger(HelpCommand.class);
+    final private Logger log = Logger.getLogger(HelpCommand.class);
     public static final String HELP_MESSAGE = String.format("✨<b>Дотупные команды</b>✨\n\n"
 
                     + "<b>Начать\\закончить работу с ботом</b>\n"

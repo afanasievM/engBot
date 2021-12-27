@@ -12,7 +12,7 @@ import java.util.List;
 public class StatCommand implements Command{
     private final SendBotMessageService sendBotMessageService;
     private final BotUserService botUserService;
-    final static Logger log = Logger.getLogger(StatCommand.class);
+    final private Logger log = Logger.getLogger(StatCommand.class);
     public StatCommand(SendBotMessageService sendBotMessageService, BotUserService botUserService) {
         this.sendBotMessageService = sendBotMessageService;
         this.botUserService = botUserService;

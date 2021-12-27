@@ -4,9 +4,7 @@ package com.bot.engBot.bot;
 import com.bot.engBot.User;
 import com.bot.engBot.Word;
 import com.bot.engBot.commands.CommandContainer;
-import com.bot.engBot.service.BotUserService;
-import com.bot.engBot.service.SendBotMessageServiceImpl;
-import com.bot.engBot.service.VocabularyService;
+import com.bot.engBot.service.*;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.log4j.Logger;
@@ -47,6 +45,7 @@ public class Bot extends TelegramLongPollingBot {
     private HashMap<Long,HashMap<Integer,Integer>> vocabulary = new HashMap<>();
     final private Integer wordsCount = 5;
     private final CommandContainer commandContainer;
+    private final CallBackService callBackService;
     @Value("${bot.botName}")
     private String botName;
 
@@ -57,7 +56,7 @@ public class Bot extends TelegramLongPollingBot {
     @Autowired
     public Bot (BotUserService botUserService, VocabularyService vocabularyService){
         this.commandContainer = new CommandContainer(new SendBotMessageServiceImpl(this), botUserService, vocabularyService);
-
+        this.callBackService = new CallBackServiceImpl(vocabularyService, botUserService, this);
     }
 
 
@@ -71,15 +70,8 @@ public class Bot extends TelegramLongPollingBot {
                 log.info(update.toString());
                 commandContainer.retrieveCommand(commandIdentifier).execute(update);
             }
-//        if (update.hasMessage() && update.getMessage().hasText()) {
-//            String message = update.getMessage().getText();
-//            log.info(update.toString());
-//            log.info(update.getMessage().getText());
-//            System.out.println(update.getMessage().getText());
-//            if (message.startsWith(COMMAND_PREFIX)) commandProcess(update);
-////            else sendMsg(update.getMessage().getChatId().toString(), message);
-//        } else if(update.hasCallbackQuery()) {
-//            callBackProcess(update.getCallbackQuery());
+        } else if(update.hasCallbackQuery()) {
+            callBackService.callBackProcess(update.getCallbackQuery());
         }
     }
 

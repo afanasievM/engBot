@@ -17,10 +17,10 @@ import java.util.*;
 @Service
 public class SendTestServiceImpl implements SendTestService{
     final private BotUserService botUserService;
-    private final Bot engBot;
+    final private Bot engBot;
     final private VocabularyService vocabularyService;
     final private SendBotMessageService sendBotMessageService;
-    final static Logger log = Logger.getLogger(SendBotMessageServiceImpl.class);
+    final private Logger log = Logger.getLogger(SendTestServiceImpl.class);
 
     @Autowired
     public SendTestServiceImpl(BotUserService botUserService, SendBotMessageService sendBotMessageService,

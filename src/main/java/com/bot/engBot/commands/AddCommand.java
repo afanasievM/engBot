@@ -5,6 +5,7 @@ import com.bot.engBot.repository.entity.Vocabulary;
 import com.bot.engBot.service.BotUserService;
 import com.bot.engBot.service.SendBotMessageService;
 import com.bot.engBot.service.VocabularyService;
+import com.bot.engBot.service.VocabularyServiceImpl;
 import org.apache.log4j.Logger;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
@@ -15,14 +16,12 @@ import java.util.Date;
 public class AddCommand implements Command{
     private final SendBotMessageService sendBotMessageService;
     private final VocabularyService vocabularyService;
-    final static Logger log = Logger.getLogger(AddCommand.class);
-    final private int REPEATS;
+    final private Logger log = Logger.getLogger(AddCommand.class);
 
 
     public AddCommand(SendBotMessageService sendBotMessageService, VocabularyService vocabularyService) {
         this.sendBotMessageService = sendBotMessageService;
         this.vocabularyService = vocabularyService;
-        this.REPEATS = 5;
     }
 
     @Override
@@ -54,12 +53,12 @@ public class AddCommand implements Command{
                     vocabulary.setOwnerId(chatId);
                     vocabulary.setWord(finalWordToLearn);
                     vocabulary.setWordTranslation(finalTranslate);
-                    vocabulary.setRepeats(REPEATS);
+                    vocabulary.setRepeats(VocabularyServiceImpl.REPEATS);
                     vocabulary.setActive(true);
                     sendBotMessageService.sendMessage(chatId, "You add new word:" +
                                                         "\nword -> " + finalWordToLearn +
                                                         "\ntranslation -> " + finalTranslate +
-                                                        "\nrepeats -> " + REPEATS);
+                                                        "\nrepeats -> " + VocabularyServiceImpl.REPEATS);
                     vocabularyService.addWord(vocabulary);
                 }
         );

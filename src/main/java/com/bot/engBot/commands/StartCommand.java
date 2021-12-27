@@ -14,7 +14,7 @@ import java.util.Date;
 public class StartCommand implements Command{
     private final SendBotMessageService sendBotMessageService;
     private final BotUserService botUserService;
-    final static Logger log = Logger.getLogger(StartCommand.class);
+    final private Logger log = Logger.getLogger(StartCommand.class);
     public final static String START_MESSAGE = "Привет. Я Javarush Telegram Bot. Я помогу тебе быть в курсе последних " +
             "статей тех авторов, котрые тебе интересны. Я еще маленький и только учусь.";
 

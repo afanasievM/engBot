@@ -20,4 +20,9 @@ public interface VocabularyService {
     Optional<Vocabulary> removeByWordAndOwnerId(String word, Long ownerId);
 
     void addWord(Vocabulary word);
+
+    void wordsRepeatsDecrease(Vocabulary word);
+
+    void wordsReset(Vocabulary word);
+
 }

@@ -9,7 +9,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 public class StopCommand implements Command{
     private final SendBotMessageService sendBotMessageService;
     private final BotUserService botUserService;
-    final static Logger log = Logger.getLogger(StopCommand.class);
+    final private Logger log = Logger.getLogger(StopCommand.class);
     public final static String STOP_MESSAGE = "Деактивировал";
     public StopCommand(SendBotMessageService sendBotMessageService, BotUserService botUserService) {
         this.sendBotMessageService = sendBotMessageService;

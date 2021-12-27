@@ -15,7 +15,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class ChooseWordsServiceImpl implements ChooseWordsService{
     final private BotUserService botUserService;
     final private VocabularyService vocabularyService;
-    final static Logger log = Logger.getLogger(SendBotMessageServiceImpl.class);
+    final private Logger log = Logger.getLogger(ChooseWordsServiceImpl.class);
     final private int WORDS_COUNT;
     public static ConcurrentHashMap<Long, ArrayList<Vocabulary>> listToSend = new ConcurrentHashMap<>();
     @Autowired

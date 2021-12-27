@@ -14,7 +14,7 @@ import java.util.HashMap;
 @Service
 public class SendBotMessageServiceImpl implements SendBotMessageService{
     private final Bot engBot;
-    final static Logger log = Logger.getLogger(SendBotMessageServiceImpl.class);
+    final private Logger log = Logger.getLogger(SendBotMessageServiceImpl.class);
 
 
     @Autowired

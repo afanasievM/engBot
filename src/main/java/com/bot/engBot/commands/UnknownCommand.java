@@ -6,7 +6,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 
 public class UnknownCommand implements Command{
     private final SendBotMessageService sendBotMessageService;
-    final static Logger log = Logger.getLogger(UnknownCommand.class);
+    final Logger log = Logger.getLogger(UnknownCommand.class);
 
 
     public static final String UNKNOWN_MESSAGE = "I don't understand this comman.\n" +

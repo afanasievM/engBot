@@ -1,7 +1,9 @@
 package com.bot.engBot.service;
 
+import com.bot.engBot.commands.AddCommand;
 import com.bot.engBot.repository.entity.Vocabulary;
 import com.bot.engBot.repository.entity.VocabularyRepository;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,10 +13,14 @@ import java.util.Optional;
 @Service
 public class VocabularyServiceImpl implements VocabularyService {
     private final VocabularyRepository vocabularyRepository;
+    final private Logger log = Logger.getLogger(VocabularyServiceImpl.class);
+
+    public final static int REPEATS = 5;
 
     @Autowired
     public VocabularyServiceImpl(VocabularyRepository vocabularyRepository) {
         this.vocabularyRepository = vocabularyRepository;
+
     }
 
 
@@ -44,4 +50,30 @@ public class VocabularyServiceImpl implements VocabularyService {
     public void addWord(Vocabulary word) {
         vocabularyRepository.save(word);
     }
+
+    @Override
+    public void wordsRepeatsDecrease(Vocabulary word) {
+        int currentRepeats = word.getRepeats();
+        log.info(currentRepeats);
+        currentRepeats = currentRepeats - 1;
+        log.info(currentRepeats);
+        word.setRepeats(currentRepeats);
+        if (currentRepeats < 1) {
+//            sendBotMessageService.sendMessage(word.getOwnerId(),
+//                    "You learned *" + word.getWord() + "* -> *" + word.getWordTranslation() + "*!!!!");
+            word.setRepeats(0);
+            word.setActive(false);
+        }
+        log.info("Word -> " + word.getWord() + "repeats -> " + word.getRepeats());
+        vocabularyRepository.save(word);
+    }
+
+    @Override
+    public void wordsReset(Vocabulary word) {
+        word.setActive(true);
+        word.setRepeats(REPEATS);
+        vocabularyRepository.save(word);
+    }
+
+
 }

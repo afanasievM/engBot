@@ -12,7 +12,7 @@ import java.util.List;
 public class ShowMyWordsCommand implements Command{
     private final SendBotMessageService sendBotMessageService;
     private final VocabularyService vocabularyService;
-    final static Logger log = Logger.getLogger(ShowMyWordsCommand.class);
+    final private Logger log = Logger.getLogger(ShowMyWordsCommand.class);
 
 
     public ShowMyWordsCommand(SendBotMessageService sendBotMessageService, VocabularyService vocabularyService) {
