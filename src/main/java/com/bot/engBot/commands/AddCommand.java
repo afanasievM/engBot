@@ -53,8 +53,9 @@ public class AddCommand implements Command{
                     Vocabulary vocabulary = new Vocabulary();
                     vocabulary.setOwnerId(chatId);
                     vocabulary.setWord(finalWordToLearn);
-                    vocabulary.setWord_translation(finalTranslate);
+                    vocabulary.setWordTranslation(finalTranslate);
                     vocabulary.setRepeats(REPEATS);
+                    vocabulary.setActive(true);
                     sendBotMessageService.sendMessage(chatId, "You add new word:" +
                                                         "\nword -> " + finalWordToLearn +
                                                         "\ntranslation -> " + finalTranslate +

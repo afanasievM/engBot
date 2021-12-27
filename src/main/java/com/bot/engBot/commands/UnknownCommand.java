@@ -9,7 +9,8 @@ public class UnknownCommand implements Command{
     final static Logger log = Logger.getLogger(UnknownCommand.class);
 
 
-    public static final String UNKNOWN_MESSAGE = "Не понимаю вас \uD83D\uDE1F, напишите /help чтобы узнать что я понимаю.";
+    public static final String UNKNOWN_MESSAGE = "I don't understand this comman.\n" +
+            "Try /help to show commands";
 
     public UnknownCommand(SendBotMessageService sendBotMessageService) {
         this.sendBotMessageService = sendBotMessageService;

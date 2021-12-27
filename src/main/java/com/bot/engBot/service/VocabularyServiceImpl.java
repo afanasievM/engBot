@@ -1,7 +1,5 @@
 package com.bot.engBot.service;
 
-import com.bot.engBot.repository.entity.BotUser;
-import com.bot.engBot.repository.entity.BotUserRepository;
 import com.bot.engBot.repository.entity.Vocabulary;
 import com.bot.engBot.repository.entity.VocabularyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,8 +24,15 @@ public class VocabularyServiceImpl implements VocabularyService {
     }
 
     @Override
+    public List<Vocabulary> findAllByOwnerIdAndActiveTrue(Long ownerId){return vocabularyRepository.findAllByOwnerIdAndActiveTrue(ownerId);}
+
+    @Override
     public Optional<Vocabulary> findByWordAndOwnerId(String word, Long ownerId) {
         return vocabularyRepository.findByWordAndOwnerId(word, ownerId);
+    }
+    @Override
+    public Optional<Vocabulary> findByTranslationAndOwnerId(String translation, Long ownerId) {
+        return vocabularyRepository.findByWordTranslationAndOwnerId(translation, ownerId);
     }
 
     @Override

@@ -11,7 +11,7 @@ public class Vocabulary {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "word_id",nullable = false, insertable = true)
-    private Long word_id;
+    private Long wordId;
 
     @Column(name = "owner_id",nullable = false)
     private Long ownerId;
@@ -20,8 +20,11 @@ public class Vocabulary {
     private String word;
 
     @Column(name = "word_translation")
-    private String word_translation;
+    private String wordTranslation;
 
     @Column(name = "repeats")
     private int repeats;
+
+    @Column(name = "active")
+    private boolean active;
 }
