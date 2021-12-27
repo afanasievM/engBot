@@ -59,8 +59,7 @@ public class VocabularyServiceImpl implements VocabularyService {
         log.info(currentRepeats);
         word.setRepeats(currentRepeats);
         if (currentRepeats < 1) {
-//            sendBotMessageService.sendMessage(word.getOwnerId(),
-//                    "You learned *" + word.getWord() + "* -> *" + word.getWordTranslation() + "*!!!!");
+
             word.setRepeats(0);
             word.setActive(false);
         }
