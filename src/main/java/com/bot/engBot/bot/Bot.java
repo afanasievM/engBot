@@ -55,6 +55,7 @@ public class Bot extends TelegramLongPollingBot {
 
     @Autowired
     public Bot (BotUserService botUserService, VocabularyService vocabularyService){
+
         this.commandContainer = new CommandContainer(new SendBotMessageServiceImpl(this), botUserService, vocabularyService);
         this.callBackService = new CallBackServiceImpl(vocabularyService, botUserService, this);
     }
