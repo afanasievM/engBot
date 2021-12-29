@@ -70,8 +70,9 @@ public class CallBackServiceImpl implements CallBackService {
                     //todo add logging to the project.
                     log.error(e);
                 }
-                vocabularyService.wordsRepeatsDecrease(testWord);
             }
+                vocabularyService.wordsRepeatsDecrease(testWord);
+
         }else {
                 messageToSend = "FALSE\n" + wordFromMessage + " repeats reset to " + VocabularyServiceImpl.REPEATS;
 
