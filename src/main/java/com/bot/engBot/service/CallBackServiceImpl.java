@@ -49,7 +49,7 @@ public class CallBackServiceImpl implements CallBackService {
         Vocabulary testWord = vocabularyService.findByWordAndOwnerId(wordFromMessage, chatId).get();
         if (wordFromMessage.equals(wordFromMessageData)) {
 
-            messageToSend = testWord.getWord() + " -> " + testWord.getWordTranslation() + ".\n<b>TRUE</b>";
+            messageToSend = testWord.getWord() + " -> " + testWord.getWordTranslation() + ".\nTRUE";
             answerCallBack.setText(messageToSend);
             try {
                 engBot.execute(answerCallBack);
@@ -74,7 +74,7 @@ public class CallBackServiceImpl implements CallBackService {
                 vocabularyService.decreaseWordRepeats(testWord);
 
         }else {
-                messageToSend = "<b>FALSE</b>\n" + wordFromMessage + " repeats reset to " + VocabularyServiceImpl.REPEATS;
+                messageToSend = "FALSE\n" + wordFromMessage + " repeats reset to " + VocabularyServiceImpl.REPEATS;
 
                 answerCallBack.setText(messageToSend);
 
