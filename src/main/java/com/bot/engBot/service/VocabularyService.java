@@ -21,8 +21,10 @@ public interface VocabularyService {
 
     void addWord(Vocabulary word);
 
-    void wordsRepeatsDecrease(Vocabulary word);
+    void decreaseWordRepeats(Vocabulary word);
 
-    void wordsReset(Vocabulary word);
+    void resetWord(Vocabulary word);
+
+    void removeWord(Vocabulary word);
 
 }

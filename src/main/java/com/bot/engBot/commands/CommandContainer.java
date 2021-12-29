@@ -21,6 +21,7 @@ public class CommandContainer {
                 .put(STAT.getCommandName(), new StatCommand(sendBotMessageService, botUserService))
                 .put(ADD.getCommandName(), new AddCommand(sendBotMessageService, vocabularyService))
                 .put(SHOW_MY_WORDS.getCommandName(), new ShowMyWordsCommand(sendBotMessageService, vocabularyService))
+                .put(REMOVE_WORD.getCommandName(), new RemoveWordCommand(sendBotMessageService, vocabularyService))
                 .build();
 
         unknownCommand = new UnknownCommand(sendBotMessageService);

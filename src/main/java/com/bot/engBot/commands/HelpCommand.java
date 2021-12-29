@@ -16,15 +16,16 @@ public class HelpCommand implements Command{
                     + "%s - stop working with me\n"
                     + "%s - show available commands\n\n"
                     + "%s - add new word to your vocabulary\n"
-                    + "%s - show all your words in vocabulary\n",
-//                    + "%s - "
+                    + "%s - show all your words in vocabulary\n"
+                    + "%s - remove word from your vocabulary\n",
 //                    + "%s - "
 //                    + "%s - ",
             START.getCommandName(),
             STOP.getCommandName(),
             HELP.getCommandName(),
             ADD.getCommandName(),
-            SHOW_MY_WORDS.getCommandName()
+            SHOW_MY_WORDS.getCommandName(),
+            REMOVE_WORD.getCommandName()
     );
 
     public HelpCommand(SendBotMessageService sendBotMessageService, BotUserService botUserService) {

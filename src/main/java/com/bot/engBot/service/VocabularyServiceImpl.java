@@ -52,7 +52,7 @@ public class VocabularyServiceImpl implements VocabularyService {
     }
 
     @Override
-    public void wordsRepeatsDecrease(Vocabulary word) {
+    public void decreaseWordRepeats(Vocabulary word) {
         int currentRepeats = word.getRepeats();
         log.info(currentRepeats);
         currentRepeats = currentRepeats - 1;
@@ -68,11 +68,13 @@ public class VocabularyServiceImpl implements VocabularyService {
     }
 
     @Override
-    public void wordsReset(Vocabulary word) {
+    public void resetWord(Vocabulary word) {
         word.setActive(true);
         word.setRepeats(REPEATS);
         vocabularyRepository.save(word);
     }
-
-
+    @Override
+    public void removeWord(Vocabulary word){
+        vocabularyRepository.delete(word);
+    }
 }

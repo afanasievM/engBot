@@ -21,6 +21,7 @@ public enum CommandName {
     REMOVE_GROUP_ADMIN("/remove_group_admin"),
     REMOVE_GROUP_TEACHER("/remove_group_teacher"),
     REMOVE_GROUP("/remove_group"),
+    REMOVE_WORD("/remove_word"),
 
     SET_GROUP_TEACHER("/set_group_teacher"),
     SET_GROUP_ADMIN("/set_group_admin"),
