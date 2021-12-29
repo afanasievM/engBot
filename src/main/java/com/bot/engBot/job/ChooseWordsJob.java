@@ -21,8 +21,8 @@ public class ChooseWordsJob {
         this.chooseWordsService = chooseWordsService;
     }
 
-//    @Scheduled(fixedRate = 60000*5)
-    @Scheduled(fixedRate = 10000)
+    @Scheduled(fixedRate = 60000*5)
+//    @Scheduled(fixedRate = 10000)
     public void chooseWords(){
         LocalDateTime start = LocalDateTime.now();
 

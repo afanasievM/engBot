@@ -71,7 +71,8 @@ public class CallBackServiceImpl implements CallBackService {
                     log.error(e);
                 }
                 vocabularyService.wordsRepeatsDecrease(testWord);
-            } else {
+            }
+        }else {
                 messageToSend = "FALSE\n" + wordFromMessage + " repeats reset to " + VocabularyServiceImpl.REPEATS;
 
                 answerCallBack.setText(messageToSend);
@@ -82,7 +83,7 @@ public class CallBackServiceImpl implements CallBackService {
                     log.info(e);
                 }
                 vocabularyService.wordsReset(testWord);
-            }
+
 
 
         }
