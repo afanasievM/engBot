@@ -10,7 +10,7 @@ public class StopCommand implements Command{
     private final SendBotMessageService sendBotMessageService;
     private final BotUserService botUserService;
     final private Logger log = Logger.getLogger(StopCommand.class);
-    public final static String STOP_MESSAGE = "Деактивировал";
+    public final static String STOP_MESSAGE = "Your subscription is deactivated";
     public StopCommand(SendBotMessageService sendBotMessageService, BotUserService botUserService) {
         this.sendBotMessageService = sendBotMessageService;
         this.botUserService = botUserService;

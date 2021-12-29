@@ -37,7 +37,7 @@ public class AddCommand implements Command{
             translate = cmdStructure[1];
         } catch (Exception e){
             log.info(e);
-            sendBotMessageService.sendMessage(chatId, "Please user correct form: \n/add word:translate");
+            sendBotMessageService.sendMessage(chatId, "Please use correct form: \n/add word:translate");
             return;
         }
         String finalWordToLearn = wordToLearn;

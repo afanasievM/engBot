@@ -29,6 +29,7 @@ public class ShowMyWordsCommand implements Command{
         for (Vocabulary word:vocabularyList) {
             wordsList += word.getWord() + "\n";
         }
+        wordsList+="Total: " + vocabularyList.size();
         sendBotMessageService.sendMessage(chatId,wordsList);
     }
 }

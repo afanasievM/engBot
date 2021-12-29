@@ -10,13 +10,22 @@ public class HelpCommand implements Command{
     private final SendBotMessageService sendBotMessageService;
     private final BotUserService botUserService;
     final private Logger log = Logger.getLogger(HelpCommand.class);
-    public static final String HELP_MESSAGE = String.format("✨<b>Дотупные команды</b>✨\n\n"
+    public static final String HELP_MESSAGE = String.format("✨<b>Available commands</b>✨\n\n"
 
-                    + "<b>Начать\\закончить работу с ботом</b>\n"
-                    + "%s - начать работу со мной\n"
-                    + "%s - приостановить работу со мной\n\n"
-                    + "%s - получить помощь в работе со мной\n",
-            START.getCommandName(), STOP.getCommandName(), HELP.getCommandName());
+                    + "%s - start working with me\n"
+                    + "%s - stop working with me\n"
+                    + "%s - show available commands\n\n"
+                    + "%s - add new word to your vocabulary\n"
+                    + "%s - show all your words in vocabulary\n",
+//                    + "%s - "
+//                    + "%s - "
+//                    + "%s - ",
+            START.getCommandName(),
+            STOP.getCommandName(),
+            HELP.getCommandName(),
+            ADD.getCommandName(),
+            SHOW_MY_WORDS.getCommandName()
+    );
 
     public HelpCommand(SendBotMessageService sendBotMessageService, BotUserService botUserService) {
         this.sendBotMessageService = sendBotMessageService;
