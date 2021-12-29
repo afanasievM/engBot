@@ -28,6 +28,7 @@ public enum CommandName {
 
     GET_MY_ID("/get_my_id"),
     CHANGE_WORD("/change_word"),
+    CHANGE_TRANSLATION("/change_translation"),
     HELP("/help"),
     STAT("/stat")
     ;
