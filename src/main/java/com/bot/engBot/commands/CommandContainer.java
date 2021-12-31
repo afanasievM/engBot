@@ -1,7 +1,6 @@
 package com.bot.engBot.commands;
 
 import com.bot.engBot.service.BotUserService;
-import com.bot.engBot.service.BotUserServiceImpl;
 import com.bot.engBot.service.SendBotMessageService;
 import com.bot.engBot.service.VocabularyService;
 import com.google.common.collect.ImmutableMap;
@@ -22,8 +21,8 @@ public class CommandContainer {
                 .put(ADD.getCommandName(), new AddCommand(sendBotMessageService, vocabularyService))
                 .put(SHOW_MY_WORDS.getCommandName(), new ShowMyWordsCommand(sendBotMessageService, vocabularyService))
                 .put(REMOVE_WORD.getCommandName(), new RemoveWordCommand(sendBotMessageService, vocabularyService))
-                .put(REPLACE_WORD.getCommandName(), new ReplaceWord(sendBotMessageService, vocabularyService))
-                .put(REPLACE_TRANSLATION.getCommandName(), new ReplaceTranslation(sendBotMessageService, vocabularyService))
+                .put(REPLACE_WORD.getCommandName(), new ReplaceWordCommand(sendBotMessageService, vocabularyService))
+                .put(REPLACE_TRANSLATION.getCommandName(), new ReplaceTranslationCommand(sendBotMessageService, vocabularyService))
                 .build();
 
         unknownCommand = new UnknownCommand(sendBotMessageService);

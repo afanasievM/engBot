@@ -7,13 +7,13 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 
 import java.util.Arrays;
 
-public class ReplaceWord implements Command{
+public class ReplaceWordCommand implements Command{
     private final SendBotMessageService sendBotMessageService;
     private final VocabularyService vocabularyService;
-    final private Logger log = Logger.getLogger(ReplaceWord.class);
+    final private Logger log = Logger.getLogger(ReplaceWordCommand.class);
 
 
-    public ReplaceWord(SendBotMessageService sendBotMessageService, VocabularyService vocabularyService) {
+    public ReplaceWordCommand(SendBotMessageService sendBotMessageService, VocabularyService vocabularyService) {
         this.sendBotMessageService = sendBotMessageService;
         this.vocabularyService = vocabularyService;
     }
