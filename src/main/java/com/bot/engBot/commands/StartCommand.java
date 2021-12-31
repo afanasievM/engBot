@@ -1,20 +1,12 @@
 package com.bot.engBot.commands;
 
-import com.bot.engBot.User;
-import com.bot.engBot.Word;
 import com.bot.engBot.repository.entity.BotUser;
 import com.bot.engBot.service.BotUserService;
 import com.bot.engBot.service.SendBotMessageService;
-import com.bot.engBot.service.SendBotMessageServiceImpl;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.log4j.Logger;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
-import java.io.File;
-import java.io.IOException;
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.Date;
 
 public class StartCommand implements Command{

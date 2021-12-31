@@ -43,7 +43,9 @@ public class ChooseWordsServiceImpl implements ChooseWordsService{
                 for (int i = 0; i < WORDS_COUNT; i++) {
                     Random random = new Random();
                     Integer localWordId = random.nextInt(userWords.size());
-                    wordsToTest.add(userWords.get(localWordId));
+                    if (!wordsToTest.contains(userWords.get(localWordId)))
+                        wordsToTest.add(userWords.get(localWordId));
+                    else i--;
                 }
             }
             log.info(user.getId().toString() + wordsToTest.toString());

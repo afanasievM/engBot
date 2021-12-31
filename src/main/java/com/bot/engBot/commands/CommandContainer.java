@@ -23,6 +23,7 @@ public class CommandContainer {
                 .put(REMOVE_WORD.getCommandName(), new RemoveWordCommand(sendBotMessageService, vocabularyService))
                 .put(REPLACE_WORD.getCommandName(), new ReplaceWordCommand(sendBotMessageService, vocabularyService))
                 .put(REPLACE_TRANSLATION.getCommandName(), new ReplaceTranslationCommand(sendBotMessageService, vocabularyService))
+                .put(GET_MY_ID.getCommandName(), new GetIDCommand(sendBotMessageService))
                 .build();
 
         unknownCommand = new UnknownCommand(sendBotMessageService);
