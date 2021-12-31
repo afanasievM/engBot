@@ -8,7 +8,7 @@ public enum CommandName {
     ADD_GROUP("/add_group"),
     ADD_GROUP_WORD("/add_group_word"),
     ADD_GROUP_TEACHER("/add_group_teacher"),
-    ADD_GROUP_USER("/add_group_user"),
+    ADD_GROUP_MEMBER("/add_group_member"),
 
     SHOW_MY_WORDS("/show_my_words"),
     SHOW_MY_GROUPS("/show_my_groups"),

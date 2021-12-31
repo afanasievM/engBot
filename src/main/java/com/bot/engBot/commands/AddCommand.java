@@ -45,20 +45,20 @@ public class AddCommand implements Command{
         vocabularyService.findByWordAndOwnerId(wordToLearn,chatId).ifPresentOrElse(
                 word ->{
                     log.info("OLD WORD");
-                    sendBotMessageService.sendMessage(chatId, "You have this word\nIf you want you can correct translation by command\n/correct word;translation");
+                    sendBotMessageService.sendMessage(chatId, "You have this word\nIf you want you can correct translation by command\n/replace_translation word;translation");
                 },
                 ()->{
                     log.info("NEW WORD");
+                    sendBotMessageService.sendMessage(chatId, "You add new word:" +
+                            "\nword -> " + finalWordToLearn +
+                            "\ntranslation -> " + finalTranslate +
+                            "\nrepeats -> " + VocabularyServiceImpl.REPEATS);
                     Vocabulary vocabulary = new Vocabulary();
                     vocabulary.setOwnerId(chatId);
                     vocabulary.setWord(finalWordToLearn);
                     vocabulary.setWordTranslation(finalTranslate);
                     vocabulary.setRepeats(VocabularyServiceImpl.REPEATS);
                     vocabulary.setActive(true);
-                    sendBotMessageService.sendMessage(chatId, "You add new word:" +
-                                                        "\nword -> " + finalWordToLearn +
-                                                        "\ntranslation -> " + finalTranslate +
-                                                        "\nrepeats -> " + VocabularyServiceImpl.REPEATS);
                     vocabularyService.addWord(vocabulary);
                 }
         );

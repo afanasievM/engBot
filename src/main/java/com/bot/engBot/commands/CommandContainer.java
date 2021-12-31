@@ -1,6 +1,7 @@
 package com.bot.engBot.commands;
 
 import com.bot.engBot.service.BotUserService;
+import com.bot.engBot.service.GroupService;
 import com.bot.engBot.service.SendBotMessageService;
 import com.bot.engBot.service.VocabularyService;
 import com.google.common.collect.ImmutableMap;
@@ -11,7 +12,7 @@ public class CommandContainer {
     private final ImmutableMap<String, Command> commandMap;
     private final Command unknownCommand;
 
-    public CommandContainer(SendBotMessageService sendBotMessageService, BotUserService botUserService, VocabularyService vocabularyService) {
+    public CommandContainer(SendBotMessageService sendBotMessageService, BotUserService botUserService, VocabularyService vocabularyService, GroupService groupService) {
 
         commandMap = ImmutableMap.<String,Command>builder()
                 .put(START.getCommandName(), new StartCommand(sendBotMessageService, botUserService))

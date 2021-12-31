@@ -17,6 +17,7 @@ public class Bot extends TelegramLongPollingBot {
     final private String COMMAND_PREFIX = "/";
     private final CommandContainer commandContainer;
     private final CallBackService callBackService;
+//    private final GroupService groupService;
     @Value("${bot.botName}")
     private String botName;
 
@@ -27,8 +28,9 @@ public class Bot extends TelegramLongPollingBot {
     @Autowired
     public Bot (BotUserService botUserService, VocabularyService vocabularyService, GroupService groupService){
 
-        this.commandContainer = new CommandContainer(new SendBotMessageServiceImpl(this), botUserService, vocabularyService);
+        this.commandContainer = new CommandContainer(new SendBotMessageServiceImpl(this), botUserService, vocabularyService, groupService);
         this.callBackService = new CallBackServiceImpl(vocabularyService, botUserService, this);
+//        this.groupService = new GroupServiceImpl(botUserService, groupService);
     }
 
 

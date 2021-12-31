@@ -1,5 +1,6 @@
 package com.bot.engBot.service;
 
+import com.bot.engBot.bot.Bot;
 import com.bot.engBot.repository.entity.BotUser;
 import com.bot.engBot.repository.entity.BotUserRepository;
 import com.bot.engBot.repository.entity.Group;
