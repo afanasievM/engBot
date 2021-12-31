@@ -38,7 +38,7 @@ public class AddGroupCommand implements Command{
                         log.info("NEW Group");
                         sendBotMessageService.sendMessage(chatId, "You add new group:" + groupName
                         + "\nYou can add members by command\n/add_group_member group name;@username\n" +
-                                "This user should to use @vocabengbot.(/start)");
+                                "This user should use @vocabengbot.(/start)");
                         Group group = new Group();
                         group.setGroupName(groupName);
                         group.setOwnerId(chatId);

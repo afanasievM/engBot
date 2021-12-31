@@ -34,10 +34,10 @@ public class AddCommand implements Command{
             String[] cmdStructure = cmd.split(";");
             log.info(Arrays.stream(cmdStructure).toArray().toString());
             wordToLearn = cmdStructure[0].replace("@vocabengbot ", "").trim();
-            translate = cmdStructure[1];
+            translate = cmdStructure[1].trim();
         } catch (Exception e){
             log.info(e);
-            sendBotMessageService.sendMessage(chatId, "Please use correct form: \n/add word:translate");
+            sendBotMessageService.sendMessage(chatId, "Please use correct form: \n/add word;translate");
             return;
         }
         String finalWordToLearn = wordToLearn;

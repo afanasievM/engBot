@@ -12,4 +12,5 @@ public interface BotUserService {
     List<BotUser> retrieveAllActiveUsers();
 
     Optional<BotUser> findByChatId(Long chatId);
+    Optional<BotUser> findByUsername(String username);
 }

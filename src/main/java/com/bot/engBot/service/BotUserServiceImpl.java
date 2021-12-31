@@ -30,5 +30,8 @@ public class BotUserServiceImpl implements BotUserService {
     public Optional<BotUser> findByChatId(Long chatId) {
         return botUserRepository.findById(chatId);
     }
-
+    @Override
+    public Optional<BotUser> findByUsername(String username){
+        return botUserRepository.findByUsername(username);
+    }
 }
