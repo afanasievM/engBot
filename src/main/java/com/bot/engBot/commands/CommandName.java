@@ -22,13 +22,13 @@ public enum CommandName {
     REMOVE_GROUP_TEACHER("/remove_group_teacher"),
     REMOVE_GROUP("/remove_group"),
     REMOVE_WORD("/remove_word"),
+    REPLACE_WORD("/replace_word"),
+    REPLACE_TRANSLATION("/replace_translation"),
 
     SET_GROUP_TEACHER("/set_group_teacher"),
     SET_GROUP_ADMIN("/set_group_admin"),
 
     GET_MY_ID("/get_my_id"),
-    CHANGE_WORD("/change_word"),
-    CHANGE_TRANSLATION("/change_translation"),
     HELP("/help"),
     STAT("/stat")
     ;

@@ -50,6 +50,10 @@ public class VocabularyServiceImpl implements VocabularyService {
     public void addWord(Vocabulary word) {
         vocabularyRepository.save(word);
     }
+    @Override
+    public void save(Vocabulary word) {
+        vocabularyRepository.save(word);
+    }
 
     @Override
     public void decreaseWordRepeats(Vocabulary word) {

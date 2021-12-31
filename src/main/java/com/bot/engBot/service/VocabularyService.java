@@ -27,4 +27,5 @@ public interface VocabularyService {
 
     void removeWord(Vocabulary word);
 
+    void save(Vocabulary word);
 }
