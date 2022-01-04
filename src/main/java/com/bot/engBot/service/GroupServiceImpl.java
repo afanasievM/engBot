@@ -45,4 +45,38 @@ public class GroupServiceImpl implements GroupService {
     public void addGroupUser (Long groupId, Long userId){
         groupRepository.addGroupUser(groupId, userId);
     }
+
+    @Override
+    public void addGroupTeacher(Long groupId, Long userId) {
+        groupRepository.addGroupTeacher(groupId,userId);
+    }
+
+    @Override
+    public void addGroupAdmin(Long groupId, Long userId) {
+        groupRepository.addGroupAdmin(groupId,userId);
+    }
+
+    @Override
+    public void removeGroupUser(Long groupId, Long userId) {
+        groupRepository.removeGroupUser(groupId,userId);
+    }
+
+    @Override
+    public void removeGroupTeacher(Long groupId, Long userId) {
+        groupRepository.removeGroupTeacher(groupId,userId);
+    }
+
+    @Override
+    public void removeGroupAdmin(Long groupId, Long userId) {
+        groupRepository.removeGroupAdmin(groupId,userId);
+    }
+
+    @Override
+    public void removeGroup(Long groupId) {
+        groupRepository.removeAllGroupUsers(groupId);
+        groupRepository.removeAllGroupAdmins(groupId);
+        groupRepository.removeAllGroupTeachers(groupId);
+        groupRepository.removeGroup(groupId);
+    }
+
 }

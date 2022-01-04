@@ -28,6 +28,8 @@ public class CommandContainer {
                 .put(ADD_GROUP.getCommandName(), new AddGroupCommand(sendBotMessageService, groupService))
                 .put(ADD_GROUP_MEMBER.getCommandName(), new AddGroupMemberCommand(sendBotMessageService, groupService, botUserService))
 //                .put(SHOW_MY_GROUPS.getCommandName(), new Show(sendBotMessageService, groupService, botUserService))
+                .put(REMOVE_GROUP_MEMBER.getCommandName(), new RemoveGroupMemberCommand(sendBotMessageService, groupService, botUserService))
+                .put(REMOVE_GROUP.getCommandName(), new RemoveGroupCommand(sendBotMessageService, groupService, botUserService))
 
                 .build();
 

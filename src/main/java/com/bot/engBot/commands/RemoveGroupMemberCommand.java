@@ -1,6 +1,5 @@
 package com.bot.engBot.commands;
 
-import com.bot.engBot.repository.entity.Group;
 import com.bot.engBot.service.BotUserService;
 import com.bot.engBot.service.GroupService;
 import com.bot.engBot.service.SendBotMessageService;
@@ -10,14 +9,14 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 
 import java.util.Arrays;
 
-public class AddGroupMemberCommand implements Command{
+public class RemoveGroupMemberCommand implements Command{
     private final SendBotMessageService sendBotMessageService;
     private final GroupService groupService;
     private final BotUserService botUserService;
-    final private Logger log = Logger.getLogger(AddGroupMemberCommand.class);
+    final private Logger log = Logger.getLogger(RemoveGroupMemberCommand.class);
 
 
-    public AddGroupMemberCommand(SendBotMessageService sendBotMessageService, GroupService groupService, BotUserService botUserService) {
+    public RemoveGroupMemberCommand(SendBotMessageService sendBotMessageService, GroupService groupService, BotUserService botUserService) {
         this.sendBotMessageService = sendBotMessageService;
         this.groupService = groupService;
         this.botUserService = botUserService;
@@ -26,7 +25,7 @@ public class AddGroupMemberCommand implements Command{
     @Override
     public void execute(Update update) {
         Long chatId = update.getMessage().getChatId();
-        String cmd = update.getMessage().getText().replace("/add_group_member","");
+        String cmd = update.getMessage().getText().replace("/remove_group_member","");
         String groupName = null;
         String newMember = null;
         try {
@@ -37,8 +36,8 @@ public class AddGroupMemberCommand implements Command{
             if (newMember.startsWith("@")) newMember = newMember.replaceFirst("@","");
         } catch (Exception e){
             log.info(e);
-            sendBotMessageService.sendMessage(chatId, "Please use correct form: \n/add_group_member group name;@username" +
-                    "\nThis user should use @vocabengbot.(/start)");
+            sendBotMessageService.sendMessage(chatId, "Please use correct form: \n/remove_group_member group name;@username" +
+                    "\nThis user should use be in a your group.");
             return;
         }
         if (!groupName.equals("") && !newMember.equals("")){
@@ -51,11 +50,11 @@ public class AddGroupMemberCommand implements Command{
                             botUserService.findByUsername(finalNewMember).ifPresentOrElse(
                                     user -> {
                                         try {
-                                            groupService.addGroupUser(group.getId(),user.getId());
-                                            sendBotMessageService.sendMessage(chatId, "User <b>" + user.getUsername() + "</b> successfuly added to group <b>" +
+                                            groupService.removeGroupUser(group.getId(),user.getId());
+                                            sendBotMessageService.sendMessage(chatId, "User <b>" + user.getUsername() + "</b> successfuly removed from group <b>" +
                                                     group.getGroupName() + "</b>.");
                                         } catch (DataIntegrityViolationException e){
-                                            sendBotMessageService.sendMessage(chatId, "User <b>" + user.getUsername() + "</b> is already exist in group <b>" +
+                                            sendBotMessageService.sendMessage(chatId, "Can't find user <b>" + user.getUsername() + "</b> in group <b>" +
                                                     group.getGroupName() + "</b>.");
                                             log.info(e);
                                         }
@@ -67,7 +66,7 @@ public class AddGroupMemberCommand implements Command{
                                     }
                             );
                         } else {
-                            sendBotMessageService.sendMessage(chatId, "Permissions denied. \nOnly group's admins or owner can add members to groups");
+                            sendBotMessageService.sendMessage(chatId, "Permissions denied. \nOnly group's admins or owner can remove members from groups");
                         }
                     },
                     () -> {
@@ -78,7 +77,7 @@ public class AddGroupMemberCommand implements Command{
             );
         } else {
             sendBotMessageService.sendMessage(chatId, "Please use correct form: \n/add_group_member group name;@username" +
-                    "\nThis user should use @vocabengbot.(/start)");
+                    "\nThis user should use be in a your group.");
         }
 
 

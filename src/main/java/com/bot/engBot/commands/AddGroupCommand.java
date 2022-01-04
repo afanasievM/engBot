@@ -7,6 +7,7 @@ import com.bot.engBot.service.SendBotMessageService;
 import com.bot.engBot.service.VocabularyService;
 import com.bot.engBot.service.VocabularyServiceImpl;
 import org.apache.log4j.Logger;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 import java.util.Arrays;
@@ -32,7 +33,7 @@ public class AddGroupCommand implements Command{
             groupService.findByGroupName(groupName).ifPresentOrElse(
                     group -> {
                         log.info("OLD Group");
-                        sendBotMessageService.sendMessage(chatId, "This group name exists.\nTry another name");
+                        sendBotMessageService.sendMessage(chatId, "This group name exists.\nTry another name.");
                     },
                     () -> {
                         log.info("NEW Group");
@@ -43,10 +44,12 @@ public class AddGroupCommand implements Command{
                         group.setGroupName(groupName);
                         group.setOwnerId(chatId);
                         groupService.save(group);
+                        Group newGroup = groupService.findByGroupName(groupName).get();
+                        groupService.addGroupUser(newGroup.getId(),chatId);
                     }
             );
         } else {
-            groupService.addGroupUser(1L,chatId);
+
             sendBotMessageService.sendMessage(chatId, "Please use correct form: \n/add_group group name");
         }
 

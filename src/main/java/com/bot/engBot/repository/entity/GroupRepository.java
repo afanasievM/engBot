@@ -19,4 +19,42 @@ public interface GroupRepository extends JpaRepository<Group, Long> {
     @Modifying
     @Query(value = "INSERT INTO groups_users(group_id,user_id) VALUES(:groupId, :userId)", nativeQuery = true)
     void addGroupUser (@Param("groupId") Long groupId, @Param("userId") Long userId);
+    @Transactional
+    @Modifying
+    @Query(value = "INSERT INTO groups_teachers(group_id,user_id) VALUES(:groupId, :userId)", nativeQuery = true)
+    void addGroupTeacher (@Param("groupId") Long groupId, @Param("userId") Long userId);
+    @Transactional
+    @Modifying
+    @Query(value = "INSERT INTO groups_admins(group_id,user_id) VALUES(:groupId, :userId)", nativeQuery = true)
+    void addGroupAdmin (@Param("groupId") Long groupId, @Param("userId") Long userId);
+
+    @Transactional
+    @Modifying
+    @Query(value = "DELETE FROM groups_users WHERE group_id=:groupId AND user_id=:userId", nativeQuery = true)
+    void removeGroupUser (@Param("groupId") Long groupId, @Param("userId") Long userId);
+    @Transactional
+    @Modifying
+    @Query(value = "DELETE FROM groups_teachers WHERE group_id=:groupId AND user_id=:userId", nativeQuery = true)
+    void removeGroupTeacher (@Param("groupId") Long groupId, @Param("userId") Long userId);
+    @Transactional
+    @Modifying
+    @Query(value = "DELETE FROM groups_admins WHERE group_id=:groupId AND user_id=:userId", nativeQuery = true)
+    void removeGroupAdmin (@Param("groupId") Long groupId, @Param("userId") Long userId);
+    @Transactional
+    @Modifying
+    @Query(value = "DELETE FROM groups_users WHERE group_id=:groupId", nativeQuery = true)
+    void removeAllGroupUsers (@Param("groupId") Long groupId);
+    @Transactional
+    @Modifying
+    @Query(value = "DELETE FROM groups_admins WHERE group_id=:groupId", nativeQuery = true)
+    void removeAllGroupAdmins (@Param("groupId") Long groupId);
+    @Transactional
+    @Modifying
+    @Query(value = "DELETE FROM groups_teachers WHERE group_id=:groupId", nativeQuery = true)
+    void removeAllGroupTeachers (@Param("groupId") Long groupId);
+    @Transactional
+    @Modifying
+    @Query(value = "DELETE FROM learning_groups WHERE id=:groupId \n", nativeQuery = true)
+    void removeGroup (@Param("groupId") Long groupId);
+
 }

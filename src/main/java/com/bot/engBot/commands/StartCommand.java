@@ -27,7 +27,7 @@ public class StartCommand implements Command{
                 user -> {
                     user.setActive(true);
                     user.setFirst_name(update.getMessage().getChat().getFirstName());
-                    user.setFirst_name(update.getMessage().getChat().getUserName());
+                    user.setUsername(update.getMessage().getChat().getUserName());
                     botUserService.save(user);
                     log.info("OLD USER");
                 },
