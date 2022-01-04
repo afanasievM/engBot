@@ -19,7 +19,7 @@ public class CommandContainer {
                 .put(STOP.getCommandName(), new StopCommand(sendBotMessageService, botUserService))
                 .put(HELP.getCommandName(), new HelpCommand(sendBotMessageService, botUserService))
                 .put(STAT.getCommandName(), new StatCommand(sendBotMessageService, botUserService))
-                .put(ADD.getCommandName(), new AddCommand(sendBotMessageService, vocabularyService))
+                .put(ADD.getCommandName(), new AddWordCommand(sendBotMessageService, vocabularyService))
                 .put(SHOW_MY_WORDS.getCommandName(), new ShowMyWordsCommand(sendBotMessageService, vocabularyService))
                 .put(REMOVE_WORD.getCommandName(), new RemoveWordCommand(sendBotMessageService, vocabularyService))
                 .put(REPLACE_WORD.getCommandName(), new ReplaceWordCommand(sendBotMessageService, vocabularyService))

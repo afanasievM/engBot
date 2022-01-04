@@ -1,25 +1,21 @@
 package com.bot.engBot.commands;
 
-import com.bot.engBot.repository.entity.BotUser;
 import com.bot.engBot.repository.entity.Vocabulary;
-import com.bot.engBot.service.BotUserService;
 import com.bot.engBot.service.SendBotMessageService;
 import com.bot.engBot.service.VocabularyService;
 import com.bot.engBot.service.VocabularyServiceImpl;
 import org.apache.log4j.Logger;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
-import java.sql.Timestamp;
 import java.util.Arrays;
-import java.util.Date;
 
-public class AddCommand implements Command{
+public class AddWordCommand implements Command{
     private final SendBotMessageService sendBotMessageService;
     private final VocabularyService vocabularyService;
-    final private Logger log = Logger.getLogger(AddCommand.class);
+    final private Logger log = Logger.getLogger(AddWordCommand.class);
 
 
-    public AddCommand(SendBotMessageService sendBotMessageService, VocabularyService vocabularyService) {
+    public AddWordCommand(SendBotMessageService sendBotMessageService, VocabularyService vocabularyService) {
         this.sendBotMessageService = sendBotMessageService;
         this.vocabularyService = vocabularyService;
     }

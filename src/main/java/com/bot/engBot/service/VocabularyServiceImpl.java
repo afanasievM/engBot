@@ -1,6 +1,5 @@
 package com.bot.engBot.service;
 
-import com.bot.engBot.commands.AddCommand;
 import com.bot.engBot.repository.entity.Vocabulary;
 import com.bot.engBot.repository.entity.VocabularyRepository;
 import org.apache.log4j.Logger;
