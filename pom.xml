@@ -80,9 +80,9 @@
 				<groupId>org.flywaydb</groupId>
 				<artifactId>flyway-maven-plugin</artifactId>
 				<configuration>
-					<url></url>
-					<user></user>
-					<password></password>
+					<url>jdbc:mysql://localhost:3306/botDb</url>
+					<user>admin</user>
+					<password>g010203040</password>
 				</configuration>
 			</plugin>
 			<plugin>

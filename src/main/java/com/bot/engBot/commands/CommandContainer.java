@@ -26,6 +26,9 @@ public class CommandContainer {
                 .put(REPLACE_TRANSLATION.getCommandName(), new ReplaceTranslationCommand(sendBotMessageService, vocabularyService))
                 .put(GET_MY_ID.getCommandName(), new GetIDCommand(sendBotMessageService))
                 .put(ADD_GROUP.getCommandName(), new AddGroupCommand(sendBotMessageService, groupService))
+                .put(ADD_GROUP_MEMBER.getCommandName(), new AddGroupMemberCommand(sendBotMessageService, groupService, botUserService))
+//                .put(SHOW_MY_GROUPS.getCommandName(), new Show(sendBotMessageService, groupService, botUserService))
+
                 .build();
 
         unknownCommand = new UnknownCommand(sendBotMessageService);

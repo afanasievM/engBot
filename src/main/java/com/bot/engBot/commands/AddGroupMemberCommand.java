@@ -45,10 +45,10 @@ public class AddGroupMemberCommand implements Command{
             groupService.findByGroupName(groupName).ifPresentOrElse(
                     group -> {
                         log.info("OLD Finded!");
-                        if (group.getOwnerId() == chatId) {
+                        if (group.getOwnerId().equals(chatId)) {
                             botUserService.findByUsername(finalNewMember).ifPresentOrElse(
                                     user -> {
-                                        sendBotMessageService.sendMessage(chatId, "User <b>" + user.getUsername() + "<b> successfuly added to group <b>" +
+                                        sendBotMessageService.sendMessage(chatId, "User <b>" + user.getUsername() + "</b> successfuly added to group <b>" +
                                                 group.getGroupName() + "</b>.");
                                     },
                                     () -> {
@@ -59,7 +59,6 @@ public class AddGroupMemberCommand implements Command{
                         } else {
                             sendBotMessageService.sendMessage(chatId, "Permissions denied. \nOnly group's admins or owner can add members to groups");
                         }
-                        sendBotMessageService.sendMessage(chatId, "This group name exists.\nTry another name");
                     },
                     () -> {
                         log.info("Can't find group");

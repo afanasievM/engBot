@@ -46,6 +46,7 @@ public class AddGroupCommand implements Command{
                     }
             );
         } else {
+            groupService.addGroupUser(1L,chatId);
             sendBotMessageService.sendMessage(chatId, "Please use correct form: \n/add_group group name");
         }
 

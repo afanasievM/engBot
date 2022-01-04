@@ -1,0 +1,12 @@
+ALTER TABLE groups_users DROP FOREIGN KEY groups_users_ibfk_1;
+ALTER TABLE groups_admins DROP FOREIGN KEY groups_admins_ibfk_1;
+ALTER TABLE groups_teachers DROP FOREIGN KEY groups_teachers_ibfk_1;
+ALTER TABLE groups_users DROP FOREIGN KEY groups_users_ibfk_2;
+ALTER TABLE groups_admins DROP FOREIGN KEY groups_admins_ibfk_2;
+ALTER TABLE groups_teachers DROP FOREIGN KEY groups_teachers_ibfk_2;
+ALTER TABLE groups_users ADD FOREIGN KEY (group_id) REFERENCES learning_groups(id);
+ALTER TABLE groups_admins ADD FOREIGN KEY (group_id) REFERENCES learning_groups(id);
+ALTER TABLE groups_teachers ADD FOREIGN KEY (group_id) REFERENCES learning_groups(id);
+ALTER TABLE groups_users ADD FOREIGN KEY (user_id) REFERENCES users(id);
+ALTER TABLE groups_admins ADD FOREIGN KEY (user_id) REFERENCES users(id);
+ALTER TABLE groups_teachers ADD FOREIGN KEY (user_id) REFERENCES users(id);

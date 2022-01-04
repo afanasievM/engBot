@@ -40,4 +40,9 @@ public class GroupServiceImpl implements GroupService {
     public Optional<Group> findByGroupName(String groupName) {
         return groupRepository.findByGroupName(groupName);
     }
+
+    @Override
+    public void addGroupUser (Long groupId, Long userId){
+        groupRepository.addGroupUser(groupId, userId);
+    }
 }
