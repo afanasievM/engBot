@@ -49,7 +49,9 @@ public class AddGroupWordCommand implements Command{
                 group -> {
                     ArrayList<Long> groupUsers = (ArrayList<Long>) groupService.getGroupUsers(group.getId());
                     ArrayList<Long> groupTeachers = (ArrayList<Long>) groupService.getGroupTeachers(group.getId());
+
                     if (groupUsers.contains(chatId)||groupTeachers.contains(chatId)) {
+                        if (groupTeachers.contains(chatId)) sendBotMessageService.sendMessage(chatId, "You add words to your students.");
                         for (Long userId:groupUsers) {
                             vocabularyService.findByWordAndOwnerId(finalWordToLearn,userId).ifPresentOrElse(
                                     word ->{
@@ -65,7 +67,7 @@ public class AddGroupWordCommand implements Command{
                                                 "\ntranslation -> " + finalTranslate +
                                                 "\nrepeats -> " + VocabularyServiceImpl.REPEATS);
                                         Vocabulary vocabulary = new Vocabulary();
-                                        vocabulary.setOwnerId(chatId);
+                                        vocabulary.setOwnerId(userId);
                                         vocabulary.setWord(finalWordToLearn);
                                         vocabulary.setWordTranslation(finalTranslate);
                                         vocabulary.setRepeats(VocabularyServiceImpl.REPEATS);
