@@ -23,6 +23,7 @@ public class AddWordCommand implements Command{
     @Override
     public void execute(Update update) {
         Long chatId = update.getMessage().getChatId();
+        Long senderId = update.getMessage().getFrom().getId();
         String cmd = update.getMessage().getText().replace("/add","");
         String wordToLearn = null;
         String translate = null;
@@ -38,7 +39,7 @@ public class AddWordCommand implements Command{
         }
         String finalWordToLearn = wordToLearn;
         String finalTranslate = translate;
-        vocabularyService.findByWordAndOwnerId(wordToLearn,chatId).ifPresentOrElse(
+        vocabularyService.findByWordAndOwnerId(wordToLearn,senderId).ifPresentOrElse(
                 word ->{
                     log.info("OLD WORD");
                     sendBotMessageService.sendMessage(chatId, "You have this word\nIf you want you can correct translation by command\n/replace_translation word;translation");
@@ -50,7 +51,7 @@ public class AddWordCommand implements Command{
                             "\ntranslation -> " + finalTranslate +
                             "\nrepeats -> " + VocabularyServiceImpl.REPEATS);
                     Vocabulary vocabulary = new Vocabulary();
-                    vocabulary.setOwnerId(chatId);
+                    vocabulary.setOwnerId(senderId);
                     vocabulary.setWord(finalWordToLearn);
                     vocabulary.setWordTranslation(finalTranslate);
                     vocabulary.setRepeats(VocabularyServiceImpl.REPEATS);

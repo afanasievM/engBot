@@ -23,13 +23,14 @@ public class RemoveGroupCommand implements Command{
     @Override
     public void execute(Update update) {
         Long chatId = update.getMessage().getChatId();
+        Long senderId = update.getMessage().getFrom().getId();
         String cmd = update.getMessage().getText().replace("/remove_group","");
         String groupName = cmd.trim();
         if (!groupName.equals("")){
             groupService.findByGroupName(groupName).ifPresentOrElse(
                     group -> {
                         log.info("OLD Group");
-                        if (chatId.equals(group.getOwnerId())) {
+                        if (senderId.equals(group.getOwnerId())) {
                             sendBotMessageService.sendMessage(chatId, "You removed group <b>" + group.getGroupName() + "</b>");
                             groupService.removeGroup(group.getId());
                         } else {

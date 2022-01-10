@@ -23,11 +23,12 @@ public class StartCommand implements Command{
     @Override
     public void execute(Update update) {
         Long chatId = update.getMessage().getChatId();
-        botUserService.findByChatId(chatId).ifPresentOrElse(
+        Long senderId = update.getMessage().getFrom().getId();
+        botUserService.findByChatId(senderId).ifPresentOrElse(
                 user -> {
                     user.setActive(true);
-                    user.setFirst_name(update.getMessage().getChat().getFirstName());
-                    user.setUsername(update.getMessage().getChat().getUserName());
+                    user.setFirst_name(update.getMessage().getFrom().getFirstName());
+                    user.setUsername(update.getMessage().getFrom().getUserName());
                     botUserService.save(user);
                     log.info("OLD USER");
                 },
@@ -35,9 +36,9 @@ public class StartCommand implements Command{
                     log.info("NEW USER");
                     BotUser botUser = new BotUser();
                     botUser.setActive(true);
-                    botUser.setId(chatId);
-                    botUser.setUsername(update.getMessage().getChat().getUserName());
-                    botUser.setFirst_name(update.getMessage().getChat().getFirstName());
+                    botUser.setId(senderId);
+                    botUser.setUsername(update.getMessage().getFrom().getUserName());
+                    botUser.setFirst_name(update.getMessage().getFrom().getFirstName());
                     botUser.setUser_language("ua");
                     botUser.setRole("user");
                     botUser.setJoin_at(new Timestamp(new Date().getTime()));

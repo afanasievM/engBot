@@ -24,7 +24,7 @@ public class ShowMyWordsCommand implements Command{
     public void execute(Update update) {
         Long chatId = update.getMessage().getChatId();
         List<Vocabulary> vocabularyList = new ArrayList<>();
-        vocabularyList.addAll(vocabularyService.retrieveAllUserWord(chatId));
+        vocabularyList.addAll(vocabularyService.retrieveAllUserWord(update.getMessage().getFrom().getId()));
         String wordsList = "";
         for (Vocabulary word:vocabularyList) {
             wordsList += word.getWord() + "\n";

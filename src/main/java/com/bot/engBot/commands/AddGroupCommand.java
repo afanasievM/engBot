@@ -27,6 +27,7 @@ public class AddGroupCommand implements Command{
     @Override
     public void execute(Update update) {
         Long chatId = update.getMessage().getChatId();
+        Long senderId = update.getMessage().getFrom().getId();
         String cmd = update.getMessage().getText().replace("/add_group","");
         String groupName = cmd.trim();
         if (!groupName.equals("")){
@@ -42,10 +43,10 @@ public class AddGroupCommand implements Command{
                                 "This user should use @vocabengbot.(/start)");
                         Group group = new Group();
                         group.setGroupName(groupName);
-                        group.setOwnerId(chatId);
+                        group.setOwnerId(senderId);
                         groupService.save(group);
                         Group newGroup = groupService.findByGroupName(groupName).get();
-                        groupService.addGroupUser(newGroup.getId(),chatId);
+                        groupService.addGroupUser(newGroup.getId(),senderId);
                     }
             );
         } else {

@@ -26,6 +26,7 @@ public class AddGroupMemberCommand implements Command{
     @Override
     public void execute(Update update) {
         Long chatId = update.getMessage().getChatId();
+        Long senderId = update.getMessage().getFrom().getId();
         String cmd = update.getMessage().getText().replace("/add_group_member","");
         String groupName = null;
         String newMember = null;
@@ -47,7 +48,7 @@ public class AddGroupMemberCommand implements Command{
             groupService.findByGroupName(groupName).ifPresentOrElse(
                     group -> {
                         log.info("OLD group Finded!");
-                        if (group.getOwnerId().equals(chatId)) {
+                        if (group.getOwnerId().equals(senderId)) {
                             botUserService.findByUsername(finalNewMember).ifPresentOrElse(
                                     user -> {
                                         try {

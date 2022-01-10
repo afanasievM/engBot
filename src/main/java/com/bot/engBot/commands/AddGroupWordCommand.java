@@ -27,6 +27,9 @@ public class AddGroupWordCommand implements Command{
     @Override
     public void execute(Update update) {
         Long chatId = update.getMessage().getChatId();
+        log.info(chatId);
+        Long senderId = update.getMessage().getFrom().getId();
+        log.info(senderId);
         String cmd = update.getMessage().getText().replace("/add_group_word","");
         String groupName = null;
         String wordToLearn = null;
@@ -50,13 +53,13 @@ public class AddGroupWordCommand implements Command{
                     ArrayList<Long> groupUsers = (ArrayList<Long>) groupService.getGroupUsers(group.getId());
                     ArrayList<Long> groupTeachers = (ArrayList<Long>) groupService.getGroupTeachers(group.getId());
 
-                    if (groupUsers.contains(chatId)||groupTeachers.contains(chatId)) {
-                        if (groupTeachers.contains(chatId)) sendBotMessageService.sendMessage(chatId, "You add words to your students.");
+                    if (groupUsers.contains(senderId)||groupTeachers.contains(senderId)) {
+                        if (groupTeachers.contains(senderId)) sendBotMessageService.sendMessage(chatId, "You add words to your students.");
                         for (Long userId:groupUsers) {
                             vocabularyService.findByWordAndOwnerId(finalWordToLearn,userId).ifPresentOrElse(
                                     word ->{
                                         log.info("OLD WORD");
-                                        if (userId.equals(chatId)) {
+                                        if (userId.equals(senderId)) {
                                             sendBotMessageService.sendMessage(userId, "You have this word, but It was added to groupmates vocabulary.");
                                         }
                                     },
@@ -86,26 +89,6 @@ public class AddGroupWordCommand implements Command{
                             "\nTry tu use command /show_my_group or /show_my_own_groups to find anyone.");
                 }
         );
-//        vocabularyService.findByWordAndOwnerId(wordToLearn,chatId).ifPresentOrElse(
-//                word ->{
-//                    log.info("OLD WORD");
-//                    sendBotMessageService.sendMessage(chatId, "You have this word\nIf you want you can correct translation by command\n/replace_translation word;translation");
-//                },
-//                ()->{
-//                    log.info("NEW WORD");
-//                    sendBotMessageService.sendMessage(chatId, "You add new word:" +
-//                            "\nword -> " + finalWordToLearn +
-//                            "\ntranslation -> " + finalTranslate +
-//                            "\nrepeats -> " + VocabularyServiceImpl.REPEATS);
-//                    Vocabulary vocabulary = new Vocabulary();
-//                    vocabulary.setOwnerId(chatId);
-//                    vocabulary.setWord(finalWordToLearn);
-//                    vocabulary.setWordTranslation(finalTranslate);
-//                    vocabulary.setRepeats(VocabularyServiceImpl.REPEATS);
-//                    vocabulary.setActive(true);
-//                    vocabularyService.addWord(vocabulary);
-//                }
-//        );
 
     }
 }

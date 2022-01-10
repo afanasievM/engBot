@@ -16,6 +16,6 @@ public class GetIDCommand implements Command{
 
     @Override
     public void execute(Update update) {
-        sendBotMessageService.sendMessage(update.getMessage().getChatId(), "Your id is: <b>" + update.getMessage().getChatId().toString() + "</b>");
+        sendBotMessageService.sendMessage(update.getMessage().getFrom().getId(), "Your id is: <b>" + update.getMessage().getChatId().toString() + "</b>");
     }
 }

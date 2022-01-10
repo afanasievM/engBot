@@ -23,10 +23,11 @@ public class RemoveWordCommand implements Command{
     @Override
     public void execute(Update update) {
         Long chatId = update.getMessage().getChatId();
+        Long senderId = update.getMessage().getFrom().getId();
         String cmd = update.getMessage().getText().replace("/remove_word","").replace("@vocabengbot","");
         String wordToRemove = cmd.trim();
         if (!wordToRemove.equals("")){
-            vocabularyService.findByWordAndOwnerId(wordToRemove,chatId).ifPresentOrElse(
+            vocabularyService.findByWordAndOwnerId(wordToRemove,senderId).ifPresentOrElse(
                     word ->{
                         log.info("Word is present");
                         vocabularyService.removeWord(word);

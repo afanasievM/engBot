@@ -20,7 +20,7 @@ public class StopCommand implements Command{
     @Override
     public void execute(Update update) {
         sendBotMessageService.sendMessage(update.getMessage().getChatId(), STOP_MESSAGE);
-        botUserService.findByChatId(update.getMessage().getChatId())
+        botUserService.findByChatId(update.getMessage().getFrom().getId())
                 .ifPresent(it -> {
                     log.info(it);
                     it.setActive(false);

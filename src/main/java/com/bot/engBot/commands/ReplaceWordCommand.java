@@ -21,6 +21,7 @@ public class ReplaceWordCommand implements Command{
     @Override
     public void execute(Update update) {
         Long chatId = update.getMessage().getChatId();
+        Long senderId = update.getMessage().getFrom().getId();
         String cmd = update.getMessage().getText().replace("/replace_word","").replace("@vocabengbot","");
         String wordToReplace = null;
         String wordForReplace = null;
@@ -37,7 +38,7 @@ public class ReplaceWordCommand implements Command{
         if (!wordToReplace.equals("") && !wordForReplace.equals("")){
             String finalWordForReplace = wordForReplace;
             String finalWordToReplace = wordToReplace;
-            vocabularyService.findByWordAndOwnerId(wordToReplace,chatId).ifPresentOrElse(
+            vocabularyService.findByWordAndOwnerId(wordToReplace,senderId).ifPresentOrElse(
                     word ->{
                         log.info("Word is present");
                         sendBotMessageService.sendMessage(chatId, "You replace <b>" + finalWordToReplace + "</b> on <b>" + finalWordForReplace + "</b>");
