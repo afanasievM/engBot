@@ -30,6 +30,7 @@ public class CommandContainer {
 //                .put(SHOW_MY_GROUPS.getCommandName(), new Show(sendBotMessageService, groupService, botUserService))
                 .put(REMOVE_GROUP_MEMBER.getCommandName(), new RemoveGroupMemberCommand(sendBotMessageService, groupService, botUserService))
                 .put(REMOVE_GROUP.getCommandName(), new RemoveGroupCommand(sendBotMessageService, groupService, botUserService))
+                .put(ADD_GROUP_WORD.getCommandName(), new AddGroupWordCommand(sendBotMessageService,vocabularyService, groupService))
 
                 .build();
 

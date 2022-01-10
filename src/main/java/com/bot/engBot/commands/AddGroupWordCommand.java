@@ -8,6 +8,7 @@ import com.bot.engBot.service.VocabularyServiceImpl;
 import org.apache.log4j.Logger;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class AddGroupWordCommand implements Command{
@@ -27,40 +28,82 @@ public class AddGroupWordCommand implements Command{
     public void execute(Update update) {
         Long chatId = update.getMessage().getChatId();
         String cmd = update.getMessage().getText().replace("/add_group_word","");
+        String groupName = null;
         String wordToLearn = null;
         String translate = null;
         try {
             String[] cmdStructure = cmd.split(";");
             log.info(Arrays.stream(cmdStructure).toArray().toString());
-            wordToLearn = cmdStructure[0].replace("@vocabengbot ", "").trim();
-            translate = cmdStructure[1].trim();
+            groupName = cmdStructure[0].replace("@vocabengbot ", "").trim();
+            wordToLearn = cmdStructure[1].trim();
+            translate = cmdStructure[2].trim();
         } catch (Exception e){
             log.info(e);
-            sendBotMessageService.sendMessage(chatId, "Please use correct form: \n/add_group_word word;translate");
+            sendBotMessageService.sendMessage(chatId, "Please use correct form: \n/add_group_word group name;word;translate");
             return;
         }
         String finalWordToLearn = wordToLearn;
         String finalTranslate = translate;
-        vocabularyService.findByWordAndOwnerId(wordToLearn,chatId).ifPresentOrElse(
-                word ->{
-                    log.info("OLD WORD");
-                    sendBotMessageService.sendMessage(chatId, "You have this word\nIf you want you can correct translation by command\n/replace_translation word;translation");
+        String finalGroupName = groupName;
+        groupService.findByGroupName(groupName).ifPresentOrElse(
+                group -> {
+                    ArrayList<Long> groupUsers = (ArrayList<Long>) groupService.getGroupUsers(group.getId());
+                    ArrayList<Long> groupTeachers = (ArrayList<Long>) groupService.getGroupTeachers(group.getId());
+                    if (groupUsers.contains(chatId)||groupTeachers.contains(chatId)) {
+                        for (Long userId:groupUsers) {
+                            vocabularyService.findByWordAndOwnerId(finalWordToLearn,userId).ifPresentOrElse(
+                                    word ->{
+                                        log.info("OLD WORD");
+                                        if (userId.equals(chatId)) {
+                                            sendBotMessageService.sendMessage(userId, "You have this word, but It was added to groupmates vocabulary.");
+                                        }
+                                    },
+                                    ()->{
+                                        log.info("NEW WORD");
+                                        sendBotMessageService.sendMessage(userId, "New word has been added by your groupmate:" +
+                                                "\nword -> " + finalWordToLearn +
+                                                "\ntranslation -> " + finalTranslate +
+                                                "\nrepeats -> " + VocabularyServiceImpl.REPEATS);
+                                        Vocabulary vocabulary = new Vocabulary();
+                                        vocabulary.setOwnerId(chatId);
+                                        vocabulary.setWord(finalWordToLearn);
+                                        vocabulary.setWordTranslation(finalTranslate);
+                                        vocabulary.setRepeats(VocabularyServiceImpl.REPEATS);
+                                        vocabulary.setActive(true);
+                                        vocabularyService.addWord(vocabulary);
+                                    }
+                            );
+                        }
+                    } else {
+                        sendBotMessageService.sendMessage(chatId, "Permissions denied. \nOnly group's members or teachers can add new word.");
+                    }
                 },
-                ()->{
-                    log.info("NEW WORD");
-                    sendBotMessageService.sendMessage(chatId, "You add new word:" +
-                            "\nword -> " + finalWordToLearn +
-                            "\ntranslation -> " + finalTranslate +
-                            "\nrepeats -> " + VocabularyServiceImpl.REPEATS);
-                    Vocabulary vocabulary = new Vocabulary();
-                    vocabulary.setOwnerId(chatId);
-                    vocabulary.setWord(finalWordToLearn);
-                    vocabulary.setWordTranslation(finalTranslate);
-                    vocabulary.setRepeats(VocabularyServiceImpl.REPEATS);
-                    vocabulary.setActive(true);
-                    vocabularyService.addWord(vocabulary);
+                () -> {
+                    log.info("Can't find group");
+                    sendBotMessageService.sendMessage(chatId, "Can't find group <b>" + finalGroupName + "</b>" +
+                            "\nTry tu use command /show_my_group or /show_my_own_groups to find anyone.");
                 }
         );
+//        vocabularyService.findByWordAndOwnerId(wordToLearn,chatId).ifPresentOrElse(
+//                word ->{
+//                    log.info("OLD WORD");
+//                    sendBotMessageService.sendMessage(chatId, "You have this word\nIf you want you can correct translation by command\n/replace_translation word;translation");
+//                },
+//                ()->{
+//                    log.info("NEW WORD");
+//                    sendBotMessageService.sendMessage(chatId, "You add new word:" +
+//                            "\nword -> " + finalWordToLearn +
+//                            "\ntranslation -> " + finalTranslate +
+//                            "\nrepeats -> " + VocabularyServiceImpl.REPEATS);
+//                    Vocabulary vocabulary = new Vocabulary();
+//                    vocabulary.setOwnerId(chatId);
+//                    vocabulary.setWord(finalWordToLearn);
+//                    vocabulary.setWordTranslation(finalTranslate);
+//                    vocabulary.setRepeats(VocabularyServiceImpl.REPEATS);
+//                    vocabulary.setActive(true);
+//                    vocabularyService.addWord(vocabulary);
+//                }
+//        );
 
     }
 }

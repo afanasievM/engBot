@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,4 +25,6 @@ public interface GroupService {
     void removeGroupTeacher (@Param("groupId") Long groupId, @Param("userId") Long userId);
     void removeGroupAdmin (@Param("groupId") Long groupId, @Param("userId") Long userId);
     void removeGroup (@Param("groupId") Long groupId);
+    List<Long> getGroupUsers (@Param("groupId") Long groupId);
+    List<Long> getGroupTeachers(@Param("groupId") Long groupId);
 }

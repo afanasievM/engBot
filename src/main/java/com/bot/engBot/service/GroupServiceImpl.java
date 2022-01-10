@@ -8,6 +8,8 @@ import com.bot.engBot.repository.entity.GroupRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -77,6 +79,16 @@ public class GroupServiceImpl implements GroupService {
         groupRepository.removeAllGroupAdmins(groupId);
         groupRepository.removeAllGroupTeachers(groupId);
         groupRepository.removeGroup(groupId);
+    }
+
+    @Override
+    public List<Long> getGroupUsers(Long groupId) {
+       return groupRepository.getGroupUsers(groupId);
+    }
+
+    @Override
+    public List<Long> getGroupTeachers(Long groupId) {
+        return groupRepository.getGroupTeachers(groupId);
     }
 
 }

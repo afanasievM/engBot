@@ -7,6 +7,8 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,6 +17,14 @@ public interface GroupRepository extends JpaRepository<Group, Long> {
     List<Group> findAllByOwnerId(Long ownerId);
     Optional<Group> findByGroupNameAndOwnerId(String groupName, Long ownerId);
     Optional<Group> findByGroupName(String groupName);
+    @Transactional
+    @Modifying
+    @Query(value = "SELECT user_id FROM groups_users WHERE group_id=1", nativeQuery = true)
+    List<Long> getGroupUsers (@Param("groupId") Long groupId);
+    @Transactional
+    @Modifying
+    @Query(value = "SELECT user_id FROM groups_teachers WHERE group_id=1", nativeQuery = true)
+    List<Long> getGroupTeachers (@Param("groupId") Long groupId);
     @Transactional
     @Modifying
     @Query(value = "INSERT INTO groups_users(group_id,user_id) VALUES(:groupId, :userId)", nativeQuery = true)
