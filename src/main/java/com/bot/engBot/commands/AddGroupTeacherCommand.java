@@ -37,7 +37,7 @@ public class AddGroupTeacherCommand implements Command{
             if (newTeacher.startsWith("@")) newTeacher = newTeacher.replaceFirst("@","");
         } catch (Exception e){
             log.info(e);
-            sendBotMessageService.sendMessage(chatId, "Please use correct form: \n/add_group_member group name;@username" +
+            sendBotMessageService.sendMessage(chatId, "Please use correct form: \n/add_group_teacher group name;@username" +
                     "\nThis user should use @vocabengbot.(/start)");
             return;
         }
@@ -77,7 +77,7 @@ public class AddGroupTeacherCommand implements Command{
                     }
             );
         } else {
-            sendBotMessageService.sendMessage(chatId, "Please use correct form: \n/add_group_member group name;@username" +
+            sendBotMessageService.sendMessage(chatId, "Please use correct form: \n/add_group_teacher group name;@username" +
                     "\nThis user should use @vocabengbot.(/start)");
         }
 

@@ -60,7 +60,7 @@ public class AddGroupWordCommand implements Command{
                                     word ->{
                                         log.info("OLD WORD");
                                         if (userId.equals(senderId)) {
-                                            sendBotMessageService.sendMessage(userId, "You have this word, but It was added to groupmates vocabulary.");
+                                            sendBotMessageService.sendMessage(chatId, "You have this word, but It was added to groupmates vocabulary.");
                                         }
                                     },
                                     ()->{
