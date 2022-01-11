@@ -17,6 +17,7 @@ public interface GroupService {
     List<Group> findAllByOwnerId(Long ownerId);
     Optional<Group> findByGroupNameAndOwnerId(String groupName, Long ownerId);
     Optional<Group> findByGroupName(String groupName);
+    Optional<Group> findById(Long groupId);
     void addGroupUser (Long groupId, Long userId);
     void addGroupTeacher (@Param("groupId") Long groupId, @Param("userId") Long userId);
     void addGroupAdmin (@Param("groupId") Long groupId, @Param("userId") Long userId);
@@ -27,4 +28,5 @@ public interface GroupService {
     void removeGroup (@Param("groupId") Long groupId);
     List<Long> getGroupUsers (@Param("groupId") Long groupId);
     List<Long> getGroupTeachers(@Param("groupId") Long groupId);
+    List<Long> getUserGroupsId (@Param("userId") Long userId);
 }

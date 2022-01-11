@@ -44,6 +44,11 @@ public class GroupServiceImpl implements GroupService {
     }
 
     @Override
+    public Optional<Group> findById(Long groupId) {
+        return groupRepository.findById(groupId);
+    }
+
+    @Override
     public void addGroupUser (Long groupId, Long userId){
         groupRepository.addGroupUser(groupId, userId);
     }
@@ -89,6 +94,11 @@ public class GroupServiceImpl implements GroupService {
     @Override
     public List<Long> getGroupTeachers(Long groupId) {
         return groupRepository.getGroupTeachers(groupId);
+    }
+
+    @Override
+    public List<Long> getUserGroupsId(Long userId) {
+        return groupRepository.getUserGroupsId(userId);
     }
 
 }

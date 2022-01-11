@@ -17,10 +17,15 @@ public interface GroupRepository extends JpaRepository<Group, Long> {
     List<Group> findAllByOwnerId(Long ownerId);
     Optional<Group> findByGroupNameAndOwnerId(String groupName, Long ownerId);
     Optional<Group> findByGroupName(String groupName);
+    Optional<Group> findById(Long groupId);
     @Transactional
     @Modifying
-    @Query(value = "SELECT user_id FROM groups_users WHERE group_id=1", nativeQuery = true)
+    @Query(value = "SELECT user_id FROM groups_users WHERE group_id=(:groupId)", nativeQuery = true)
     List<Long> getGroupUsers (@Param("groupId") Long groupId);
+    @Transactional
+    @Modifying
+    @Query(value = "SELECT group_id FROM groups_users WHERE user_id=(:userId)", nativeQuery = true)
+    List<Long> getUserGroupsId (@Param("userId") Long userId);
     @Transactional
     @Modifying
     @Query(value = "SELECT user_id FROM groups_teachers WHERE group_id=1", nativeQuery = true)

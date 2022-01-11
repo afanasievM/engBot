@@ -13,7 +13,7 @@ public enum CommandName {
     SHOW_MY_WORDS("/show_my_words"),
     SHOW_MY_GROUPS("/show_my_groups"),
     SHOW_MY_OWN_GROUPS("/show_my_own_groups"),
-    SHOW_UNEXPLORED_WORDS("/show_unexplored_words"),
+    SHOW_MY_UNSTUDIED_WORDS("/show_my_unstudied_words"),
     SHOW_GROUP_ADMINS("/show_group_admins"),
     SHOW_GROUP_USERS("/show_group_users"),
     SHOW_GROUP_TEACHERS("/show_group_teachers"),
@@ -26,7 +26,6 @@ public enum CommandName {
     REPLACE_WORD("/replace_word"),
     REPLACE_TRANSLATION("/replace_translation"),
 
-    SET_GROUP_TEACHER("/set_group_teacher"),
     SET_GROUP_ADMIN("/set_group_admin"),
 
     GET_MY_ID("/get_my_id"),

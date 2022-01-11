@@ -25,8 +25,8 @@ public class HelpCommand implements Command{
                     + "%s - add teacher to your group\n"                            //ADD_GROUP_TEACHER
                     + "%s - add word to group members\n"                            //ADD_GROUP_WORD
                     + "%s - remove your group\n"                                    //REMOVE_GROUP
-                    + "%s - remove group member from your group\n",                  //REMOVE_GROUP_MEMBER
-//                    + "%s - replace word's translation in your vocabulary\n"
+                    + "%s - remove group member from your group\n"                  //REMOVE_GROUP_MEMBER
+                    + "%s - show your unstadied words in vocabulary\n",       //SHOW_MY_UNSTADIED_WORDS
 //                    + "%s - replace word's translation in your vocabulary\n"
 //                    + "%s - replace word's translation in your vocabulary\n"
 //                    + "%s - replace word's translation in your vocabulary\n"
@@ -47,7 +47,8 @@ public class HelpCommand implements Command{
             REMOVE_GROUP.getCommandName(),
             REMOVE_GROUP_MEMBER.getCommandName(),
             ADD_GROUP_MEMBER.getCommandName(),
-            ADD_GROUP_MEMBER.getCommandName()
+            ADD_GROUP_MEMBER.getCommandName(),
+            SHOW_MY_UNSTUDIED_WORDS.getCommandName()
 
     );
 

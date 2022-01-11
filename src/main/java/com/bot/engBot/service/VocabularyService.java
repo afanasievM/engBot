@@ -12,6 +12,7 @@ public interface VocabularyService {
     List<Vocabulary> retrieveAllUserWord(Long ownerId);
 
     List<Vocabulary> findAllByOwnerIdAndActiveTrue(Long ownerId);
+    List<Vocabulary> findAllByOwnerIdAndActiveFalse(Long ownerId);
 
     Optional<Vocabulary> findByWordAndOwnerId(String word, Long ownerId);
 

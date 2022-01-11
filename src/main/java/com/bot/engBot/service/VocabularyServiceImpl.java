@@ -32,6 +32,11 @@ public class VocabularyServiceImpl implements VocabularyService {
     public List<Vocabulary> findAllByOwnerIdAndActiveTrue(Long ownerId){return vocabularyRepository.findAllByOwnerIdAndActiveTrue(ownerId);}
 
     @Override
+    public List<Vocabulary> findAllByOwnerIdAndActiveFalse(Long ownerId) {
+        return vocabularyRepository.findAllByOwnerIdAndActiveTrue(ownerId);
+    }
+
+    @Override
     public Optional<Vocabulary> findByWordAndOwnerId(String word, Long ownerId) {
         return vocabularyRepository.findByWordAndOwnerId(word, ownerId);
     }

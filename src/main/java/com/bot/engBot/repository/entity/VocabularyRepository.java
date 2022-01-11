@@ -12,5 +12,5 @@ public interface VocabularyRepository extends JpaRepository<Vocabulary, Long> {
     Optional<Vocabulary> findByWordAndOwnerId(String word, Long ownerId);
     Optional<Vocabulary> findByWordTranslationAndOwnerId(String translation, Long ownerId);
     List<Vocabulary> findAllByOwnerIdAndActiveTrue(Long ownerId);
-
+    List<Vocabulary> findAllByOwnerIdAndActiveFalse(Long ownerId);
 }
