@@ -54,7 +54,7 @@ public class AddGroupWordCommand implements Command{
                     ArrayList<Long> groupTeachers = (ArrayList<Long>) groupService.getGroupTeachers(group.getId());
 
                     if (groupUsers.contains(senderId)||groupTeachers.contains(senderId)) {
-                        if (groupTeachers.contains(senderId)) sendBotMessageService.sendMessage(chatId, "You add words to your students.");
+                        sendBotMessageService.sendMessage(chatId, "You add word to your group.");
                         for (Long userId:groupUsers) {
                             vocabularyService.findByWordAndOwnerId(finalWordToLearn,userId).ifPresentOrElse(
                                     word ->{
