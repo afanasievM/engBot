@@ -34,7 +34,7 @@ public class RemoveGroupCommand implements Command{
                             sendBotMessageService.sendMessage(chatId, "You removed group <b>" + group.getGroupName() + "</b>");
                             groupService.removeGroup(group.getId());
                         } else {
-                            sendBotMessageService.sendMessage(chatId, "Permissions denied. \nOnly group's admins or owner can add members to groups");
+                            sendBotMessageService.sendMessage(chatId, "Permissions denied. \nOnly group's owner can remove groups.");
                         }
                     },
                     () -> {

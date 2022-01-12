@@ -1,21 +1,21 @@
 package com.bot.engBot.commands;
 
-import com.bot.engBot.repository.entity.Vocabulary;
-import com.bot.engBot.service.*;
+import com.bot.engBot.service.BotUserService;
+import com.bot.engBot.service.GroupService;
+import com.bot.engBot.service.SendBotMessageService;
 import org.apache.log4j.Logger;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
-public class ShowGroupUsersCommand implements Command{
+public class ShowGroupTeachersCommand implements Command{
     private final SendBotMessageService sendBotMessageService;
     private final GroupService groupService;
     private final BotUserService botUserService;
-    final private Logger log = Logger.getLogger(ShowGroupUsersCommand.class);
+    final private Logger log = Logger.getLogger(ShowGroupTeachersCommand.class);
 
 
-    public ShowGroupUsersCommand(SendBotMessageService sendBotMessageService, BotUserService botUserService, GroupService groupService) {
+    public ShowGroupTeachersCommand(SendBotMessageService sendBotMessageService, BotUserService botUserService, GroupService groupService) {
         this.sendBotMessageService = sendBotMessageService;
         this.groupService = groupService;
         this.botUserService = botUserService;
@@ -34,7 +34,7 @@ public class ShowGroupUsersCommand implements Command{
                     ArrayList<Long> groupTeachers = (ArrayList<Long>) groupService.getGroupTeachers(group.getId());
                     StringBuilder usersList = new StringBuilder();
                     if (groupUsers.contains(senderId)||groupTeachers.contains(senderId)) {
-                        for (Long userId:groupUsers) {
+                        for (Long userId:groupTeachers) {
                             botUserService.findByChatId(userId).ifPresentOrElse(
                                     user ->{
                                         usersList.append("@" + user.getUsername() + "\n");

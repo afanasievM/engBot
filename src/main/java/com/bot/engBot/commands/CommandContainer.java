@@ -35,6 +35,7 @@ public class CommandContainer {
                 .put(SHOW_MY_GROUPS.getCommandName(), new ShowMyGroupsCommand(sendBotMessageService, groupService))
                 .put(SHOW_MY_OWN_GROUPS.getCommandName(), new ShowMyOwnGroupsCommand(sendBotMessageService, groupService))
                 .put(SHOW_GROUP_USERS.getCommandName(), new ShowGroupUsersCommand(sendBotMessageService,botUserService, groupService))
+                .put(SHOW_GROUP_TEACHERS.getCommandName(), new ShowGroupTeachersCommand(sendBotMessageService,botUserService, groupService))
                 .build();
 
         unknownCommand = new UnknownCommand(sendBotMessageService);
