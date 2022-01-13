@@ -9,14 +9,14 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 
 import java.util.Arrays;
 
-public class RemoveGroupMemberCommand implements Command{
+public class RemoveGroupTeacherCommand implements Command{
     private final SendBotMessageService sendBotMessageService;
     private final GroupService groupService;
     private final BotUserService botUserService;
-    final private Logger log = Logger.getLogger(RemoveGroupMemberCommand.class);
+    final private Logger log = Logger.getLogger(RemoveGroupTeacherCommand.class);
 
 
-    public RemoveGroupMemberCommand(SendBotMessageService sendBotMessageService, GroupService groupService, BotUserService botUserService) {
+    public RemoveGroupTeacherCommand(SendBotMessageService sendBotMessageService, GroupService groupService, BotUserService botUserService) {
         this.sendBotMessageService = sendBotMessageService;
         this.groupService = groupService;
         this.botUserService = botUserService;
@@ -26,7 +26,7 @@ public class RemoveGroupMemberCommand implements Command{
     public void execute(Update update) {
         Long chatId = update.getMessage().getChatId();
         Long senderId = update.getMessage().getFrom().getId();
-        String cmd = update.getMessage().getText().replace("/remove_group_member","");
+        String cmd = update.getMessage().getText().replace("/remove_group_teacher","");
         String groupName = null;
         String newMember = null;
         try {
@@ -37,7 +37,7 @@ public class RemoveGroupMemberCommand implements Command{
             if (newMember.startsWith("@")) newMember = newMember.replaceFirst("@","");
         } catch (Exception e){
             log.info(e);
-            sendBotMessageService.sendMessage(chatId, "Please use correct form: \n/remove_group_member group name;@username" +
+            sendBotMessageService.sendMessage(chatId, "Please use correct form: \n/remove_group_teacher group name;@username" +
                     "\nThis user should use be in a your group.");
             return;
         }
@@ -51,11 +51,11 @@ public class RemoveGroupMemberCommand implements Command{
                             botUserService.findByUsername(finalNewMember).ifPresentOrElse(
                                     user -> {
                                         try {
-                                            groupService.removeGroupUser(group.getId(),user.getId());
-                                            sendBotMessageService.sendMessage(chatId, "User <b>" + user.getUsername() + "</b> successfuly removed from group <b>" +
+                                            groupService.removeGroupTeacher(group.getId(),user.getId());
+                                            sendBotMessageService.sendMessage(chatId, "Teacher <b>" + user.getUsername() + "</b> successfuly removed from group <b>" +
                                                     group.getGroupName() + "</b>.");
                                         } catch (DataIntegrityViolationException e){
-                                            sendBotMessageService.sendMessage(chatId, "Can't find user <b>" + user.getUsername() + "</b> in group <b>" +
+                                            sendBotMessageService.sendMessage(chatId, "Can't find teacher <b>" + user.getUsername() + "</b> in group <b>" +
                                                     group.getGroupName() + "</b>.");
                                             log.info(e);
                                         }
@@ -67,7 +67,7 @@ public class RemoveGroupMemberCommand implements Command{
                                     }
                             );
                         } else {
-                            sendBotMessageService.sendMessage(chatId, "Permissions denied. \nOnly group's admins or owner can remove members from groups");
+                            sendBotMessageService.sendMessage(chatId, "Permissions denied. \nOnly group's admins or owner can remove teachers from groups");
                         }
                     },
                     () -> {

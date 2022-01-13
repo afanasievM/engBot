@@ -34,8 +34,10 @@ public class CommandContainer {
                 .put(SHOW_MY_UNSTUDIED_WORDS.getCommandName(), new ShowMyUnstudiedWordsCommand(sendBotMessageService, vocabularyService))
                 .put(SHOW_MY_GROUPS.getCommandName(), new ShowMyGroupsCommand(sendBotMessageService, groupService))
                 .put(SHOW_MY_OWN_GROUPS.getCommandName(), new ShowMyOwnGroupsCommand(sendBotMessageService, groupService))
-                .put(SHOW_GROUP_USERS.getCommandName(), new ShowGroupUsersCommand(sendBotMessageService,botUserService, groupService))
+                .put(SHOW_GROUP_MEMBERS.getCommandName(), new ShowGroupMemberCommand(sendBotMessageService,botUserService, groupService))
                 .put(SHOW_GROUP_TEACHERS.getCommandName(), new ShowGroupTeachersCommand(sendBotMessageService,botUserService, groupService))
+                .put(REMOVE_GROUP_TEACHER.getCommandName(), new RemoveGroupTeacherCommand(sendBotMessageService, groupService, botUserService))
+                .put(SHOW_MY_TEACH_GROUPS.getCommandName(), new ShowMyTeachGroupsCommand(sendBotMessageService, groupService))
                 .build();
 
         unknownCommand = new UnknownCommand(sendBotMessageService);

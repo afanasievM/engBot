@@ -15,8 +15,9 @@ public enum CommandName {
     SHOW_MY_OWN_GROUPS("/show_my_own_groups"),
     SHOW_MY_UNSTUDIED_WORDS("/show_my_unstudied_words"),
     SHOW_GROUP_ADMINS("/show_group_admins"),
-    SHOW_GROUP_USERS("/show_group_users"),
+    SHOW_GROUP_MEMBERS("/show_group_members"),
     SHOW_GROUP_TEACHERS("/show_group_teachers"),
+    SHOW_MY_TEACH_GROUPS("/show_my_teach_groups"),
 
     REMOVE_GROUP_MEMBER("/remove_group_member"),
     REMOVE_GROUP_ADMIN("/remove_group_admin"),

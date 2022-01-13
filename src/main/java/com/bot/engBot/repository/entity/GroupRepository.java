@@ -28,7 +28,11 @@ public interface GroupRepository extends JpaRepository<Group, Long> {
     List<Long> getUserGroupsId (@Param("userId") Long userId);
     @Transactional
     @Modifying
-    @Query(value = "SELECT user_id FROM groups_teachers WHERE group_id=1", nativeQuery = true)
+    @Query(value = "SELECT user_id FROM groups_users WHERE group_id=(:groupId)", nativeQuery = true)
+    List<Long> getTeacherGroupsId (@Param("groupId") Long userId);
+    @Transactional
+    @Modifying
+    @Query(value = "SELECT user_id FROM groups_teachers WHERE group_id=(:groupId)", nativeQuery = true)
     List<Long> getGroupTeachers (@Param("groupId") Long groupId);
     @Transactional
     @Modifying

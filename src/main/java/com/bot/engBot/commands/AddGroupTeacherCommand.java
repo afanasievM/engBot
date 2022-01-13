@@ -54,6 +54,8 @@ public class AddGroupTeacherCommand implements Command{
                                             groupService.addGroupTeacher(group.getId(),user.getId());
                                             sendBotMessageService.sendMessage(chatId, "Teacher <b>" + user.getUsername() + "</b> successfuly added to group <b>" +
                                                     group.getGroupName() + "</b>.");
+                                            sendBotMessageService.sendMessage(user.getId(), "You have been added to group <b>"  + group.getGroupName() + "</b> by @"+
+                                                    botUserService.findByChatId(senderId).get().getUsername()  + " as teacher.");
                                         } catch (DataIntegrityViolationException e){
                                             sendBotMessageService.sendMessage(chatId, "Teacher <b>" + user.getUsername() + "</b> is already exist in group <b>" +
                                                     group.getGroupName() + "</b>.");

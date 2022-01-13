@@ -101,4 +101,9 @@ public class GroupServiceImpl implements GroupService {
         return groupRepository.getUserGroupsId(userId);
     }
 
+    @Override
+    public List<Long> getTeacherGroupsId(Long userId) {
+        return groupRepository.getTeacherGroupsId(userId);
+    }
+
 }

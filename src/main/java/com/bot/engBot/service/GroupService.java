@@ -29,4 +29,5 @@ public interface GroupService {
     List<Long> getGroupUsers (@Param("groupId") Long groupId);
     List<Long> getGroupTeachers(@Param("groupId") Long groupId);
     List<Long> getUserGroupsId (@Param("userId") Long userId);
+    List<Long> getTeacherGroupsId (@Param("groupId") Long userId);
 }

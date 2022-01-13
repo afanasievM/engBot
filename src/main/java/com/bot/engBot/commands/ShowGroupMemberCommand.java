@@ -1,21 +1,19 @@
 package com.bot.engBot.commands;
 
-import com.bot.engBot.repository.entity.Vocabulary;
 import com.bot.engBot.service.*;
 import org.apache.log4j.Logger;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
-public class ShowGroupUsersCommand implements Command{
+public class ShowGroupMemberCommand implements Command{
     private final SendBotMessageService sendBotMessageService;
     private final GroupService groupService;
     private final BotUserService botUserService;
-    final private Logger log = Logger.getLogger(ShowGroupUsersCommand.class);
+    final private Logger log = Logger.getLogger(ShowGroupMemberCommand.class);
 
 
-    public ShowGroupUsersCommand(SendBotMessageService sendBotMessageService, BotUserService botUserService, GroupService groupService) {
+    public ShowGroupMemberCommand(SendBotMessageService sendBotMessageService, BotUserService botUserService, GroupService groupService) {
         this.sendBotMessageService = sendBotMessageService;
         this.groupService = groupService;
         this.botUserService = botUserService;

@@ -26,12 +26,13 @@ public class HelpCommand implements Command{
                     + "%s - add word to group members\n"                            //ADD_GROUP_WORD
                     + "%s - remove your group\n"                                    //REMOVE_GROUP
                     + "%s - remove group member from your group\n"                  //REMOVE_GROUP_MEMBER
-                    + "%s - show your unstadied words in vocabulary\n",       //SHOW_MY_UNSTADIED_WORDS
-//                    + "%s - replace word's translation in your vocabulary\n"
-//                    + "%s - replace word's translation in your vocabulary\n"
-//                    + "%s - replace word's translation in your vocabulary\n"
-//                    + "%s - replace word's translation in your vocabulary\n"
-//                    + "%s - replace word's translation in your vocabulary",
+                    + "%s - show your unstadied words in vocabulary\n"              //SHOW_MY_UNSTADIED_WORDS
+                    + "%s - show groups where you are member\n"                     //SHOW_MY_GROUPS
+                    + "%s - show groups where you are owner\n"                      //SHOW_MY_OWN_GROUPS
+                    + "%s - show group members\n"                                   //SHOW_GROUP_USERS
+                    + "%s - show group teachers\n"                                  //SHOW_GROUP_TEACHERS
+                    + "%s - remove group teacher\n"                                  //REMOVE_GROUP_TEACHER
+                    + "%s - show groups where you are teaher",                       //SHOW_MY_TEACH_GROUPS
             START.getCommandName(),
             STOP.getCommandName(),
             HELP.getCommandName(),
@@ -46,9 +47,13 @@ public class HelpCommand implements Command{
             ADD_GROUP_WORD.getCommandName(),
             REMOVE_GROUP.getCommandName(),
             REMOVE_GROUP_MEMBER.getCommandName(),
-            ADD_GROUP_MEMBER.getCommandName(),
-            ADD_GROUP_MEMBER.getCommandName(),
-            SHOW_MY_UNSTUDIED_WORDS.getCommandName()
+            SHOW_MY_UNSTUDIED_WORDS.getCommandName(),
+            SHOW_MY_GROUPS.getCommandName(),
+            SHOW_MY_OWN_GROUPS.getCommandName(),
+            SHOW_GROUP_MEMBERS.getCommandName(),
+            SHOW_GROUP_TEACHERS.getCommandName(),
+            REMOVE_GROUP_TEACHER.getCommandName(),
+            SHOW_MY_TEACH_GROUPS.getCommandName()
 
     );
 
