@@ -18,3 +18,12 @@ In file EngBotApplication you need to change url to
 application.properties if row 36. 
 ".properties("spring.config.name:application-dev")"
 For example use "application"
+4. Add to enviroment variables bot's token and name:
+   bot.botName=bot's name
+   bot.token=your token
+   And you can run it from IDE by
+   spring-boot:run -f pom.xml
+5. You can package and run jar application:
+   package -f pom.xml
+   and then
+   java -jar -Dbot.botName="bot's name" -Dbot.token="your token" path-to-Project/target/engBot-*-spring-boot.jar 

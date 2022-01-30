@@ -49,13 +49,14 @@ public class SendTestServiceImpl implements SendTestService{
                 wordsForButtons.add(word);
                 for (int i = 1; i < buttonsNumber; i++) {
                     Random random = new Random();
-                    int id = random.nextInt(words.size());
+                    int id = random.nextInt(allUserWords.size());
                     if (!wordsForButtons.contains(allUserWords.get(id))) {
                         wordsForButtons.add(allUserWords.get(id));
                     } else {
                         i--;
                     }
                 }
+                log.info("shuffle");
                 Collections.shuffle(wordsForButtons);
                 for (int i = 0; i < wordsForButtons.size(); i++) {
                     Vocabulary wordButton = wordsForButtons.get(i);
