@@ -3,7 +3,6 @@ package com.bot.engBot.service;
 import com.bot.engBot.bot.Bot;
 import com.bot.engBot.repository.entity.Vocabulary;
 import org.apache.log4j.Logger;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.AnswerCallbackQuery;
 import org.telegram.telegrambots.meta.api.methods.ParseMode;
@@ -32,7 +31,6 @@ public class CallBackServiceImpl implements CallBackService {
         Long chatId = callBack.getMessage().getChat().getId();
         String wordFromMessage = callBack.getMessage().getText();
         String wordFromMessageData = callBack.getData();
-        log.info(wordFromMessage);
         log.info(wordFromMessage);
 
         EditMessageReplyMarkup edit = new EditMessageReplyMarkup(chatId.toString(), callBack.getMessage().getMessageId(), callBack.getInlineMessageId(), null);
@@ -71,20 +69,19 @@ public class CallBackServiceImpl implements CallBackService {
                     log.error(e);
                 }
             }
-                vocabularyService.decreaseWordRepeats(testWord);
+            vocabularyService.decreaseWordRepeats(testWord);
 
-        }else {
-                messageToSend = "FALSE\n" + wordFromMessage + " repeats reset to " + VocabularyServiceImpl.REPEATS;
+        } else {
+            messageToSend = "FALSE\n" + testWord.getWord() + " -> " + testWord.getWordTranslation() + "\n repeats reset to " + VocabularyServiceImpl.REPEATS;
 
-                answerCallBack.setText(messageToSend);
+            answerCallBack.setText(messageToSend);
 
-                try {
-                    engBot.execute(answerCallBack);
-                } catch (Exception e) {
-                    log.info(e);
-                }
-                vocabularyService.resetWord(testWord);
-
+            try {
+                engBot.execute(answerCallBack);
+            } catch (Exception e) {
+                log.info(e);
+            }
+            vocabularyService.resetWord(testWord);
 
 
         }

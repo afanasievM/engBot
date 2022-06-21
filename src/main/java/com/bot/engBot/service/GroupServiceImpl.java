@@ -1,15 +1,10 @@
 package com.bot.engBot.service;
 
-import com.bot.engBot.bot.Bot;
-import com.bot.engBot.repository.entity.BotUser;
-import com.bot.engBot.repository.entity.BotUserRepository;
 import com.bot.engBot.repository.entity.Group;
 import com.bot.engBot.repository.entity.GroupRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,7 +30,7 @@ public class GroupServiceImpl implements GroupService {
 
     @Override
     public Optional<Group> findByGroupNameAndOwnerId(String groupName, Long ownerId) {
-        return groupRepository.findByGroupNameAndOwnerId(groupName,ownerId);
+        return groupRepository.findByGroupNameAndOwnerId(groupName, ownerId);
     }
 
     @Override
@@ -49,33 +44,33 @@ public class GroupServiceImpl implements GroupService {
     }
 
     @Override
-    public void addGroupUser (Long groupId, Long userId){
+    public void addGroupUser(Long groupId, Long userId) {
         groupRepository.addGroupUser(groupId, userId);
     }
 
     @Override
     public void addGroupTeacher(Long groupId, Long userId) {
-        groupRepository.addGroupTeacher(groupId,userId);
+        groupRepository.addGroupTeacher(groupId, userId);
     }
 
     @Override
     public void addGroupAdmin(Long groupId, Long userId) {
-        groupRepository.addGroupAdmin(groupId,userId);
+        groupRepository.addGroupAdmin(groupId, userId);
     }
 
     @Override
     public void removeGroupUser(Long groupId, Long userId) {
-        groupRepository.removeGroupUser(groupId,userId);
+        groupRepository.removeGroupUser(groupId, userId);
     }
 
     @Override
     public void removeGroupTeacher(Long groupId, Long userId) {
-        groupRepository.removeGroupTeacher(groupId,userId);
+        groupRepository.removeGroupTeacher(groupId, userId);
     }
 
     @Override
     public void removeGroupAdmin(Long groupId, Long userId) {
-        groupRepository.removeGroupAdmin(groupId,userId);
+        groupRepository.removeGroupAdmin(groupId, userId);
     }
 
     @Override
@@ -88,7 +83,7 @@ public class GroupServiceImpl implements GroupService {
 
     @Override
     public List<Long> getGroupUsers(Long groupId) {
-       return groupRepository.getGroupUsers(groupId);
+        return groupRepository.getGroupUsers(groupId);
     }
 
     @Override

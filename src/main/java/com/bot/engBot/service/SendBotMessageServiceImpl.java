@@ -1,18 +1,15 @@
 package com.bot.engBot.service;
 
 import com.bot.engBot.bot.Bot;
-import com.bot.engBot.repository.entity.Vocabulary;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 
 @Service
-public class SendBotMessageServiceImpl implements SendBotMessageService{
+public class SendBotMessageServiceImpl implements SendBotMessageService {
     private final Bot engBot;
     final private Logger log = Logger.getLogger(SendBotMessageServiceImpl.class);
 

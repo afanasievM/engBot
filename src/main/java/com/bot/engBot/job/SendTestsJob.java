@@ -1,6 +1,5 @@
 package com.bot.engBot.job;
 
-import com.bot.engBot.service.ChooseWordsService;
 import com.bot.engBot.service.SendBotMessageServiceImpl;
 import com.bot.engBot.service.SendTestService;
 import org.apache.log4j.Logger;
@@ -18,13 +17,13 @@ public class SendTestsJob {
 
 
     @Autowired
-    public SendTestsJob(SendTestService sendTestService){
+    public SendTestsJob(SendTestService sendTestService) {
         this.sendTestService = sendTestService;
     }
 
     @Scheduled(cron = "0 0 8-21 * * *")
 //    @Scheduled(fixedDelay = 30000, initialDelay = 20000)
-    public void chooseWords(){
+    public void chooseWords() {
         LocalDateTime start = LocalDateTime.now();
 
         log.info("Send tests job started.");

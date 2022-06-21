@@ -13,7 +13,7 @@ import java.sql.Timestamp;
 @Table(name = "users")
 public class BotUser {
     @Id
-    @Column(name = "id",nullable = false)
+    @Column(name = "id", nullable = false)
     private Long id;
 
 

@@ -11,11 +11,15 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMa
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
 
 
 @Service
-public class SendTestServiceImpl implements SendTestService{
+public class SendTestServiceImpl implements SendTestService {
     final private BotUserService botUserService;
     final private Bot engBot;
     final private VocabularyService vocabularyService;
@@ -24,17 +28,17 @@ public class SendTestServiceImpl implements SendTestService{
 
     @Autowired
     public SendTestServiceImpl(BotUserService botUserService, SendBotMessageService sendBotMessageService,
-                                  VocabularyService vocabularyService, Bot engBot) {
+                               VocabularyService vocabularyService, Bot engBot) {
         this.botUserService = botUserService;
         this.vocabularyService = vocabularyService;
         this.sendBotMessageService = sendBotMessageService;
         this.engBot = engBot;
     }
 
-// user id, arraylist vocabulary
+    // user id, arraylist vocabulary
     @Override
     public void sendWordsToTest() {
-        for (Map.Entry entry:ChooseWordsServiceImpl.listToSend.entrySet()) {
+        for (Map.Entry entry : ChooseWordsServiceImpl.listToSend.entrySet()) {
             int buttonsNumber = 0;
             Long userId = (Long) entry.getKey();
             ArrayList<Vocabulary> words = (ArrayList<Vocabulary>) entry.getValue();

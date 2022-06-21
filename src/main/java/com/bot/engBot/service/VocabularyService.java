@@ -1,8 +1,6 @@
 package com.bot.engBot.service;
 
-import com.bot.engBot.repository.entity.BotUser;
 import com.bot.engBot.repository.entity.Vocabulary;
-import org.checkerframework.checker.nullness.Opt;
 
 import java.util.List;
 import java.util.Optional;

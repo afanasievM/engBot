@@ -9,5 +9,6 @@ import java.util.Optional;
 @Repository
 public interface BotUserRepository extends JpaRepository<BotUser, Long> {
     List<BotUser> findAllByActiveTrue();
+
     Optional<BotUser> findByUsername(String username);
 }

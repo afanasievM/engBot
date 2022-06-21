@@ -15,9 +15,9 @@ public class Bot extends TelegramLongPollingBot {
 
     final private Logger log = Logger.getLogger(Bot.class);
     final private String COMMAND_PREFIX = "/";
+    final private String COMMAND_SPLITTER = " ";
     private final CommandContainer commandContainer;
     private final CallBackService callBackService;
-//    private final GroupService groupService;
     @Value("${bot.botName}")
     private String botName;
 
@@ -26,13 +26,11 @@ public class Bot extends TelegramLongPollingBot {
 
 
     @Autowired
-    public Bot (BotUserService botUserService, VocabularyService vocabularyService, GroupService groupService){
+    public Bot(BotUserService botUserService, VocabularyService vocabularyService, GroupService groupService) {
 
         this.commandContainer = new CommandContainer(new SendBotMessageServiceImpl(this), botUserService, vocabularyService, groupService);
         this.callBackService = new CallBackServiceImpl(vocabularyService, botUserService, this);
-//        this.groupService = new GroupServiceImpl(botUserService, groupService);
     }
-
 
 
     @Override
@@ -40,27 +38,25 @@ public class Bot extends TelegramLongPollingBot {
         if (update.hasMessage() && update.getMessage().hasText()) {
             String message = update.getMessage().getText().trim();
             if (message.startsWith(COMMAND_PREFIX)) {
-                String commandIdentifier = message.split(" ")[0].toLowerCase();
+                String commandIdentifier = message.split(COMMAND_SPLITTER)[0].toLowerCase();
                 log.info(update.toString());
                 commandContainer.retrieveCommand(commandIdentifier).execute(update);
             }
-        } else if(update.hasCallbackQuery()) {
+        } else if (update.hasCallbackQuery()) {
             callBackService.callBackProcess(update.getCallbackQuery());
         }
     }
 
 
-//
+    //
     @Override
     public String getBotUsername() {
-
         return botName;
     }
 
 
     @Override
     public String getBotToken() {
-
         return token;
     }
 

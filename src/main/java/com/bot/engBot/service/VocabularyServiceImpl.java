@@ -29,7 +29,9 @@ public class VocabularyServiceImpl implements VocabularyService {
     }
 
     @Override
-    public List<Vocabulary> findAllByOwnerIdAndActiveTrue(Long ownerId){return vocabularyRepository.findAllByOwnerIdAndActiveTrue(ownerId);}
+    public List<Vocabulary> findAllByOwnerIdAndActiveTrue(Long ownerId) {
+        return vocabularyRepository.findAllByOwnerIdAndActiveTrue(ownerId);
+    }
 
     @Override
     public List<Vocabulary> findAllByOwnerIdAndActiveFalse(Long ownerId) {
@@ -40,6 +42,7 @@ public class VocabularyServiceImpl implements VocabularyService {
     public Optional<Vocabulary> findByWordAndOwnerId(String word, Long ownerId) {
         return vocabularyRepository.findByWordAndOwnerId(word, ownerId);
     }
+
     @Override
     public Optional<Vocabulary> findByTranslationAndOwnerId(String translation, Long ownerId) {
         return vocabularyRepository.findByWordTranslationAndOwnerId(translation, ownerId);
@@ -54,6 +57,7 @@ public class VocabularyServiceImpl implements VocabularyService {
     public void addWord(Vocabulary word) {
         vocabularyRepository.save(word);
     }
+
     @Override
     public void save(Vocabulary word) {
         vocabularyRepository.save(word);
@@ -81,8 +85,9 @@ public class VocabularyServiceImpl implements VocabularyService {
         word.setRepeats(REPEATS);
         vocabularyRepository.save(word);
     }
+
     @Override
-    public void removeWord(Vocabulary word){
+    public void removeWord(Vocabulary word) {
         vocabularyRepository.delete(word);
     }
 }

@@ -12,12 +12,13 @@ import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Service
-public class ChooseWordsServiceImpl implements ChooseWordsService{
+public class ChooseWordsServiceImpl implements ChooseWordsService {
     final private BotUserService botUserService;
     final private VocabularyService vocabularyService;
     final private Logger log = Logger.getLogger(ChooseWordsServiceImpl.class);
     final private int WORDS_COUNT;
     public static ConcurrentHashMap<Long, ArrayList<Vocabulary>> listToSend = new ConcurrentHashMap<>();
+
     @Autowired
     public ChooseWordsServiceImpl(BotUserService botUserService,
                                   VocabularyService vocabularyService) {
@@ -32,12 +33,12 @@ public class ChooseWordsServiceImpl implements ChooseWordsService{
         List<BotUser> users = new ArrayList<>();
         users.addAll(botUserService.retrieveAllActiveUsers());
         listToSend.clear();
-        for (BotUser user:users) {
+        for (BotUser user : users) {
             List<Vocabulary> userWords = new ArrayList<>();
             List<Vocabulary> wordsToTest = new ArrayList<>();
             userWords.addAll(vocabularyService.findAllByOwnerIdAndActiveTrue(user.getId()));
             if (userWords.size() == 0) continue;
-            if (userWords.size() < WORDS_COUNT){
+            if (userWords.size() < WORDS_COUNT) {
                 wordsToTest.addAll(userWords);
             } else {
                 for (int i = 0; i < WORDS_COUNT; i++) {

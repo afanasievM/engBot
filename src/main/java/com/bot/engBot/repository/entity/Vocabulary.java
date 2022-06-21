@@ -1,8 +1,14 @@
 package com.bot.engBot.repository.entity;
+
 import lombok.Data;
 
-import javax.persistence.*;
-import java.sql.Timestamp;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 
 @Data
 @Entity
@@ -10,10 +16,10 @@ import java.sql.Timestamp;
 public class Vocabulary {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "word_id",nullable = false, insertable = true)
+    @Column(name = "word_id", nullable = false, insertable = true)
     private Long wordId;
 
-    @Column(name = "owner_id",nullable = false)
+    @Column(name = "owner_id", nullable = false)
     private Long ownerId;
 
     @Column(name = "word")

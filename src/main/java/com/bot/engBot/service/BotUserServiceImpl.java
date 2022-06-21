@@ -16,6 +16,7 @@ public class BotUserServiceImpl implements BotUserService {
     public BotUserServiceImpl(BotUserRepository botUserRepository) {
         this.botUserRepository = botUserRepository;
     }
+
     @Override
     public void save(BotUser BotUser) {
         botUserRepository.save(BotUser);
@@ -30,8 +31,9 @@ public class BotUserServiceImpl implements BotUserService {
     public Optional<BotUser> findByChatId(Long chatId) {
         return botUserRepository.findById(chatId);
     }
+
     @Override
-    public Optional<BotUser> findByUsername(String username){
+    public Optional<BotUser> findByUsername(String username) {
         return botUserRepository.findByUsername(username);
     }
 }

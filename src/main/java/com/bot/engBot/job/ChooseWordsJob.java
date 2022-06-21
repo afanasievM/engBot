@@ -17,13 +17,13 @@ public class ChooseWordsJob {
 
 
     @Autowired
-    public ChooseWordsJob(ChooseWordsService chooseWordsService){
+    public ChooseWordsJob(ChooseWordsService chooseWordsService) {
         this.chooseWordsService = chooseWordsService;
     }
 
-    @Scheduled(fixedRate = 60000*5)
+    @Scheduled(fixedRate = 60000 * 5)
 //    @Scheduled(fixedRate = 10000)
-    public void chooseWords(){
+    public void chooseWords() {
         LocalDateTime start = LocalDateTime.now();
 
         log.info("Choose words job started.");
