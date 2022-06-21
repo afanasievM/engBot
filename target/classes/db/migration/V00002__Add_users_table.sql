@@ -1,1 +1,0 @@
-CREATE TABLE vocabulary (id INT, name VARCHAR(30));
