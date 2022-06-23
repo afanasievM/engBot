@@ -21,7 +21,7 @@ public class SendTestsJob {
         this.sendTestService = sendTestService;
     }
 
-    @Scheduled(cron = "0 0 9,12,15,18 ? * * *")
+    @Scheduled(cron = "0 0 9-18/3 * * *")
 //    @Scheduled(fixedDelay = 30000, initialDelay = 20000)
     public void chooseWords() {
         LocalDateTime start = LocalDateTime.now();
