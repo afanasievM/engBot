@@ -102,15 +102,19 @@ public class AddGroupMemberCommand implements Command {
     }
 
     private void addUserToGroup(Group group, BotUser user) {
+        String message;
         try {
             groupService.addGroupUser(group.getId(), user.getId());
-            sendBotMessageService.sendMessage(chatId, "User <b>" + user.getUsername() + "</b> successfuly added to group <b>" +
-                    group.getGroupName() + "</b>.");
-            sendBotMessageService.sendMessage(user.getId(), "You have been added to group <b>" + group.getGroupName() + "</b> by @" +
-                    botUserService.findByChatId(senderId).get().getUsername() + ".");
+            message = String.format("User <b>%s</b> successfuly added to group <b>%s</b>.",
+                    user.getUsername(), group.getGroupName());
+            sendBotMessageService.sendMessage(chatId, message);
+            message = String.format("You have been added to group <b>%s</b> by @%s.",
+                    group.getGroupName(), botUserService.findByChatId(senderId).get().getUsername());
+            sendBotMessageService.sendMessage(user.getId(), message);
         } catch (DataIntegrityViolationException e) {
-            sendBotMessageService.sendMessage(chatId, "User <b>" + user.getUsername() + "</b> is already exist in group <b>" +
-                    group.getGroupName() + "</b>.");
+            message = String.format("User <b>%s</b> is already exist in group <b>%s</b>.",
+                    user.getUsername(), group.getGroupName());
+            sendBotMessageService.sendMessage(chatId, message);
             log.info(e);
         }
     }
