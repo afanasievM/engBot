@@ -29,28 +29,31 @@ public class ChooseWordsServiceImpl implements ChooseWordsService {
 
     @Override
     public void chooseWordsToTest() {
-
-        List<BotUser> users = new ArrayList<>();
-        users.addAll(botUserService.retrieveAllActiveUsers());
+        List<BotUser> users = botUserService.retrieveAllActiveUsers();
         listToSend.clear();
         for (BotUser user : users) {
-            List<Vocabulary> userWords = new ArrayList<>();
-            List<Vocabulary> wordsToTest = new ArrayList<>();
-            userWords.addAll(vocabularyService.findAllByOwnerIdAndActiveTrue(user.getId()));
-            if (userWords.size() == 0) continue;
-            if (userWords.size() < WORDS_COUNT) {
-                wordsToTest.addAll(userWords);
-            } else {
-                for (int i = 0; i < WORDS_COUNT; i++) {
-                    Random random = new Random();
-                    Integer localWordId = random.nextInt(userWords.size());
-                    if (!wordsToTest.contains(userWords.get(localWordId)))
-                        wordsToTest.add(userWords.get(localWordId));
-                    else i--;
-                }
+            List<Vocabulary> wordsToTest = chooseWordsUser(user);
+            if (wordsToTest.isEmpty()){
+                continue;
             }
             log.info(user.getId().toString() + wordsToTest.toString());
             listToSend.put(user.getId(), (ArrayList<Vocabulary>) wordsToTest);
         }
+    }
+
+    private List<Vocabulary> chooseWordsUser(BotUser user) {
+        List<Vocabulary> userWords = vocabularyService.findAllByOwnerIdAndActiveTrue(user.getId());
+        if (userWords.size() < WORDS_COUNT) {
+            return userWords;
+        }
+        List<Vocabulary> wordsToTest = new ArrayList<>();
+        for (int i = 0; i < WORDS_COUNT; i++) {
+            Random random = new Random();
+            Integer localWordId = random.nextInt(userWords.size());
+            if (!wordsToTest.contains(userWords.get(localWordId)))
+                wordsToTest.add(userWords.get(localWordId));
+            else i--;
+        }
+        return wordsToTest;
     }
 }
