@@ -9,10 +9,14 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 
 import java.util.Arrays;
 
-public class AddWordCommand implements Command{
+public class AddWordCommand implements Command {
     private final SendBotMessageService sendBotMessageService;
     private final VocabularyService vocabularyService;
     final private Logger log = Logger.getLogger(AddWordCommand.class);
+    private String wordToLearn;
+    private String translate;
+    private Long chatId;
+    private Long senderId;
 
 
     public AddWordCommand(SendBotMessageService sendBotMessageService, VocabularyService vocabularyService) {
@@ -22,43 +26,50 @@ public class AddWordCommand implements Command{
 
     @Override
     public void execute(Update update) {
-        Long chatId = update.getMessage().getChatId();
-        Long senderId = update.getMessage().getFrom().getId();
-        String cmd = update.getMessage().getText().replace("/add","");
-        String wordToLearn = null;
-        String translate = null;
+        chatId = update.getMessage().getChatId();
+        senderId = update.getMessage().getFrom().getId();
+        parse(update.getMessage().getText());
+        if (wordToLearn == null || translate == null) {
+            return;
+        }
+        addWordToUser();
+    }
+
+    private void parse(String updateText) {
+        String cmd = updateText.replace("/add", "").trim();
         try {
             String[] cmdStructure = cmd.split(";");
             log.info(Arrays.stream(cmdStructure).toArray().toString());
             wordToLearn = cmdStructure[0].replace("@vocabengbot ", "").trim();
             translate = cmdStructure[1].trim();
-        } catch (Exception e){
+        } catch (Exception e) {
             log.info(e);
             sendBotMessageService.sendMessage(chatId, "Please use correct form: \n/add word;translate");
             return;
         }
-        String finalWordToLearn = wordToLearn;
-        String finalTranslate = translate;
-        vocabularyService.findByWordAndOwnerId(wordToLearn,senderId).ifPresentOrElse(
-                word ->{
+    }
+
+    private void addWordToUser() {
+        vocabularyService.findByWordAndOwnerId(wordToLearn, senderId).ifPresentOrElse(
+                word -> {
                     log.info("OLD WORD");
-                    sendBotMessageService.sendMessage(chatId, "You have this word\nIf you want you can correct translation by command\n/replace_translation word;translation");
+                    sendBotMessageService.sendMessage(chatId, "You have this word\n" +
+                            "If you want you can correct translation by command\n" +
+                            "/replace_translation word;translation");
                 },
-                ()->{
+                () -> {
                     log.info("NEW WORD");
-                    sendBotMessageService.sendMessage(chatId, "You add new word:" +
-                            "\nword -> " + finalWordToLearn +
-                            "\ntranslation -> " + finalTranslate +
-                            "\nrepeats -> " + VocabularyServiceImpl.REPEATS);
+                    String message = String.format("You add new word:\nword -> %s\ntranslation -> %s\nrepeats -> %d",
+                            wordToLearn, translate, VocabularyServiceImpl.REPEATS);
+                    sendBotMessageService.sendMessage(chatId, message);
                     Vocabulary vocabulary = new Vocabulary();
                     vocabulary.setOwnerId(senderId);
-                    vocabulary.setWord(finalWordToLearn);
-                    vocabulary.setWordTranslation(finalTranslate);
+                    vocabulary.setWord(wordToLearn);
+                    vocabulary.setWordTranslation(translate);
                     vocabulary.setRepeats(VocabularyServiceImpl.REPEATS);
                     vocabulary.setActive(true);
                     vocabularyService.addWord(vocabulary);
                 }
         );
-
     }
 }

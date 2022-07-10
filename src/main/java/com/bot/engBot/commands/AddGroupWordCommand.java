@@ -97,7 +97,6 @@ public class AddGroupWordCommand implements Command {
             log.info(e);
             sendBotMessageService.sendMessage(chatId, "Please use correct form: \n" +
                     "/add_group_word group name;word;translate");
-            return;
         }
     }
 

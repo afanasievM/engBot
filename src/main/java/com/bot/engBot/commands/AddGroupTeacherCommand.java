@@ -61,7 +61,6 @@ public class AddGroupTeacherCommand implements Command {
             sendBotMessageService.sendMessage(chatId, "Please use correct form: \n" +
                     "/add_group_teacher group name;@username\n" +
                     "This user should use @vocabengbot.(/start)");
-            return;
         }
     }
 
