@@ -27,9 +27,6 @@ public class AddGroupMemberCommand extends GroupUserCommand implements Command {
         senderId = update.getMessage().getFrom().getId();
         parse(update.getMessage().getText());
         if (groupName == null || user == null) {
-            sendBotMessageService.sendMessage(chatId, "Please use correct form: \n" +
-                    "/add_group_member group name;@username\n" +
-                    "This user should use @vocabengbot.(/start)");
             return;
         }
         Group group = getGroup();
@@ -55,7 +52,8 @@ public class AddGroupMemberCommand extends GroupUserCommand implements Command {
             }
         } catch (Exception e) {
             log.info(e);
-            sendBotMessageService.sendMessage(chatId, "Please use correct form: \n/add_group_member group name;@username" +
+            sendBotMessageService.sendMessage(chatId, "Please use correct form: \n" +
+                    "/add_group_member group name;@username" +
                     "\nThis user should use @vocabengbot.(/start)");
         }
     }
