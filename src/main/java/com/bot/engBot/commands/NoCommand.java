@@ -9,8 +9,8 @@ public class NoCommand implements Command{
     final private Logger log = Logger.getLogger(NoCommand.class);
 
 
-    public static final String NO_MESSAGE = "Я поддерживаю команды, начинающиеся со слеша(/).\n"
-            + "Чтобы посмотреть список команд введите /help";
+    public static final String NO_MESSAGE = "I support commands that starts with the slash (/).\n"
+            + "To view a list of commands write /help";
 
     public NoCommand(SendBotMessageService sendBotMessageService) {
         this.sendBotMessageService = sendBotMessageService;

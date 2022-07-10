@@ -19,20 +19,20 @@ public class HelpCommand implements Command{
                     + "%s - show all your words in vocabulary\n"                    //SHOW_MY_WORDS
                     + "%s - remove word from your vocabulary\n"                     //REMOVE_WORD
                     + "%s - replace word in your vocabulary\n"                      //REPLACE_WORD
-                    + "%s - replace word's translation in your vocabulary\n"        //REPLACE_TANSLATION
+                    + "%s - replace word's translation in your vocabulary\n"        //REPLACE_TRANSLATION
                     + "%s - create new group\n"                                     //ADD_GROUP
                     + "%s - add member to your group\n"                             //ADD_GROUP_MEMBER
                     + "%s - add teacher to your group\n"                            //ADD_GROUP_TEACHER
                     + "%s - add word to group members\n"                            //ADD_GROUP_WORD
                     + "%s - remove your group\n"                                    //REMOVE_GROUP
                     + "%s - remove group member from your group\n"                  //REMOVE_GROUP_MEMBER
-                    + "%s - show your unstadied words in vocabulary\n"              //SHOW_MY_UNSTADIED_WORDS
+                    + "%s - show your unstadied words in vocabulary\n"              //SHOW_MY_UNSTUDIED_WORDS
                     + "%s - show groups where you are member\n"                     //SHOW_MY_GROUPS
                     + "%s - show groups where you are owner\n"                      //SHOW_MY_OWN_GROUPS
                     + "%s - show group members\n"                                   //SHOW_GROUP_USERS
                     + "%s - show group teachers\n"                                  //SHOW_GROUP_TEACHERS
                     + "%s - remove group teacher\n"                                  //REMOVE_GROUP_TEACHER
-                    + "%s - show groups where you are teaher",                       //SHOW_MY_TEACH_GROUPS
+                    + "%s - show groups where you are teacher",                      //SHOW_MY_TEACH_GROUPS
             START.getCommandName(),
             STOP.getCommandName(),
             HELP.getCommandName(),
@@ -66,4 +66,6 @@ public class HelpCommand implements Command{
     public void execute(Update update) {
         sendBotMessageService.sendMessage(update.getMessage().getChatId(), HELP_MESSAGE);
     }
+    //TO DO
+    // add array list with sorting by order
 }

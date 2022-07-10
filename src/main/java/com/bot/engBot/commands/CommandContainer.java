@@ -11,6 +11,7 @@ import static com.bot.engBot.commands.CommandName.*;
 public class CommandContainer {
     private final ImmutableMap<String, Command> commandMap;
     private final Command unknownCommand;
+    private final Command noCommand;
 
     public CommandContainer(SendBotMessageService sendBotMessageService, BotUserService botUserService, VocabularyService vocabularyService, GroupService groupService) {
 
@@ -41,9 +42,14 @@ public class CommandContainer {
                 .build();
 
         unknownCommand = new UnknownCommand(sendBotMessageService);
+        noCommand = new NoCommand(sendBotMessageService);
+
     }
 
     public Command retrieveCommand(String commandIdentifier) {
         return commandMap.getOrDefault(commandIdentifier, unknownCommand);
+    }
+    public Command noCommand(){
+        return noCommand;
     }
 }

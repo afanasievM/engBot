@@ -41,6 +41,8 @@ public class Bot extends TelegramLongPollingBot {
                 String commandIdentifier = message.split(COMMAND_SPLITTER)[0].toLowerCase();
                 log.info(update.toString());
                 commandContainer.retrieveCommand(commandIdentifier).execute(update);
+            } else {
+                commandContainer.noCommand().execute(update);
             }
         } else if (update.hasCallbackQuery()) {
             callBackService.callBackProcess(update.getCallbackQuery());
