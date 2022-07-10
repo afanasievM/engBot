@@ -9,25 +9,16 @@ import org.apache.log4j.Logger;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
-import javax.print.DocFlavor;
 import java.util.Arrays;
 import java.util.Optional;
 
-public class AddGroupMemberCommand implements Command {
-    private final SendBotMessageService sendBotMessageService;
-    private final GroupService groupService;
-    private final BotUserService botUserService;
+public class AddGroupMemberCommand extends GroupUserCommand implements Command {
     final private Logger log = Logger.getLogger(AddGroupMemberCommand.class);
-    private String groupName;
-    private String newMember;
-    private Long chatId;
-    private Long senderId;
 
 
-    public AddGroupMemberCommand(SendBotMessageService sendBotMessageService, GroupService groupService, BotUserService botUserService) {
-        this.sendBotMessageService = sendBotMessageService;
-        this.groupService = groupService;
-        this.botUserService = botUserService;
+    public AddGroupMemberCommand(SendBotMessageService sendBotMessageService, GroupService groupService,
+                                 BotUserService botUserService) {
+        super(sendBotMessageService, groupService, botUserService);
     }
 
     @Override
@@ -35,7 +26,7 @@ public class AddGroupMemberCommand implements Command {
         chatId = update.getMessage().getChatId();
         senderId = update.getMessage().getFrom().getId();
         parse(update.getMessage().getText());
-        if (groupName == null || newMember == null) {
+        if (groupName == null || user == null) {
             sendBotMessageService.sendMessage(chatId, "Please use correct form: \n" +
                     "/add_group_member group name;@username\n" +
                     "This user should use @vocabengbot.(/start)");
@@ -58,25 +49,15 @@ public class AddGroupMemberCommand implements Command {
             String[] cmdStructure = cmd.split(";");
             log.info(Arrays.stream(cmdStructure).toArray().toString());
             groupName = cmdStructure[0].replace("@vocabengbot ", "").trim();
-            newMember = cmdStructure[1].trim();
-            if (newMember.startsWith("@")) newMember = newMember.replaceFirst("@", "");
+            user = cmdStructure[1].trim();
+            if (user.startsWith("@")) {
+                user = user.replaceFirst("@", "");
+            }
         } catch (Exception e) {
             log.info(e);
             sendBotMessageService.sendMessage(chatId, "Please use correct form: \n/add_group_member group name;@username" +
                     "\nThis user should use @vocabengbot.(/start)");
         }
-    }
-
-    private Group getGroup() {
-        Optional<Group> optionalGroup = groupService.findByGroupName(groupName);
-        if (!optionalGroup.isPresent()) {
-            log.info("Can't find group");
-            String message = String.format("Can't find group <b>%s</b>\n" +
-                    "Try tu use command /show_my_group or /show_my_own_groups to find anyone.", groupName);
-            sendBotMessageService.sendMessage(chatId, message);
-            return null;
-        }
-        return optionalGroup.get();
     }
 
     private boolean isValidGroup(Group group) {
@@ -92,16 +73,6 @@ public class AddGroupMemberCommand implements Command {
         return true;
     }
 
-    private BotUser getUser() {
-        Optional<BotUser> optionalUser = botUserService.findByUsername(newMember);
-        if (!optionalUser.isPresent()) {
-            sendBotMessageService.sendMessage(chatId,
-                    "Can't find user in bot's database.\n" +
-                            "This user should use @vocabengbot.(/start)");
-            return null;
-        }
-        return optionalUser.get();
-    }
 
     private void addUserToGroup(Group group, BotUser user) {
         String message;

@@ -9,20 +9,13 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 
 import java.util.Optional;
 
-public class RemoveGroupCommand implements Command {
-    private final SendBotMessageService sendBotMessageService;
-    private final GroupService groupService;
-    private final BotUserService botUserService;
+public class RemoveGroupCommand extends GroupCommand implements Command {
+
     final private Logger log = Logger.getLogger(RemoveGroupCommand.class);
-    private String groupName;
-    private Long senderId;
-    private Long chatId;
 
 
-    public RemoveGroupCommand(SendBotMessageService sendBotMessageService, GroupService groupService, BotUserService botUserService) {
-        this.sendBotMessageService = sendBotMessageService;
-        this.groupService = groupService;
-        this.botUserService = botUserService;
+    public RemoveGroupCommand(SendBotMessageService sendBotMessageService, GroupService groupService) {
+        super(sendBotMessageService, groupService);
     }
 
     @Override
@@ -53,15 +46,4 @@ public class RemoveGroupCommand implements Command {
     }
 
 
-    private Group getGroup() {
-        Optional<Group> optionalGroup = groupService.findByGroupName(groupName);
-        if (!optionalGroup.isPresent()) {
-            log.info("Can't find group");
-            String message = String.format("Can't find group <b>%s</b>\n" +
-                    "Try tu use command /show_my_group or /show_my_own_groups to find anyone.", groupName);
-            sendBotMessageService.sendMessage(chatId, message);
-            return null;
-        }
-        return optionalGroup.get();
-    }
 }

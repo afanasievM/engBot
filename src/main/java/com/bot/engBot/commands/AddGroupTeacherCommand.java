@@ -12,20 +12,12 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import java.util.Arrays;
 import java.util.Optional;
 
-public class AddGroupTeacherCommand implements Command {
-    private final SendBotMessageService sendBotMessageService;
-    private final GroupService groupService;
-    private final BotUserService botUserService;
+public class AddGroupTeacherCommand extends GroupUserCommand implements Command {
     final private Logger log = Logger.getLogger(AddGroupTeacherCommand.class);
-    private String groupName;
-    private String newTeacher;
-    private Long chatId;
-    private Long senderId;
 
     public AddGroupTeacherCommand(SendBotMessageService sendBotMessageService, GroupService groupService, BotUserService botUserService) {
-        this.sendBotMessageService = sendBotMessageService;
-        this.groupService = groupService;
-        this.botUserService = botUserService;
+        super(sendBotMessageService, groupService, botUserService);
+
     }
 
     @Override
@@ -33,7 +25,7 @@ public class AddGroupTeacherCommand implements Command {
         chatId = update.getMessage().getChatId();
         senderId = update.getMessage().getFrom().getId();
         parse(update.getMessage().getText());
-        if (groupName == null || newTeacher == null) {
+        if (groupName == null || user == null) {
             return;
         }
         Group group = getGroup();
@@ -54,8 +46,10 @@ public class AddGroupTeacherCommand implements Command {
             String[] cmdStructure = cmd.split(";");
             log.info(Arrays.stream(cmdStructure).toArray().toString());
             groupName = cmdStructure[0].replace("@vocabengbot ", "").trim();
-            newTeacher = cmdStructure[1].trim();
-            if (newTeacher.startsWith("@")) newTeacher = newTeacher.replaceFirst("@", "");
+            user = cmdStructure[1].trim();
+            if (user.startsWith("@")) {
+                user = user.replaceFirst("@", "");
+            }
         } catch (Exception e) {
             log.info(e);
             sendBotMessageService.sendMessage(chatId, "Please use correct form: \n" +
@@ -64,17 +58,6 @@ public class AddGroupTeacherCommand implements Command {
         }
     }
 
-    private Group getGroup() {
-        Optional<Group> optionalGroup = groupService.findByGroupName(groupName);
-        if (!optionalGroup.isPresent()) {
-            log.info("Can't find group");
-            String message = String.format("Can't find group <b>%s</b>\n" +
-                    "Try tu use command /show_my_group or /show_my_own_groups to find anyone.", groupName);
-            sendBotMessageService.sendMessage(chatId, message);
-            return null;
-        }
-        return optionalGroup.get();
-    }
 
     private boolean isValidGroup(Group group) {
         if (group == null) {
@@ -89,16 +72,6 @@ public class AddGroupTeacherCommand implements Command {
         return true;
     }
 
-    private BotUser getUser() {
-        Optional<BotUser> optionalUser = botUserService.findByUsername(newTeacher);
-        if (!optionalUser.isPresent()) {
-            sendBotMessageService.sendMessage(chatId,
-                    "Can't find user in bot's database.\n" +
-                            "This user should use @vocabengbot.(/start)");
-            return null;
-        }
-        return optionalUser.get();
-    }
 
     private void addTeacherToGroup(Group group, BotUser user) {
         String message;

@@ -9,15 +9,11 @@ import com.bot.engBot.service.VocabularyServiceImpl;
 import org.apache.log4j.Logger;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
-public class AddGroupWordCommand implements Command {
-    private final SendBotMessageService sendBotMessageService;
+public class AddGroupWordCommand extends GroupCommand implements Command {
     private final VocabularyService vocabularyService;
-    private final GroupService groupService;
     final private Logger log = Logger.getLogger(AddGroupWordCommand.class);
 
     private String groupName;
@@ -27,9 +23,8 @@ public class AddGroupWordCommand implements Command {
     private Long senderId;
 
     public AddGroupWordCommand(SendBotMessageService sendBotMessageService, VocabularyService vocabularyService, GroupService groupService) {
-        this.sendBotMessageService = sendBotMessageService;
+        super(sendBotMessageService, groupService);
         this.vocabularyService = vocabularyService;
-        this.groupService = groupService;
     }
 
     @Override
@@ -100,15 +95,4 @@ public class AddGroupWordCommand implements Command {
         }
     }
 
-    private Group getGroup() {
-        Optional<Group> optionalGroup = groupService.findByGroupName(groupName);
-        if (!optionalGroup.isPresent()) {
-            log.info("Can't find group");
-            String message = String.format("Can't find group <b>%s</b>\n" +
-                    "Try tu use command /show_my_group or /show_my_own_groups to find anyone.", groupName);
-            sendBotMessageService.sendMessage(chatId, message);
-            return null;
-        }
-        return optionalGroup.get();
-    }
 }

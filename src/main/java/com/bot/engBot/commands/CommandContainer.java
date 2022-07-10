@@ -29,7 +29,7 @@ public class CommandContainer {
                 .put(ADD_GROUP.getCommandName(), new AddGroupCommand(sendBotMessageService, groupService))
                 .put(ADD_GROUP_MEMBER.getCommandName(), new AddGroupMemberCommand(sendBotMessageService, groupService, botUserService))
                 .put(REMOVE_GROUP_MEMBER.getCommandName(), new RemoveGroupMemberCommand(sendBotMessageService, groupService, botUserService))
-                .put(REMOVE_GROUP.getCommandName(), new RemoveGroupCommand(sendBotMessageService, groupService, botUserService))
+                .put(REMOVE_GROUP.getCommandName(), new RemoveGroupCommand(sendBotMessageService, groupService))
                 .put(ADD_GROUP_WORD.getCommandName(), new AddGroupWordCommand(sendBotMessageService,vocabularyService, groupService))
                 .put(ADD_GROUP_TEACHER.getCommandName(), new AddGroupTeacherCommand(sendBotMessageService, groupService, botUserService))
                 .put(SHOW_MY_UNSTUDIED_WORDS.getCommandName(), new ShowMyUnstudiedWordsCommand(sendBotMessageService, vocabularyService))
