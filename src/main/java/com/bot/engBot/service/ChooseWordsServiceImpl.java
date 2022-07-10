@@ -17,7 +17,7 @@ public class ChooseWordsServiceImpl implements ChooseWordsService {
     final private VocabularyService vocabularyService;
     final private Logger log = Logger.getLogger(ChooseWordsServiceImpl.class);
     final private int WORDS_COUNT;
-    public static ConcurrentHashMap<Long, ArrayList<Vocabulary>> listToSend = new ConcurrentHashMap<>();
+    public static ConcurrentHashMap<Long, List<Vocabulary>> listToSend = new ConcurrentHashMap<>();
 
     @Autowired
     public ChooseWordsServiceImpl(BotUserService botUserService,

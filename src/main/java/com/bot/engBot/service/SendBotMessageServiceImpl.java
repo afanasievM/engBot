@@ -29,7 +29,6 @@ public class SendBotMessageServiceImpl implements SendBotMessageService {
         try {
             engBot.execute(sendMessage);
         } catch (TelegramApiException e) {
-            //todo add logging to the project.
             log.error(e);
         }
     }
