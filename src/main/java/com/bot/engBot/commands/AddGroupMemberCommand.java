@@ -42,8 +42,11 @@ public class AddGroupMemberCommand implements Command {
             return;
         }
         Group group = getGroup();
+        if (!isValidGroup(group)) {
+            return;
+        }
         BotUser user = getUser();
-        if (user == null || !isValidGroup(group)) {
+        if (user == null) {
             return;
         }
         addUserToGroup(group, user);

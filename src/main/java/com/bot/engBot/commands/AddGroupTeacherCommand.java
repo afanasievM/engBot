@@ -34,24 +34,22 @@ public class AddGroupTeacherCommand implements Command {
         senderId = update.getMessage().getFrom().getId();
         parse(update.getMessage().getText());
         if (groupName == null || newTeacher == null) {
-            sendBotMessageService.sendMessage(chatId, "Please use correct form: \n" +
-                    "/add_group_teacher group name;@username\n" +
-                    "This user should use @vocabengbot.(/start)");
             return;
         }
         Group group = getGroup();
+        if (!isValidGroup(group)) {
+            return;
+        }
         BotUser user = getUser();
-        if (user == null || !isValidGroup(group)) {
+        if (user == null) {
             return;
         }
         addTeacherToGroup(group, user);
-
-
     }
 
 
     private void parse(String updateText) {
-        String cmd = updateText.replace("/add_group_teacher", "");
+        String cmd = updateText.replace("/add_group_teacher", "").trim();
         try {
             String[] cmdStructure = cmd.split(";");
             log.info(Arrays.stream(cmdStructure).toArray().toString());
@@ -60,8 +58,9 @@ public class AddGroupTeacherCommand implements Command {
             if (newTeacher.startsWith("@")) newTeacher = newTeacher.replaceFirst("@", "");
         } catch (Exception e) {
             log.info(e);
-            sendBotMessageService.sendMessage(chatId, "Please use correct form: \n/add_group_teacher group name;@username" +
-                    "\nThis user should use @vocabengbot.(/start)");
+            sendBotMessageService.sendMessage(chatId, "Please use correct form: \n" +
+                    "/add_group_teacher group name;@username\n" +
+                    "This user should use @vocabengbot.(/start)");
             return;
         }
     }
