@@ -22,7 +22,7 @@ public class ShowMyTeachGroupsCommand implements Command{
     public void execute(Update update) {
         Long chatId = update.getMessage().getChatId();
         List<Long> groupList = groupService.getTeacherGroupsId(update.getMessage().getFrom().getId());
-        if (groupList.size() == 0) {
+        if (groupList.isEmpty()) {
             sendBotMessageService.sendMessage(chatId,"You have not teach groups.");
         }
         StringBuilder groupsListStr = new StringBuilder();
