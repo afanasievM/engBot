@@ -23,6 +23,8 @@ public class ShowGroupMemberCommand extends GroupCommand implements Command {
         senderId = update.getMessage().getFrom().getId();
         groupName = update.getMessage().getText().replace("/show_group_members", "").trim();
         if (groupName.isEmpty()) {
+            sendBotMessageService.sendMessage(chatId, "Please use correct form: \n" +
+                    "/show_group_members group");
             return;
         }
         Group group = getGroup();
@@ -31,9 +33,10 @@ public class ShowGroupMemberCommand extends GroupCommand implements Command {
         }
         List<Long> groupUsers = groupService.getGroupUsers(group.getId());
         List<Long> groupTeachers = groupService.getGroupTeachers(group.getId());
-        if (!groupUsers.contains(senderId) || !groupTeachers.contains(senderId)) {
+        if (!groupUsers.contains(senderId) && !groupTeachers.contains(senderId)) {
             sendBotMessageService.sendMessage(chatId, "Permissions denied. \n" +
                     "Only group's members or teachers can show info about group.");
+            return;
         }
         sendGroupMembers(groupUsers);
     }
