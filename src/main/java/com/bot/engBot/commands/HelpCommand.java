@@ -4,72 +4,65 @@ import com.bot.engBot.service.BotUserService;
 import com.bot.engBot.service.SendBotMessageService;
 import org.apache.log4j.Logger;
 import org.telegram.telegrambots.meta.api.objects.Update;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import static com.bot.engBot.commands.CommandName.*;
 
-public class HelpCommand implements Command{
+public class HelpCommand implements Command {
     private final SendBotMessageService sendBotMessageService;
     private final BotUserService botUserService;
     final private Logger log = Logger.getLogger(HelpCommand.class);
-    public static final String HELP_MESSAGE = String.format("✨<b>Available commands</b>✨\n\n"
 
-                    + "%s - start working with me\n"                                //START
-                    + "%s - stop working with me\n"                                 //STOP
-                    + "%s - show available commands\n\n"                            //HELP
-                    + "%s - add new word to your vocabulary\n"                      //ADD
-                    + "%s - show all your words in vocabulary\n"                    //SHOW_MY_WORDS
-                    + "%s - remove word from your vocabulary\n"                     //REMOVE_WORD
-                    + "%s - replace word in your vocabulary\n"                      //REPLACE_WORD
-                    + "%s - replace word's translation in your vocabulary\n"        //REPLACE_TRANSLATION
-                    + "%s - create new group\n"                                     //ADD_GROUP
-                    + "%s - add member to your group\n"                             //ADD_GROUP_MEMBER
-                    + "%s - add teacher to your group\n"                            //ADD_GROUP_TEACHER
-                    + "%s - add word to group members\n"                            //ADD_GROUP_WORD
-                    + "%s - remove your group\n"                                    //REMOVE_GROUP
-                    + "%s - remove group member from your group\n"                  //REMOVE_GROUP_MEMBER
-                    + "%s - show your unstadied words in vocabulary\n"              //SHOW_MY_UNSTUDIED_WORDS
-                    + "%s - show groups where you are member\n"                     //SHOW_MY_GROUPS
-                    + "%s - show groups where you are owner\n"                      //SHOW_MY_OWN_GROUPS
-                    + "%s - show group members\n"                                   //SHOW_GROUP_USERS
-                    + "%s - show group teachers\n"                                  //SHOW_GROUP_TEACHERS
-                    + "%s - remove group teacher\n"                                 //REMOVE_GROUP_TEACHER
-                    + "%s - show groups where you are teacher\n"                    //SHOW_MY_TEACH_GROUPS
-                    + "%s - repeat all words from vocabulary\n"                     //REPEAT_ALL
-                    + "%s - repeat word",                                           //REPEAT_WORD
-            START.getCommandName(),
-            STOP.getCommandName(),
-            HELP.getCommandName(),
-            ADD.getCommandName(),
-            SHOW_MY_WORDS.getCommandName(),
-            REMOVE_WORD.getCommandName(),
-            REPLACE_WORD.getCommandName(),
-            REPLACE_TRANSLATION.getCommandName(),
-            ADD_GROUP.getCommandName(),
-            ADD_GROUP_MEMBER.getCommandName(),
-            ADD_GROUP_TEACHER.getCommandName(),
-            ADD_GROUP_WORD.getCommandName(),
-            REMOVE_GROUP.getCommandName(),
-            REMOVE_GROUP_MEMBER.getCommandName(),
-            SHOW_MY_UNSTUDIED_WORDS.getCommandName(),
-            SHOW_MY_GROUPS.getCommandName(),
-            SHOW_MY_OWN_GROUPS.getCommandName(),
-            SHOW_GROUP_MEMBERS.getCommandName(),
-            SHOW_GROUP_TEACHERS.getCommandName(),
-            REMOVE_GROUP_TEACHER.getCommandName(),
-            SHOW_MY_TEACH_GROUPS.getCommandName(),
-            REPEAT_ALL.getCommandName(),
-            REPEAT_WORD.getCommandName()
+    private String helpMessage;
 
-    );
+    private final String FIRST_LINE = "✨<b>Available commands</b>✨\n\n";
 
     public HelpCommand(SendBotMessageService sendBotMessageService, BotUserService botUserService) {
         this.sendBotMessageService = sendBotMessageService;
         this.botUserService = botUserService;
+        fillCommands();
     }
+
 
     @Override
     public void execute(Update update) {
-        sendBotMessageService.sendMessage(update.getMessage().getChatId(), HELP_MESSAGE);
+        sendBotMessageService.sendMessage(update.getMessage().getChatId(), helpMessage);
     }
-    //TO DO
-    // add array list with sorting by order
+
+    private void fillCommands() {
+        List<String> commands = new ArrayList<>();
+        commands.add(START.getCommandName() + " - start working with me\n");
+        commands.add(STOP.getCommandName() + " - stop working with me\n");
+        commands.add(HELP.getCommandName() + " - show available commands\n");
+        commands.add(ADD.getCommandName() + " - add new word to your vocabulary\n");
+        commands.add(SHOW_MY_WORDS.getCommandName() + " - show all your words in vocabulary\n");
+        commands.add(REMOVE_WORD.getCommandName() + " - remove word from your vocabulary\n");
+        commands.add(REPLACE_WORD.getCommandName() + " - replace word in your vocabulary\n");
+        commands.add(REPLACE_TRANSLATION.getCommandName() + " - replace word's translation in your vocabulary\n");
+        commands.add(ADD_GROUP.getCommandName() + " - create new group\n");
+        commands.add(ADD_GROUP_MEMBER.getCommandName() + " - add member to your group\n");
+        commands.add(ADD_GROUP_TEACHER.getCommandName() + " - add teacher to your group\n");
+        commands.add(ADD_GROUP_WORD.getCommandName() + " - add word to group members\n");
+        commands.add(REMOVE_GROUP.getCommandName() + " - remove your group\n");
+        commands.add(REMOVE_GROUP_MEMBER.getCommandName() + " - remove group member from your group\n");
+        commands.add(SHOW_MY_UNSTUDIED_WORDS.getCommandName() + " - show your unstudied words in vocabulary\n");
+        commands.add(SHOW_MY_GROUPS.getCommandName() + " - show groups where you are member\n");
+        commands.add(SHOW_MY_OWN_GROUPS.getCommandName() + " - show groups where you are owner\n");
+        commands.add(SHOW_GROUP_MEMBERS.getCommandName() + " - show group members\n");
+        commands.add(SHOW_GROUP_TEACHERS.getCommandName() + " - show group teachers\n");
+        commands.add(REMOVE_GROUP_TEACHER.getCommandName() + " - remove group teacher\n");
+        commands.add(SHOW_MY_TEACH_GROUPS.getCommandName() + " - show groups where you are teacher\n");
+        commands.add(REPEAT_ALL.getCommandName() + " - repeat all words from vocabulary\n");
+        commands.add(REPEAT_WORD.getCommandName() + " - repeat word\n");
+        Collections.sort(commands);
+
+        helpMessage = FIRST_LINE + String.join("", commands);
+
+    }
 }
