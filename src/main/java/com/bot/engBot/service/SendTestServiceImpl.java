@@ -35,7 +35,6 @@ public class SendTestServiceImpl implements SendTestService {
         this.engBot = engBot;
     }
 
-    // user id, arraylist vocabulary
     @Override
     public void sendWordsToTest() {
         for (Map.Entry entry : ChooseWordsServiceImpl.listToSend.entrySet()) {

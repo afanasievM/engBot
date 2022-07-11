@@ -37,7 +37,7 @@ public class ChooseWordsServiceImpl implements ChooseWordsService {
                 continue;
             }
             log.info(user.getId().toString() + wordsToTest.toString());
-            listToSend.put(user.getId(), (ArrayList<Vocabulary>) wordsToTest);
+            listToSend.put(user.getId(), wordsToTest);
         }
     }
 

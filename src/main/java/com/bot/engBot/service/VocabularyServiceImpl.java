@@ -22,7 +22,6 @@ public class VocabularyServiceImpl implements VocabularyService {
 
     }
 
-
     @Override
     public List<Vocabulary> retrieveAllUserWord(Long ownerId) {
         return vocabularyRepository.findAllByOwnerId(ownerId);
