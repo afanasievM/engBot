@@ -74,7 +74,7 @@ public class RemoveGroupMemberCommand extends GroupUserCommand implements Comman
         String message;
         try {
             groupService.removeGroupUser(group.getId(), user.getId());
-            message = String.format("User <b>%s</b> successfuly removed from group <b>%s</b>.",
+            message = String.format("User <b>%s</b> successfully removed from group <b>%s</b>.",
                     user.getUsername(), group.getGroupName());
             sendBotMessageService.sendMessage(chatId, message);
         } catch (DataIntegrityViolationException e) {
