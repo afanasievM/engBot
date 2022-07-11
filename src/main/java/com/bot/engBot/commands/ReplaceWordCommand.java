@@ -7,11 +7,14 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 
 import java.util.Arrays;
 
-public class ReplaceWordCommand implements Command{
+public class ReplaceWordCommand implements Command {
     private final SendBotMessageService sendBotMessageService;
     private final VocabularyService vocabularyService;
     final private Logger log = Logger.getLogger(ReplaceWordCommand.class);
-
+    private Long chatId;
+    private Long senderId;
+    private String wordToReplace;
+    private String wordForReplace;
 
     public ReplaceWordCommand(SendBotMessageService sendBotMessageService, VocabularyService vocabularyService) {
         this.sendBotMessageService = sendBotMessageService;
@@ -20,39 +23,50 @@ public class ReplaceWordCommand implements Command{
 
     @Override
     public void execute(Update update) {
-        Long chatId = update.getMessage().getChatId();
-        Long senderId = update.getMessage().getFrom().getId();
-        String cmd = update.getMessage().getText().replace("/replace_word","").replace("@vocabengbot","");
-        String wordToReplace = null;
-        String wordForReplace = null;
+        chatId = update.getMessage().getChatId();
+        senderId = update.getMessage().getFrom().getId();
+        parse(update.getMessage().getText());
+        if (!isValid(wordToReplace) || !isValid(wordForReplace)) {
+            return;
+        }
+        vocabularyService.findByWordAndOwnerId(wordToReplace, senderId).ifPresentOrElse(
+                word -> {
+                    log.info("Word is present");
+                    String message = String.format("You replace <b>%s</b> on <b>%s</b>",
+                            wordToReplace, wordForReplace);
+                    sendBotMessageService.sendMessage(chatId, message);
+                    word.setWord(wordForReplace);
+                    vocabularyService.save(word);
+                },
+                () -> {
+                    log.info("Can't find this word");
+                    String message = String.format("Can't find <b>%s</b>\nTry command /show_my_words to find your word",
+                            wordToReplace);
+                    sendBotMessageService.sendMessage(chatId, message);
+                }
+        );
+
+    }
+
+    private void parse(String updateText) {
+        String cmd = updateText.replace("/replace_translation", "")
+                .replace("@vocabengbot", "").trim();
         try {
             String[] cmdStructure = cmd.split(";");
             log.info(Arrays.stream(cmdStructure).toArray().toString());
             wordToReplace = cmdStructure[0].trim();
             wordForReplace = cmdStructure[1].trim();
-        } catch (Exception e){
+        } catch (Exception e) {
             log.info(e);
-            sendBotMessageService.sendMessage(chatId, "Please use correct form: \n/replace_word old word;new word");
-            return;
+            sendBotMessageService.sendMessage(chatId, "Please use correct form: \n" +
+                    "/replace_word old word;new word");
         }
-        if (!wordToReplace.equals("") && !wordForReplace.equals("")){
-            String finalWordForReplace = wordForReplace;
-            String finalWordToReplace = wordToReplace;
-            vocabularyService.findByWordAndOwnerId(wordToReplace,senderId).ifPresentOrElse(
-                    word ->{
-                        log.info("Word is present");
-                        sendBotMessageService.sendMessage(chatId, "You replace <b>" + finalWordToReplace + "</b> on <b>" + finalWordForReplace + "</b>");
-                        word.setWord(finalWordForReplace);
-                        vocabularyService.save(word);
-                    },
-                    ()->{
-                        log.info("Can't find this word");
-                        sendBotMessageService.sendMessage(chatId, "Can't find <b>" + finalWordToReplace + "</b>\nTry command /show_my_words to find your word");
-                    }
-            );
-        }else {
-            sendBotMessageService.sendMessage(chatId, "Please use correct form: \n/replace_word old word;new word");
-        }
+    }
 
+    private boolean isValid(String line) {
+        if (line == null) {
+            return false;
+        }
+        return !line.isEmpty();
     }
 }

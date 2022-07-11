@@ -28,8 +28,7 @@ public class ReplaceTranslationCommand implements Command {
         senderId = update.getMessage().getFrom().getId();
         parse(update.getMessage().getText());
         if (!isValid(word) || !isValid(translationForReplace)) {
-            sendBotMessageService.sendMessage(chatId, "Please use correct form: \n" +
-                    "/replace_translation word;new translation");
+            return;
         }
         vocabularyService.findByWordAndOwnerId(word, senderId).ifPresentOrElse(
                 w -> {

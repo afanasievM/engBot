@@ -31,8 +31,8 @@ public class HelpCommand implements Command{
                     + "%s - show groups where you are owner\n"                      //SHOW_MY_OWN_GROUPS
                     + "%s - show group members\n"                                   //SHOW_GROUP_USERS
                     + "%s - show group teachers\n"                                  //SHOW_GROUP_TEACHERS
-                    + "%s - remove group teacher\n"                                  //REMOVE_GROUP_TEACHER
-                    + "%s - show groups where you are teacher",                      //SHOW_MY_TEACH_GROUPS
+                    + "%s - remove group teacher\n"                                 //REMOVE_GROUP_TEACHER
+                    + "%s - show groups where you are teacher",                     //SHOW_MY_TEACH_GROUPS
             START.getCommandName(),
             STOP.getCommandName(),
             HELP.getCommandName(),
