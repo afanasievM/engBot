@@ -21,7 +21,7 @@ public class ShowGroupMemberCommand extends GroupCommand implements Command {
     public void execute(Update update) {
         chatId = update.getMessage().getChatId();
         senderId = update.getMessage().getFrom().getId();
-        groupName = update.getMessage().getText().replace("/show_group_users", "").trim();
+        groupName = update.getMessage().getText().replace("/show_group_members", "").trim();
         if (groupName.isEmpty()) {
             return;
         }

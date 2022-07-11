@@ -41,6 +41,11 @@ public class ShowGroupTeachersCommand extends GroupCommand implements Command {
     }
 
     private void sendGroupTeachers(List<Long> groupTeachers) {
+        if (groupTeachers.isEmpty()){
+            String message = String.format("Group <b>%s</b> hasn't teachers.",groupName);
+            sendBotMessageService.sendMessage(chatId, message);
+            return;
+        }
         StringBuilder usersList = new StringBuilder();
         for (Long userId : groupTeachers) {
             botUserService.findByChatId(userId).ifPresentOrElse(
