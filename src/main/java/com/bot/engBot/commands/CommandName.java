@@ -25,6 +25,7 @@ public enum CommandName {
     REMOVE_GROUP("/remove_group"),
     REMOVE_WORD("/remove_word"),
     REPLACE_WORD("/replace_word"),
+    
     REPEAT_WORD("/repeat_word"),
     REPEAT_ALL("/repeat_all"),
     REPLACE_TRANSLATION("/replace_translation"),
