@@ -7,7 +7,7 @@ import org.apache.log4j.Logger;
 
 import java.util.Optional;
 
-public class GroupCommand {
+public class GroupCommand extends IdHandler{
 
     protected final SendBotMessageService sendBotMessageService;
 
@@ -15,9 +15,7 @@ public class GroupCommand {
 
     protected String groupName;
 
-    protected Long senderId;
 
-    protected Long chatId;
     final private Logger log = Logger.getLogger(GroupCommand.class);
 
     public GroupCommand(SendBotMessageService sendBotMessageService, GroupService groupService) {

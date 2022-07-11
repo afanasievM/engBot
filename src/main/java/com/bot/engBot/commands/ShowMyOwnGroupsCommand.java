@@ -6,7 +6,6 @@ import com.bot.engBot.service.SendBotMessageService;
 import org.apache.log4j.Logger;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ShowMyOwnGroupsCommand implements Command{
@@ -23,8 +22,7 @@ public class ShowMyOwnGroupsCommand implements Command{
     @Override
     public void execute(Update update) {
         Long chatId = update.getMessage().getChatId();
-        List<Group> groupList = new ArrayList<>();
-        groupList.addAll(groupService.findAllByOwnerId(update.getMessage().getFrom().getId()));
+        List<Group> groupList = groupService.findAllByOwnerId(update.getMessage().getFrom().getId());
         StringBuilder groupsListStr = new StringBuilder();
         for (Group group:groupList) {
             groupsListStr.append(group.getGroupName() + "\n");

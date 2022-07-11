@@ -22,9 +22,8 @@ public class ShowGroupTeachersCommand extends GroupCommand implements Command {
 
     @Override
     public void execute(Update update) {
-        chatId = update.getMessage().getChatId();
-        senderId = update.getMessage().getFrom().getId();
-        groupName = update.getMessage().getText().replace("/show_group_users", "").trim();
+        setSenderIdAndChatId(update);
+        groupName = update.getMessage().getText().replace("/show_group_teachers", "").trim();
         if (groupName.isEmpty()) {
             return;
         }
