@@ -10,7 +10,6 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 import java.util.Arrays;
-import java.util.Optional;
 
 public class AddGroupTeacherCommand extends GroupUserCommand implements Command {
     final private Logger log = Logger.getLogger(AddGroupTeacherCommand.class);

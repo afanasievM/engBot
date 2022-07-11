@@ -1,13 +1,9 @@
 package com.bot.engBot.commands;
 
 import com.bot.engBot.repository.entity.Group;
-import com.bot.engBot.repository.entity.Vocabulary;
 import com.bot.engBot.service.GroupService;
 import com.bot.engBot.service.SendBotMessageService;
-import com.bot.engBot.service.VocabularyService;
-import com.bot.engBot.service.VocabularyServiceImpl;
 import org.apache.log4j.Logger;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 import java.util.Arrays;

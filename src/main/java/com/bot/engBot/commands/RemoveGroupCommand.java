@@ -1,13 +1,11 @@
 package com.bot.engBot.commands;
 
 import com.bot.engBot.repository.entity.Group;
-import com.bot.engBot.service.BotUserService;
 import com.bot.engBot.service.GroupService;
 import com.bot.engBot.service.SendBotMessageService;
 import org.apache.log4j.Logger;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
-import java.util.Optional;
 
 public class RemoveGroupCommand extends GroupCommand implements Command {
 
