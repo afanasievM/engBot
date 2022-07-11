@@ -1,6 +1,4 @@
-package com.bot.engBot.service;        word.setActive(true);
-        word.setRepeats(REPEATS);
-        vocabularyRepository.save(word);
+package com.bot.engBot.service;
 
 import com.bot.engBot.repository.entity.Vocabulary;
 import com.bot.engBot.repository.entity.VocabularyRepository;
