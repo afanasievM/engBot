@@ -57,7 +57,7 @@ public class HelpCommand implements Command{
             REMOVE_GROUP_TEACHER.getCommandName(),
             SHOW_MY_TEACH_GROUPS.getCommandName(),
             REPEAT_ALL.getCommandName(),
-            REMOVE_WORD.getCommandName()
+            REPEAT_WORD.getCommandName()
 
     );
 
