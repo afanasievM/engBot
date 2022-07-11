@@ -34,7 +34,6 @@ public class AddWordCommand implements Command {
         }
         addWordToUser();
     }
-
     private void parse(String updateText) {
         String cmd = updateText.replace("/add", "").trim();
         try {
@@ -45,7 +44,6 @@ public class AddWordCommand implements Command {
         } catch (Exception e) {
             log.info(e);
             sendBotMessageService.sendMessage(chatId, "Please use correct form: \n/add word;translate");
-            return;
         }
     }
 

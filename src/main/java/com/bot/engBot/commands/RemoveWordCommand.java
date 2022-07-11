@@ -9,7 +9,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 
 import java.util.Arrays;
 
-public class RemoveWordCommand implements Command{
+public class RemoveWordCommand implements Command {
     private final SendBotMessageService sendBotMessageService;
     private final VocabularyService vocabularyService;
     final private Logger log = Logger.getLogger(RemoveWordCommand.class);
@@ -24,23 +24,25 @@ public class RemoveWordCommand implements Command{
     public void execute(Update update) {
         Long chatId = update.getMessage().getChatId();
         Long senderId = update.getMessage().getFrom().getId();
-        String cmd = update.getMessage().getText().replace("/remove_word","").replace("@vocabengbot","");
-        String wordToRemove = cmd.trim();
-        if (!wordToRemove.equals("")){
-            vocabularyService.findByWordAndOwnerId(wordToRemove,senderId).ifPresentOrElse(
-                    word ->{
-                        log.info("Word is present");
-                        vocabularyService.removeWord(word);
-                        sendBotMessageService.sendMessage(chatId, "You removed <b>" + word.getWord() + " -> " + word.getWordTranslation() + "</b>");
-                    },
-                    ()->{
-                        log.info("Can't find this word");
-                        sendBotMessageService.sendMessage(chatId, "Can't find <b>" + wordToRemove + "</b>\nTry command /show_my_words to find your word");
-                    }
-            );
-        }else {
+        String wordToRemove = update.getMessage().getText().replace("/remove_word", "")
+                .replace("@vocabengbot", "").trim();
+        if (wordToRemove.isEmpty()) {
             sendBotMessageService.sendMessage(chatId, "Please use correct form: \n/remove_word word");
         }
-
+        vocabularyService.findByWordAndOwnerId(wordToRemove, senderId).ifPresentOrElse(
+                word -> {
+                    log.info("Word is present");
+                    vocabularyService.removeWord(word);
+                    String message = String.format("You removed <b>%s -> %s</b>",
+                            word.getWord(), word.getWordTranslation());
+                    sendBotMessageService.sendMessage(chatId, message);
+                },
+                () -> {
+                    log.info("Can't find this word");
+                    String message = String.format("Can't find <b>%s</b>\nTry command /show_my_words to find your word",
+                            wordToRemove);
+                    sendBotMessageService.sendMessage(chatId, message);
+                }
+        );
     }
 }
