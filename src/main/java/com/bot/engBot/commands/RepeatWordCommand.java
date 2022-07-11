@@ -11,7 +11,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 public class RepeatWordCommand extends IdHandler implements Command {
     private final SendBotMessageService sendBotMessageService;
     private final VocabularyService vocabularyService;
-    final private Logger log = Logger.getLogger(AddWordCommand.class);
+    final private Logger log = Logger.getLogger(RepeatWordCommand.class);
 
     private String wordToRepeat;
 
@@ -42,7 +42,7 @@ public class RepeatWordCommand extends IdHandler implements Command {
                     String message = String.format("Word <b>%s</b> has been changed repeats to %d",
                             word.getWord(), VocabularyServiceImpl.REPEATS);
                     sendBotMessageService.sendMessage(chatId, message);
-                    resetRepeats(word);
+                    vocabularyService.resetWord(word);
                 },
                 () -> {
                     log.info("Can't find WORD");
@@ -53,9 +53,5 @@ public class RepeatWordCommand extends IdHandler implements Command {
         );
     }
 
-    private void resetRepeats(Vocabulary word) {
-        word.setRepeats(VocabularyServiceImpl.REPEATS);
-        vocabularyService.save(word);
-    }
 
 }
