@@ -5,7 +5,6 @@ import com.bot.engBot.service.SendBotMessageService;
 import org.apache.log4j.Logger;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ShowMyTeachGroupsCommand implements Command{
@@ -22,8 +21,7 @@ public class ShowMyTeachGroupsCommand implements Command{
     @Override
     public void execute(Update update) {
         Long chatId = update.getMessage().getChatId();
-        List<Long> groupList = new ArrayList<>();
-        groupList.addAll(groupService.getTeacherGroupsId(update.getMessage().getFrom().getId()));
+        List<Long> groupList = groupService.getTeacherGroupsId(update.getMessage().getFrom().getId());
         if (groupList.size() == 0) {
             sendBotMessageService.sendMessage(chatId,"You have not teach groups.");
         }
@@ -37,9 +35,7 @@ public class ShowMyTeachGroupsCommand implements Command{
                         log.info("Can't find group with id:" + groupId);
                     }
             );
-
         }
-
         sendBotMessageService.sendMessage(chatId,groupsListStr.toString());
     }
 }
