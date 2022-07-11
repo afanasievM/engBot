@@ -32,7 +32,9 @@ public class HelpCommand implements Command{
                     + "%s - show group members\n"                                   //SHOW_GROUP_USERS
                     + "%s - show group teachers\n"                                  //SHOW_GROUP_TEACHERS
                     + "%s - remove group teacher\n"                                 //REMOVE_GROUP_TEACHER
-                    + "%s - show groups where you are teacher",                     //SHOW_MY_TEACH_GROUPS
+                    + "%s - show groups where you are teacher"                      //SHOW_MY_TEACH_GROUPS
+                    + "%s - repeat all words from vocabulary"                       //REPEAT_ALL
+                    + "%s - repeat word",                                           //REPEAT_WORD
             START.getCommandName(),
             STOP.getCommandName(),
             HELP.getCommandName(),
@@ -53,7 +55,9 @@ public class HelpCommand implements Command{
             SHOW_GROUP_MEMBERS.getCommandName(),
             SHOW_GROUP_TEACHERS.getCommandName(),
             REMOVE_GROUP_TEACHER.getCommandName(),
-            SHOW_MY_TEACH_GROUPS.getCommandName()
+            SHOW_MY_TEACH_GROUPS.getCommandName(),
+            REPEAT_ALL.getCommandName(),
+            REMOVE_WORD.getCommandName()
 
     );
 
