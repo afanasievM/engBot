@@ -19,7 +19,7 @@ public class EngBotApplication {
 	public static void main(String[] args) {
 		PropertyConfigurator.configure(System.getProperty("user.dir") +"/log4j.propeties");
 		ConfigurableApplicationContext applicationContext = new SpringApplicationBuilder(EngBotApplication.class)
-				.properties("spring.config.name:application-dev")
+				.properties("spring.config.name:application")
 				.build().run(args);
 
 	}
