@@ -36,4 +36,6 @@ public class BotUserServiceImpl implements BotUserService {
     public Optional<BotUser> findByUsername(String username) {
         return botUserRepository.findByUsername(username);
     }
+
+
 }

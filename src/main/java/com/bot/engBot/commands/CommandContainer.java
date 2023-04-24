@@ -41,6 +41,7 @@ public class CommandContainer {
                 .put(SHOW_MY_TEACH_GROUPS.getCommandName(), new ShowMyTeachGroupsCommand(sendBotMessageService, groupService))
                 .put(REPEAT_ALL.getCommandName(), new RepeatAllWordsCommand(sendBotMessageService, vocabularyService))
                 .put(REPEAT_WORD.getCommandName(), new RepeatWordCommand(sendBotMessageService, vocabularyService))
+                .put(UPDATE_ADMINS_INFORMATION.getCommandName(), new UpdateAdminsInformationCommand(sendBotMessageService, botUserService))
                 .build();
 
         unknownCommand = new UnknownCommand(sendBotMessageService);

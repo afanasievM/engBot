@@ -34,7 +34,9 @@ public enum CommandName {
 
     GET_MY_ID("/get_my_id"),
     HELP("/help"),
-    STAT("/stat")
+    STAT("/stat"),
+
+    UPDATE_ADMINS_INFORMATION("update_admins_information")
     ;
 
     private final String commandName;
